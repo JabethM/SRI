@@ -5,7 +5,7 @@ matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from simulation import sim
+from twoD_SIRS import sim
 
 fig = None
 ax = None

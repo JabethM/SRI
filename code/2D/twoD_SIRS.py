@@ -3,7 +3,7 @@ import numpy as np
 
 class sim:
 
-    def __init__(self, dt, dim, sim_type, p1=0.5, p2=0.1, p3=0.015):
+    def __init__(self, dt, dim, sim_type, p1=0.5, p2=0.1, p3=0.015): # Pulsating Probs (0.5, 0.1, 0.015)
         self.dt = dt
         self.time = 0
 
