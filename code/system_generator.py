@@ -4,8 +4,43 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-class network():
-    def __init__(self, nodes, initialisation=0, p1=0.5, p2=0.1, p3=0.015):
+class SIRS():
+    """
+    This is the class where an arbitrary network is used as the environment for a disease which follows SIRS dynamics
+    is simulated on. Upon initialising the network we need to define the number of nodes, the type of network we want
+    to use (initialisation) and the probability of transition between states (p1, p2 and p3).
+    """
+
+    def __init__(self, nodes, initialisation=(0, 0.1), p1=0.5, p2=0.1, p3=0.015):
+        """
+
+        :param nodes: total number of nodes in our system :param initialisation: A tuple where the first parameter
+        specifies the type of network and any additional parameters are values that may be needed for the
+        construction of specified network type
+            - initialisation = (0, a) - erdos reyni network where:
+                                            'a' is a fixed probability that any given node is connected to another
+
+            - initialisation = (1, a, b) - watts_strogatz network where:
+                                            'a' is the number of neighbouring nodes each node is connected to in a ring
+                                              topology,
+                                            'b' is the probability of rewiring each edge
+
+            - initialisation = (2, a) - barabasi_albert network where:
+                                            'a' is the number edges to attach from a new node to an existing node
+
+            - initialisation = (3, a, b) - stochastic_block network where:
+                                            'a' is populations for each 'cluster' in the graph. The sum of the
+                                              populations of all the clusters must sum to the total number of networks.
+                                            'b' is a nxn symmetric matrix (where n is the number of clusters) that
+                                              represents the probability of edge connections between nodes from one
+                                              cluster to another
+
+        :param p1: fixed probability that any given susceptible node that shares an edge with an infected node becomes
+        infected as well
+
+        :param p2: fixed probability that any given infected node recovers
+        :param p3: fixed probability that any given recovered node becomes susceptible
+        """
         self.dt = 0.1
         self.time = 0
         self.p1 = p1
@@ -16,18 +51,41 @@ class network():
         self.num_nodes = nodes
         self.G = None
 
-        if initialisation == 0:
-            self.G = nx.erdos_renyi_graph(self.num_nodes, 0.1)
-        elif initialisation == 1:
-            self.G = nx.erdos_renyi_graph(self.num_nodes, 0.5)
+        self.initialise_graph(initialisation)
 
         self.set_disease()
         self.pos = None
 
+    def initialise_graph(self, init_tuple):
+        # Random
+        if init_tuple[0] == 0:
+            self.G = nx.erdos_renyi_graph(self.num_nodes, init_tuple[1])
+        elif init_tuple[0] == 1:
+            self.G = nx.watts_strogatz_graph(self. num_nodes, init_tuple[1], init_tuple[2])
+        # Scale Free
+        elif init_tuple[0] == 2:
+            self.G = nx.barabasi_albert_graph(self.num_nodes, init_tuple[1])
+        # High Modularity
+        elif init_tuple[0] == 3:
+            assert (sum(init_tuple[1]) == self.num_nodes)
+            assert (len(init_tuple[2]) == len(init_tuple[1]))
+            self.G = nx.stochastic_block_model(init_tuple[1], init_tuple[2])
+
+        return self.G
+
     def set_disease(self):
-        random_state = [random.randint(0, 2) for i in range(self.num_nodes)]
-        state_dict = {i: random_state[i] for i in range(self.num_nodes)}
+        """
+        Sets the initial state of the system by assigning all nodes to a state of susceptibility aside from one which
+        we assign as patient zero.
+
+        :return: the instance network self.G
+        """
+        infected_node = random.randint(0, self.num_nodes - 1)
+        state_dict = {i: 0 for i in range(self.num_nodes)}
+        state_dict[infected_node] = 1
+
         nx.set_node_attributes(self.G, state_dict, name="state")
+        return self.G
 
     def iterate(self):
         H = self.G.copy()
@@ -93,9 +151,8 @@ class network():
 
 
 def main():
-    e = network(50, 0)
+    e = SIRS(50, 0)
 
     for i in range(10):
         e.iterate()
         e.mid_dim_draw()
-

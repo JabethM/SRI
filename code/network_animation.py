@@ -6,7 +6,7 @@ matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from system_generator import network
+from system_generator import SIRS
 import mpl_toolkits.mplot3d.art3d as art3d
 
 dt = None
@@ -45,7 +45,7 @@ def animate(i):
         return node_plt
 
 
-def run(nodes=50, typ=0):
+def run(nodes, typ, p1, p2, p3):
     global fig
     global ax
     global dt
@@ -57,7 +57,7 @@ def run(nodes=50, typ=0):
     dt = 0.1
     tMax = 1000
 
-    sim = network(nodes, typ, 0.5, 0.2, 0.1)
+    sim = SIRS(nodes, typ, p1, p2, p3)
 
     fig = plt.figure(figsize=(10, 6))
 
@@ -165,4 +165,25 @@ def updates(event):
     update_opacities(event)
 
 
-run()
+def run_configs(config):
+    num_of_nodes = config.get("nodes", 50)
+    initialisation = config.get("init", (0, 0.1))
+    p1 = config.get("p1", 0.5)
+    p2 = config.get("p2", 0.1)
+    p3 = config.get("p3", 0.015)
+
+    run(num_of_nodes, initialisation, p1, p2, p3)
+
+
+if __name__ == '__main__':
+    # probs = [[0.2, 0.015, 0.015, 0.015],
+    #         [0.015, 0.2, 0.015, 0.015],
+    #         [0.015, 0.015, 0.2, 0.015],
+    #         [0.015, 0.015, 0.015, 0.2]]
+
+    # configuration = {"nodes": 100, "init": (3, [20, 40, 27, 13], probs)}
+    # print(probs)
+    # configuration = {"nodes": 100, "init": (2, 2)}
+    # configuration = {"node": 50, "init": (1, 5, 0.1)}
+    configuration = {}
+    run_configs(config=configuration)
