@@ -91,7 +91,6 @@ class SIRS():
         H = self.G.copy()
         probs = np.random.random(self.num_nodes)
         states = np.array([attribute.get("state") for node, attribute in H.nodes(data=True)])
-
         for i in range(len(states)):
             transform_bool = False
 

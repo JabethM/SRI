@@ -6,7 +6,7 @@ matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from system_generator import SIRS
+from SIRS_system import SIRS
 import mpl_toolkits.mplot3d.art3d as art3d
 
 dt = None
