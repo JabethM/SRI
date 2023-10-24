@@ -3,6 +3,7 @@ import copy
 import numpy as np
 import random
 import networkx as nx
+from Variant import Variant
 
 
 class SIR:
@@ -12,13 +13,20 @@ class SIR:
             probabilities = ((0.5, 0.5), (0.5, 0.5))
         assert (variants == len(probabilities))
 
+        self.num_of_variants = variants
+        # Increments everytime a new variant is added to the system
+        self.variant_count = 0
+        self.variants = []
+        self.variant_relation = []
+
+        self.single_variant = True
+
+        self.generate_variants()
+
         self.dt = 0.1
         self.time = 0
 
         self.P = np.asarray(probabilities)
-
-        self.num_of_variants = variants
-        self.variant_count = 0
 
         self.num_nodes = nodes
         self.G = None
@@ -53,6 +61,40 @@ class SIR:
         state_dict = {i: np.zeros(self.num_of_variants) for i in range(self.num_nodes)}
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
+
+    def generate_variants(self):
+        # arbitrary high number to pick from
+        large_picking_set = 1000
+        if self.num_of_variants > 1:
+            self.single_variant = False
+
+            # Data that is used to sort binary tree
+            variant_data = np.random.randint(1, self.num_of_variants * large_picking_set, self.num_of_variants)
+            range_of_variant_data = max(variant_data) - min(variant_data)
+
+            # e^(-1 *(Delta(data) / range(data)) * (number of variants between))
+
+            variant_relation = [[np.exp(-1 * (abs(variant_data[j] - variant_data[i]) / range_of_variant_data)
+                                        * abs(j - i))
+                                 for j in range(len(variant_data)) if j != i]
+                                for i in range(len(variant_data))]
+            self.variant_relation = variant_relation
+
+            name = ord('A')
+            for vr in range(len(variant_data)):
+                disease = Variant(variant_data[vr], name=chr(name + vr))
+
+                # Each variant has dictionary with relation weighting for each other variant
+                shortened_data = list(variant_data)
+                del shortened_data[vr]
+                disease.relation.update(
+                    {shortened_data[i]: variant_relation[vr][i] for i in range(len(shortened_data))})
+
+                self.variants.append(disease)
+            return self.variants
+        else:
+            self.single_variant = True
+            return None
 
     def potential_patient_zero_set(self):
         if self.variant_count == 0:
@@ -125,15 +167,15 @@ class SIR:
                 nbs_state = current_states[nbs]
                 nbs_state = nbs_state[:, variant]
 
-                a = transition_probabilities[nbs][:, variant]
+                a = transition_probabilities[nbs]  # [:, variant]
                 is_infected = np.where(a < self.P[variant][0], True, False)
                 is_recovered = np.where(a < self.P[variant][1], True, False)
                 for n in range(len(nbs)):
-                    if nbs_state[n] == 0 and is_infected[n]:
+                    if nbs_state[n] == 0 and is_infected[n][variant]:
                         placeholder, potentially_infected_set, potentially_recovered_set \
                             = self.node_change(variant, nbs[n], True, False, potentially_infected_set,
                                                potentially_recovered_set)
-                    if nbs_state[n] == 1 and is_recovered[n]:
+                    if nbs_state[n] == 1 and is_recovered[n][variant]:
                         placeholder, potentially_infected_set, potentially_recovered_set \
                             = self.node_change(variant, nbs[n], True, False, potentially_infected_set,
                                                potentially_recovered_set)
@@ -141,6 +183,8 @@ class SIR:
                     else:
                         pass
 
+        self.infected_set = potentially_infected_set
+        self.recovered_set = potentially_recovered_set
         return
 
 
