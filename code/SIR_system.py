@@ -9,6 +9,7 @@ from Variant import Variant
 class SIR:
 
     def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None):
+
         if probabilities is None:
             probabilities = ((0.5, 0.5), (0.5, 0.5))
         assert (variants == len(probabilities))
@@ -17,7 +18,7 @@ class SIR:
         # Increments everytime a new variant is added to the system
         self.variant_count = 0
         self.variants = []
-        self.variant_relation = []
+        self.relation_matrix = None
 
         self.single_variant = True
 
@@ -75,20 +76,19 @@ class SIR:
             # e^(-1 *(Delta(data) / range(data)) * (number of variants between))
 
             variant_relation = [[np.exp(-1 * (abs(variant_data[j] - variant_data[i]) / range_of_variant_data)
-                                        * abs(j - i))
-                                 for j in range(len(variant_data)) if j != i]
+                                        * abs(j - i)) if j != i else 1
+                                 for j in range(len(variant_data))]
                                 for i in range(len(variant_data))]
-            self.variant_relation = variant_relation
+            Variant.relation_matrix = np.array(variant_relation)
+            self.relation_matrix = Variant.relation_matrix
 
             name = ord('A')
+            root = Variant(variant_data[0], name=chr(name))
             for vr in range(len(variant_data)):
-                disease = Variant(variant_data[vr], name=chr(name + vr))
-
-                # Each variant has dictionary with relation weighting for each other variant
-                shortened_data = list(variant_data)
-                del shortened_data[vr]
-                disease.relation.update(
-                    {shortened_data[i]: variant_relation[vr][i] for i in range(len(shortened_data))})
+                if vr == 0:
+                    disease = root
+                else:
+                    disease = root.insert(variant_data[vr], name=chr(name + vr))
 
                 self.variants.append(disease)
             return self.variants
@@ -115,13 +115,17 @@ class SIR:
 
         for case in patient_zero:
             self.G.nodes[case]["state"][self.variant_count] = 1
-            self.node_change(self.variant_count, case, True, True)
+            self.node_change([self.variant_count], case, True, True)
 
         self.variant_count += 1
         return True
 
-    def node_change(self, variant, node, is_infected=False, update_system=True, infected_set=None, recovered_set=None):
+    def node_change(self, variant: [int], node, is_infected=False, update_system=True,
+                    infected_set=None, recovered_set=None):
+
         assert (update_system or ((not update_system) and (infected_set is not None) and (recovered_set is not None)))
+        assert(isinstance(variant, np.ndarray) or isinstance(variant, list))
+
         s_set = copy.deepcopy(self.susceptible_set)
         if update_system:
             i_set = copy.deepcopy(self.infected_set)
@@ -132,17 +136,18 @@ class SIR:
 
         sets = [i_set, r_set]
         s_size = len(sets)
-        try:
-            s_set[variant].remove(node)
-        except KeyError:
-            pass
+        for v in variant:
+            try:
+                s_set[v].remove(node)
+            except KeyError:
+                pass
 
-        try:
-            sets[int(is_infected)][variant].remove(node)
-        except KeyError:
-            pass
+            try:
+                sets[int(is_infected)][v].remove(node)
+            except KeyError:
+                pass
 
-        sets[(int(is_infected) + 1) % len(sets)][variant].add(node)
+            sets[(int(is_infected) + 1) % len(sets)][v].add(node)
 
         if update_system:
             self.susceptible_set = s_set
@@ -152,7 +157,7 @@ class SIR:
 
     def iterate(self):
         G_copy = self.G.copy()
-        transition_probabilities = np.random.random((self.num_nodes, 3))
+        transition_probabilities = np.random.random((self.num_nodes, self.num_of_variants + 1))
         current_states = np.array([attribute.get("state") for node, attribute in G_copy.nodes(data=True)])
         neighbours = [[n for n in G_copy.neighbors(i)] for i in range(self.num_nodes)]
 
@@ -165,31 +170,42 @@ class SIR:
                 nbs.append(i_node)
 
                 nbs_state = current_states[nbs]
-                nbs_state = nbs_state[:, variant]
+                nbs_var_state = nbs_state[:, variant]
 
                 a = transition_probabilities[nbs]  # [:, variant]
                 is_infected = np.where(a < self.P[variant][0], True, False)
                 is_recovered = np.where(a < self.P[variant][1], True, False)
                 for n in range(len(nbs)):
-                    if nbs_state[n] == 0 and is_infected[n][variant]:
+
+                    if nbs_var_state[n] == 0 and is_infected[n][variant]:
                         placeholder, potentially_infected_set, potentially_recovered_set \
-                            = self.node_change(variant, nbs[n], True, False, potentially_infected_set,
+                            = self.node_change([variant], nbs[n], True, False, potentially_infected_set,
                                                potentially_recovered_set)
-                    if nbs_state[n] == 1 and is_recovered[n][variant]:
+
+                    if nbs_var_state[n] == 1 and is_recovered[n][variant]:
+                        immune_evolution_chance = np.random.random(self.num_of_variants)
+                        immune_evolution_chance[variant] = 0
+
+                        variant_digits = np.arange(self.num_of_variants)
+                        has_immunity_evolved = np.where(immune_evolution_chance < self.relation_matrix[variant],
+                                                        variant_digits, -1)
+                        HIE = has_immunity_evolved[has_immunity_evolved != -1]
                         placeholder, potentially_infected_set, potentially_recovered_set \
-                            = self.node_change(variant, nbs[n], True, False, potentially_infected_set,
+                            = self.node_change(HIE, nbs[n], False, False, potentially_infected_set,
                                                potentially_recovered_set)
 
                     else:
                         pass
 
+        # TODO: check if a node is infected with nore than one disease
         self.infected_set = potentially_infected_set
         self.recovered_set = potentially_recovered_set
         return
 
 
 def main():
-    execute = SIR(50, initialisation=(0, 0.1), variants=3, probabilities=((0.4, 0.4), (0.4, 0.4), (0.4, 0.4)))
+    execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=tuple([(random.random(), random.random())
+                                                                                for _ in range(7)]))
 
     for i in range(10):
         execute.iterate()

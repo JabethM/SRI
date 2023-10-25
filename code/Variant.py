@@ -3,6 +3,7 @@ import random
 
 
 class Variant:
+    relation_matrix = None
 
     def __init__(self, data, name=None):
         self.left = None
@@ -18,13 +19,16 @@ class Variant:
                 if self.left is None:
                     self.left = Variant(data, name)
                     self.left.parent = self
+                    return self.left
                 else:
-                    self.left.insert(data)
+                    return self.left.insert(data, name)
             elif data > self.data:
                 if self.right is None:
                     self.right = Variant(data, name)
                     self.right.parent = self
+                    return self.right
                 else:
-                    self.right.insert(data)
+                    return self.right.insert(data, name)
             else:
                 self.data = data
+                return self
