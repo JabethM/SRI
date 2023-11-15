@@ -7,8 +7,9 @@ from Variant import Variant
 
 
 class SIR:
+    NEW_DISEASE_CHANCE = 0.01
 
-    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None):
+    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, precision=1000):
 
         if probabilities is None:
             probabilities = ((0.5, 0.5), (0.5, 0.5))
@@ -19,6 +20,7 @@ class SIR:
         self.variant_count = 0
         self.variants = []
         self.relation_matrix = None
+        self.root = Variant(random.randint(1, 1000))
 
         self.single_variant = True
 
@@ -27,8 +29,11 @@ class SIR:
         self.dt = 0.1
         self.time = 0
         self.end = 1000
+        self.probability_precision = precision
 
         self.P = np.asarray(probabilities)
+        # Normalising probabilities w.r.t themselves
+        self.P = np.apply_along_axis(lambda x: x / np.sum(x), axis=1, arr=self.P)
 
         self.num_nodes = nodes
         self.G = None
@@ -38,9 +43,9 @@ class SIR:
         based on neighbours but if the graph doesnt percolate and has large number of nodes, this could become wildly 
         inefficient.
         """
-        self.susceptible_set = [set() for v in range(self.num_of_variants)]
         self.infected_set = [set() for v in range(self.num_of_variants)]
         self.recovered_set = [set() for v in range(self.num_of_variants)]
+        self.possible_outcomes = []
 
         self.initialise_graph(initialisation)
         self.set_disease()
@@ -65,73 +70,111 @@ class SIR:
         return self.G
 
     def generate_variants(self):
-        # arbitrary high number to pick from
-        large_picking_set = 1000
-        if self.num_of_variants > 1:
-            self.single_variant = False
+        large_picking_set = 30 * self.num_of_variants
+        if self.single_variant > 1:
+            repeated = True  # Prevents the same number being chosen
+            variant_data = 0
+            while repeated is True:
+                variant_data = random.randint(1, large_picking_set)
+                if variant_data not in Variant.current_data_set:
+                    Variant.current_data_set.append(variant_data)
+                    repeated = False
 
-            # Data that is used to sort binary tree
-            variant_data = np.random.randint(1, self.num_of_variants * large_picking_set, self.num_of_variants)
-            range_of_variant_data = max(variant_data) - min(variant_data)
+            name = ord('A') + self.variant_count
+            disease = self.root.insert(variant_data, name=name)
+            self.root.add_to_relation_matrix()
 
-            # e^(-1 *(Delta(data) / range(data)) * (number of variants between))
+            self.variants.append(disease)
+            self.variant_count += 1
 
-            variant_relation = [[np.exp(-1 * (abs(variant_data[j] - variant_data[i]) / range_of_variant_data)
-                                        * abs(j - i)) if j != i else 1
-                                 for j in range(len(variant_data))]
-                                for i in range(len(variant_data))]
-            Variant.relation_matrix = np.array(variant_relation)
-            self.relation_matrix = Variant.relation_matrix
-
-            name = ord('A')
-            root = Variant(variant_data[0], name=chr(name))
-            for vr in range(len(variant_data)):
-                if vr == 0:
-                    disease = root
-                else:
-                    disease = root.insert(variant_data[vr], name=chr(name + vr))
-
-                self.variants.append(disease)
             return self.variants
         else:
             self.single_variant = True
             return None
-
-    def potential_patient_zero_set(self):
-        if self.variant_count == 0:
-            potentially_infectious = range(self.num_nodes)
-        else:
-            state_data = np.array([attribute.get("state") for node, attribute in self.G.nodes(data=True)])
-
-            potentially_infectious = \
-                np.where((state_data[:, self.variant_count - 1] >= 1) & (state_data[:, self.variant_count] != 2))[0]
-
-        return potentially_infectious
 
     def set_disease(self):
         number_of_initial_outbreaks = 1
         if self.variant_count >= self.num_of_variants:
             return False
 
-        potential_set = self.potential_patient_zero_set()
-        if len(potential_set) == 0:
-            return False
+        potential_set = range(self.num_nodes)
         patient_zero = np.random.choice(potential_set, number_of_initial_outbreaks)
 
         for case in patient_zero:
-            self.node_change([self.variant_count], case, True, True)
+            self.node_change(self.variant_count, np.array([case]), np.array([True]), True, True)
 
             self.G = self.double_infection_check(self.G, case)
         self.variant_count += 1
         return True
 
-    def node_change(self, variant: [int], node, is_infected=False, update_system=True,
+    def choose_outcome(self):
+        nbs = [[] for _ in range(self.variant_count)]
+        outcome_probabilities = self.P[:self.variant_count]
+        for i in range(self.variant_count):
+            inf_nbs = self.node_neighbours(self.infected_set[i])
+            nbs[i] = inf_nbs
+
+        # Randomly Choose one of 2 x N outcomes where N represents the different variants
+        outcome_distribution = outcome_probabilities.flatten() / self.variant_count
+        chosen_action = np.random.choice(np.arange(len(outcome_distribution)), size=1, p=outcome_distribution)
+        action_row, action_column = divmod(chosen_action[0], 2)  # 2 is the number of different outcomes for infectious
+
+        disease_variant = action_row
+        choosing_set = nbs[disease_variant]
+
+        # length of choosing set might change but max distinct choices will remain the same
+        distinct_num_node_choices = len(choosing_set)
+
+        infect_others = None
+        if action_column == 0:
+            # Infect Random Neighbour
+            new_infectious_prob = self.NEW_DISEASE_CHANCE / distinct_num_node_choices
+            old_infectious_prob = (1 - self.NEW_DISEASE_CHANCE) / distinct_num_node_choices
+
+            new_infection_dist = np.full(distinct_num_node_choices, new_infectious_prob)
+            old_infection_dist = np.full(distinct_num_node_choices, old_infectious_prob)
+            infection_dist = np.concatenate((old_infection_dist, new_infection_dist))
+
+            test = np.sum(infection_dist)
+            choosing_set = choosing_set + choosing_set
+            infect_others = True
+
+        else:
+            # Recover node
+            infection_dist = np.ones_like(choosing_set) / distinct_num_node_choices
+            infection_dist = np.array(infection_dist).astype(float)
+            infect_others = False
+
+        assert (abs(np.sum(infection_dist) - 1) < 1e-9)
+
+        infected_node_idx = np.random.choice(range(len(choosing_set)), size=1, p=infection_dist)[0]
+        infected_node_idx = infected_node_idx % distinct_num_node_choices
+
+        infected_node = list(self.infected_set[disease_variant])[infected_node_idx]
+        victim_node = np.random.choice(nbs[disease_variant][infected_node_idx])
+
+        if infect_others:
+            return (infected_node, victim_node), disease_variant, infect_others
+        else:
+            return infected_node, disease_variant, infect_others
+
+    def node_neighbours(self, list_of_nodes):
+        nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
+        return nbs
+
+    def update_state_sets(self):
+
+        return
+
+    def node_change(self, variant, node, transition_success: np.ndarray, infected=False, update_system=True,
                     infected_set=None, recovered_set=None, graph=None):
 
         assert (update_system or ((not update_system) and (infected_set is not None) and (recovered_set is not None)))
-        assert (isinstance(variant, np.ndarray) or isinstance(variant, list))
 
-        s_set = copy.deepcopy(self.susceptible_set)
+        trans_nodes = np.where(transition_success == True)
+        trans_nodes = node[trans_nodes]
+        trans_nodes_set = set(trans_nodes)
+
         if update_system:
             i_set = copy.deepcopy(self.infected_set)
             r_set = copy.deepcopy(self.recovered_set)
@@ -142,33 +185,49 @@ class SIR:
         if graph is None:
             graph = self.G
 
+        if len(trans_nodes) == 0:
+            return i_set, r_set, graph
+
         sets = [i_set, r_set]
         s_size = len(sets)
-        for v in variant:
-            try:
-                s_set[v].remove(node)
 
-            except KeyError:
-                pass
+        try:
+            
+            sets[int(infected)][variant] -= trans_nodes_set
+        except KeyError:
+            pass
 
-            try:
-                sets[int(is_infected)][v].remove(node)
-            except KeyError:
-                pass
+        # Zero for infected, One for Recovered
+        infected_or_recovered = (int(infected) + 1) % len(sets)
+        sets[infected_or_recovered][variant].update(trans_nodes_set)
 
-            # Zero for infected, One for Recovered
-            infected_or_recovered = (int(is_infected) + 1) % len(sets)
-            sets[infected_or_recovered][v].add(node)
-            graph.nodes(data=True)[node]["state"][v] = infected_or_recovered + 1
+        for n in trans_nodes:
+            graph.nodes(data=True)[n]["state"][variant] = infected_or_recovered + 1
 
         if update_system:
-            self.susceptible_set = s_set
             self.infected_set = i_set
             self.recovered_set = r_set
-        return s_set, i_set, r_set, graph
+        return i_set, r_set, graph
 
     def iterate(self):
         G_copy = self.G.copy()
+        nodes, disease, infection_status = self.choose_outcome()
+
+        if infection_status:
+            a = 2
+            infector = nodes[0]
+            victim = nodes[1]
+            self.infected_set
+            # Infect victim in nodes
+            # update self.infected with victim at diseased row
+            # remove victim from other rows
+        else:
+            infector = nodes
+            # Recover node in nodes
+            # update self.recovered with infector at diseased row
+            # remove infector from other rows
+
+        """G_copy = self.G.copy()
 
         transition_probabilities = np.random.random((self.num_nodes, self.num_of_variants + 1))
         current_states = np.array([attribute.get("state") for node, attribute in G_copy.nodes(data=True)])
@@ -178,40 +237,35 @@ class SIR:
         potentially_recovered_set = copy.deepcopy(self.recovered_set)
 
         for variant in range(self.num_of_variants):
-            
+
+            is_infected = np.where(transition_probabilities < self.P[variant][0], True, False)
+            is_recovered = np.where(transition_probabilities < self.P[variant][1], True, False)
             for i_node in self.infected_set[variant]:
                 nbs = list(neighbours[i_node])
                 nbs.append(i_node)
+                nbs = np.array(nbs)
 
-                nbs_state = current_states[nbs]
+                nbs_state = np.array(current_states[nbs])
                 nbs_var_state = nbs_state[:, variant]
 
-                a = transition_probabilities[nbs]  # [:, variant]
-                is_infected = np.where(a < self.P[variant][0], True, False)
-                is_recovered = np.where(a < self.P[variant][1], True, False)
-                for n in range(len(nbs)):
+                should_infect = nbs_var_state == 0
+                should_infect &= is_infected[nbs][:, variant]
 
-                    if nbs_var_state[n] == 0 and is_infected[n][variant]:
-                        placeholder, potentially_infected_set, potentially_recovered_set, G_copy \
-                            = self.node_change([variant], nbs[n], True, False, potentially_infected_set,
-                                               potentially_recovered_set, G_copy)
-                        G_copy = self.double_infection_check(G_copy, nbs[n])
+                should_recover = nbs_var_state == 1
+                should_recover &= is_recovered[nbs][:, variant]
 
-                    if nbs_var_state[n] == 1 and is_recovered[n][variant]:
-                        immune_evolution_chance = np.random.random(self.num_of_variants)
-                        immune_evolution_chance[variant] = 0
+                immune_evolution_chance = np.random.random(self.num_of_variants)
+                immune_evolution_chance[variant] = 0
 
-                        variant_digits = np.arange(self.num_of_variants)
-                        has_immunity_evolved = np.where(immune_evolution_chance < self.relation_matrix[variant],
-                                                        variant_digits, -1)
-                        HIE = has_immunity_evolved[has_immunity_evolved != -1]
-                        placeholder, potentially_infected_set, potentially_recovered_set, G_copy \
-                            = self.node_change(HIE, nbs[n], False, False, potentially_infected_set,
-                                               potentially_recovered_set, G_copy)
+                has_immunity_evolved = np.where(immune_evolution_chance < self.relation_matrix[variant])[0]
 
-                    else:
-                        pass
+                potentially_infected_set, potentially_recovered_set, G_copy \
+                    = self.node_change(variant, nbs, should_infect, True, False, potentially_infected_set,
+                                       potentially_recovered_set, G_copy)
 
+                potentially_infected_set, potentially_recovered_set, G_copy \
+                    = self.node_change(has_immunity_evolved, nbs, should_recover, False, False,
+                                       potentially_infected_set, potentially_recovered_set, G_copy)"""
         self.G = G_copy
         self.infected_set = potentially_infected_set
         self.recovered_set = potentially_recovered_set
