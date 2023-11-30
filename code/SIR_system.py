@@ -4,10 +4,11 @@ import numpy as np
 import random
 import networkx as nx
 from Variant import Variant
+from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.01
+    NEW_DISEASE_CHANCE = 0.10
     probability_precision = 7
 
     def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None):
@@ -30,8 +31,6 @@ class SIR:
         self.end = False
 
         self.P = np.asarray(probabilities)
-        # Normalising probabilities w.r.t themselves
-        self.P = np.apply_along_axis(lambda x: x / np.sum(x), axis=1, arr=self.P)
 
         self.num_nodes = nodes
         self.G = None
@@ -67,7 +66,7 @@ class SIR:
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
 
-    def generate_new_disease(self):
+    def generate_new_disease(self, parent=None):
         if self.variant_count == 0:
             variant_data = random.randint(1, 1000)
             self.root = Variant(variant_data)
@@ -84,9 +83,12 @@ class SIR:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
 
+        if parent is None:
+            parent = self.root
+
         name = ord('A') + self.variant_count
-        disease = self.root.insert(variant_data, name=chr(name))
-        disease.add_to_relation_matrix()
+        disease = parent.insert(variant_data, name=chr(name))
+        Variant.add_to_relation_matrix()
 
         self.variants.append(disease)
         self.variant_count += 1
@@ -116,61 +118,55 @@ class SIR:
     def choose_outcome(self):
         temp_infected_set = copy.deepcopy(self.infected_set)[:self.variant_count]
 
-        nbs, outcome_distribution, outcome_distribution_flat = self.choice_probability_setup(temp_infected_set)
+        nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set)
 
-        cumulative_lengths = np.cumsum(list(map(len, outcome_distribution)))
+        gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
+        choices = []
+        for i in range(3):
+            if i == 0:
+                shortened_gillespe = [np.sum(list(chain(*variant))) for variant in gillespe_hold]
+            else:
+                shortened_gillespe = [np.sum(choice) for choice in gillespe_hold]
 
-        chosen_node = np.random.choice(np.arange(len(outcome_distribution_flat)), size=1, p=outcome_distribution_flat)
-        chosen_action = np.searchsorted(cumulative_lengths, chosen_node, side='right')[0]
+            shortened_gillespe = np.array(shortened_gillespe) / np.sum(shortened_gillespe)
+            chosen_option = np.random.choice(np.arange(np.shape(gillespe_hold)[0]), size=1, p=shortened_gillespe)[0]
+            choices.append(chosen_option)
+            gillespe_hold = gillespe_hold[chosen_option]
 
-        node_idx = chosen_node[0] - (cumulative_lengths[chosen_action - 1] if chosen_action > 0 else 0)
-        disease_chosen = (chosen_action // 2)
+        if choices[1] == 0:
+            cumulative_lengths = np.cumsum(list(map(len, nbs[choices[0]])))
+            infector_idx = np.searchsorted(cumulative_lengths, choices[2], side='right')
+            victim_idx = choices[2] - (cumulative_lengths[infector_idx - 1] if infector_idx > 0 else 0)
+            victim = nbs[choices[0]][infector_idx][victim_idx]
 
-        infect_others = chosen_action % 2 == 0
-        if infect_others:
-            # INFECT NEIGHBOUR
-            potential_victims = nbs[disease_chosen][node_idx]
-            victim = np.random.choice(potential_victims)
-            changing_node = victim
         else:
-            # RECOVER
-            infected_node = list(temp_infected_set[disease_chosen])[node_idx]
-            changing_node = infected_node
+            victim = list(temp_infected_set[choices[0]])[choices[2]]
 
-        return changing_node, disease_chosen, infect_others
+        # True when infecting, False when recovering
+        infect_others = not bool(choices[1])
+
+        return victim, choices[0], infect_others
 
     def choice_probability_setup(self, temp_infected_set):
+        initial_buffer = 10
+
         nbs = [[list(np.setdiff1d(nbs, list(variant))) for nbs in self.node_neighbours(variant)]
                for variant in temp_infected_set]
-        infected_count = np.array([len(nb) for nb in nbs])
-        infected_count = np.round(infected_count / (np.sum(infected_count) if np.sum(infected_count) > 0 else 1),
-                                  self.probability_precision)
-
-        outcome_probabilities = np.round(self.P[:self.variant_count], self.probability_precision)
-        outcome_probabilities *= infected_count[:, np.newaxis]
 
         # Randomly Choose one of 2 x N outcomes where N represents the different variants
         possible_outcomes = []
-        outcome_distribution = []
+        gillespe_line = []
 
         for variant in range(self.variant_count):
             inf_nbs_flat = list(np.array(nbs[variant]).flatten())
-            possible_outcomes.extend([inf_nbs_flat, list(temp_infected_set[variant])])
+            inf_nbs_flat_test = [nb for inf_node in nbs[variant] for nb in inf_node]
 
-            nb_lengths = np.array([len(neighbours) for neighbours in nbs[variant]])
-            nb_weights = nb_lengths / (np.sum(nb_lengths) if np.sum(nb_lengths) > 0 else 1)
+            gillespe_line.append([list(np.full(len(inf_nbs_flat_test), initial_buffer * self.P[variant, 0])),
+                                  list(np.full(len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]))])
 
-            infected_nodes = list(temp_infected_set[variant])
-            infected_weights = np.ones_like(infected_nodes) / len(infected_nodes)
-            outcome_distribution.extend([list(outcome_probabilities[variant][0] * nb_weights),
-                                         list(outcome_probabilities[variant][1] * infected_weights)])
+            possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
-        outcome_distribution_flat = np.concatenate(outcome_distribution)
-
-        # Account for deleted probabilities due to redundant repetitions (infecting an infected node)
-        outcome_distribution_flat = outcome_distribution_flat / np.sum(outcome_distribution_flat)
-
-        return nbs, outcome_distribution, outcome_distribution_flat
+        return nbs, gillespe_line, possible_outcomes
 
     def node_neighbours(self, list_of_nodes):
         nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
@@ -181,9 +177,10 @@ class SIR:
         new_disease = np.random.choice([True, False], size=1,
                                        p=[self.NEW_DISEASE_CHANCE, 1 - self.NEW_DISEASE_CHANCE])
         if new_disease:
-            variant = self.generate_new_disease() - 1
+            variant = self.generate_new_disease(self.variants[variant]) - 1
 
-        a = self.infected_set[variant]
+        if node in self.recovered_set[variant]:
+            return graph
 
         self.infected_set[variant].update({node})
         graph.nodes(data=True)[node]["state"][variant] = 1
@@ -193,13 +190,13 @@ class SIR:
 
         relation_array = Variant.get_relation()[variant]
         assert relation_array[variant] == 1
-        probabilities = np.column_stack((relation_array, 1-relation_array))
+        probabilities = np.column_stack((relation_array, 1 - relation_array))
         immunity_choices = np.array([np.random.choice([True, False], size=1, p=probs)[0]
                                      for probs in probabilities])
         immunity_developed = np.where(immunity_choices)[0]
 
         for i in immunity_developed:
-            self.infected_set[i].discard({node})
+            self.infected_set[i].discard(node)
             self.recovered_set[i].update({node})
             graph.nodes(data=True)[node]["state"][i] = 2
         return graph
@@ -234,9 +231,8 @@ class SIR:
                 self.end = True
 
 
-
 def main():
-    probs = tuple([(random.randint(0, 10000), random.randint(0, 1000)) for _ in range(7)])
+    probs = tuple([(random.randint(0, 100), random.randint(0, 100)) for _ in range(7)])
     execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=probs)
     execute.run()
 
