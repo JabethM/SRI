@@ -8,10 +8,10 @@ from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.10
+    NEW_DISEASE_CHANCE = 0.01
     probability_precision = 7
 
-    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None):
+    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None):
 
         if probabilities is None:
             probabilities = ((0.5, 0.5), (0.5, 0.5))
@@ -29,6 +29,8 @@ class SIR:
         self.dt = 0.1
         self.time = 0
         self.end = False
+        self.end_time = end_time
+        np.random.seed(seed)
 
         self.P = np.asarray(probabilities)
 
@@ -95,7 +97,7 @@ class SIR:
         if self.variant_count > self.num_of_variants:
             self.end = True
 
-        return len(self.variants)
+        return self.variant_count
 
     def set_initial_outbreak(self):
         number_of_initial_outbreaks = 1
@@ -119,6 +121,10 @@ class SIR:
         temp_infected_set = copy.deepcopy(self.infected_set)[:self.variant_count]
 
         nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set)
+
+        if self.is_list_empty(gillespe_line):
+            self.end = True
+            return None
 
         gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
         choices = []
@@ -168,10 +174,6 @@ class SIR:
 
         return nbs, gillespe_line, possible_outcomes
 
-    def node_neighbours(self, list_of_nodes):
-        nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
-        return nbs
-
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
         new_disease = np.random.choice([True, False], size=1,
@@ -179,7 +181,7 @@ class SIR:
         if new_disease:
             variant = self.generate_new_disease(self.variants[variant]) - 1
 
-        if node in self.recovered_set[variant]:
+        if self.end or node in self.recovered_set[variant]:
             return graph
 
         self.infected_set[variant].update({node})
@@ -201,18 +203,7 @@ class SIR:
             graph.nodes(data=True)[node]["state"][i] = 2
         return graph
 
-    def iterate(self):
-        G_copy = self.G.copy()
-        node, disease, infection_status = self.choose_outcome()
-
-        if infection_status:
-            G_copy = self.set_node_infected(node, disease, G_copy)
-        else:
-            G_copy = self.set_node_recovery(node, disease, G_copy)
-
-        self.G = G_copy
-        return
-
+    # ###### HELPERS ##### #
     def double_infection_check(self, graph, node):
         node_state = graph.nodes(data=True)[node]["state"]
         infections = np.where(node_state == 1)
@@ -222,19 +213,57 @@ class SIR:
             node_state[predominant_infection] = 1
         return graph
 
-    def run(self, end_time=np.inf):
+    def is_list_empty(self, in_list):
+        if isinstance(in_list, list):  # Is a list
+            return all(map(self.is_list_empty, in_list))
+        return False
+
+    def node_neighbours(self, list_of_nodes):
+        nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
+        return nbs
+
+    # ###### HELPERS ##### #
+
+    def iterate(self):
+        G_copy = self.G.copy()
+        outcomes = self.choose_outcome()
+        if outcomes is not None:
+            node, disease, infection_status = outcomes
+            if infection_status:
+                G_copy = self.set_node_infected(node, disease, G_copy)
+            else:
+                G_copy = self.set_node_recovery(node, disease, G_copy)
+
+            self.G = G_copy
+
+        return
+
+    def run(self):
         while not self.end:
             self.iterate()
             self.time = round(self.time + self.dt, 2)
             print(self.time)
-            if self.time >= end_time:
+            if self.time >= self.end_time:
                 self.end = True
+        print(self.P)
+        print(self.variant_count)
 
+    def step_run(self, dt=0.1):
+        print(self.P)
+        print(self.variant_count)
+
+        if not self.end:
+            self.iterate()
+            self.time = round(self.time + dt, 2)
+            print(self.time)
+
+            if self.time >= self.end_time:
+                self.end = True
+        return self.end
 
 def main():
-    probs = tuple([(random.randint(0, 100), random.randint(0, 100)) for _ in range(7)])
-    execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=probs)
+    seed = 345
+    np.random.seed(seed)
+    probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 600)) for _ in range(7)])
+    execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=probs, seed=seed)
     execute.run()
-
-
-main()
