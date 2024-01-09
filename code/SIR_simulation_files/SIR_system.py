@@ -8,14 +8,13 @@ from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.01
-    probability_precision = 7
+    NEW_DISEASE_CHANCE = 0.03
 
-    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None):
+    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
+                 epsilon=300):
 
         if probabilities is None:
-            probabilities = ((0.5, 0.5), (0.5, 0.5))
-        assert (variants == len(probabilities))
+            probabilities = (0.5, 0.5)
 
         self.num_of_variants = variants
         # Increments everytime a new variant is added to the system
@@ -31,8 +30,10 @@ class SIR:
         self.end = False
         self.end_time = end_time
         np.random.seed(seed)
+        self.epsilon = epsilon
 
-        self.P = np.asarray(probabilities)
+        self.P = np.zeros((variants, 2))
+        self.P[0] = np.asarray(probabilities)
 
         self.num_nodes = nodes
         self.G = None
@@ -69,12 +70,18 @@ class SIR:
         return self.G
 
     def generate_new_disease(self, parent=None):
+        if self.variant_count >= self.num_of_variants:
+            self.variant_count += 1
+            return self.variant_count
+
         if self.variant_count == 0:
             variant_data = random.randint(1, 1000)
             self.root = Variant(variant_data)
             Variant.current_data_set.append(variant_data)
 
         else:
+            self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
+                                             self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
             large_picking_set = 30 * self.num_of_variants
 
             repeated = True  # Prevents the same number being chosen
@@ -94,8 +101,7 @@ class SIR:
 
         self.variants.append(disease)
         self.variant_count += 1
-        if self.variant_count > self.num_of_variants:
-            self.end = True
+
 
         return self.variant_count
 
@@ -178,7 +184,8 @@ class SIR:
         # CHANCE OF NEW INFECTION
         new_disease = np.random.choice([True, False], size=1,
                                        p=[self.NEW_DISEASE_CHANCE, 1 - self.NEW_DISEASE_CHANCE])
-        if new_disease:
+
+        if new_disease and self.variant_count < self.num_of_variants:
             variant = self.generate_new_disease(self.variants[variant]) - 1
 
         if self.end or node in self.recovered_set[variant]:
@@ -203,7 +210,7 @@ class SIR:
             graph.nodes(data=True)[node]["state"][i] = 2
         return graph
 
-    # ###### HELPERS ##### #
+    # ###### START OF HELPERS ##### #
     def double_infection_check(self, graph, node):
         node_state = graph.nodes(data=True)[node]["state"]
         infections = np.where(node_state == 1)
@@ -222,7 +229,10 @@ class SIR:
         nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
         return nbs
 
-    # ###### HELPERS ##### #
+    def transform_to_epsilon_range(self, x, epsilon):
+        return 2 * epsilon * x - epsilon
+
+    # ###### END OF HELPERS ##### #
 
     def iterate(self):
         G_copy = self.G.copy()
@@ -249,7 +259,6 @@ class SIR:
         print(self.variant_count)
 
     def step_run(self, dt=0.1):
-        print(self.P)
         print(self.variant_count)
 
         if not self.end:
@@ -259,11 +268,13 @@ class SIR:
 
             if self.time >= self.end_time:
                 self.end = True
+
         return self.end
 
 def main():
-    seed = 345
+    seed = 39
     np.random.seed(seed)
-    probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 600)) for _ in range(7)])
+    probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
     execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=probs, seed=seed)
     execute.run()
+

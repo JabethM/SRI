@@ -12,28 +12,16 @@ class Variant:
         self.parent = None
         self.data = data
         self.name = name
+        self.children = []
 
     def insert(self, data, name=None):
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Variant(data, name)
-                    self.left.parent = self
-                    return self.left
-                else:
-                    return self.left.insert(data, name)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Variant(data, name)
-                    self.right.parent = self
-                    return self.right
-                else:
-                    return self.right.insert(data, name)
-            else:
-                self.data = data
-                if name is not None:
-                    self.name = name
-                return self
+        if data != self.data:
+            self.children.append(Variant(data, name))
+        else:
+            self.data = data
+            if name is not None:
+                self.name = name
+
 
     @classmethod
     def add_to_relation_matrix(cls):
@@ -47,7 +35,7 @@ class Variant:
             old_matrix = Variant.relation_matrix
             new_length = num_of_variants  # name change for clarity
 
-            # e^(-1 *(Delta(data) / range(data)) * (number of variants between))
+            # e^(-1 *(Delta(data2) / range(data2)) * (number of variants between))
             variant_relation = np.array([
                 [np.exp(-1 * (abs(Variant.current_data_set[j] - Variant.current_data_set[i]) / range_of_variant_data)
                         * abs(j - i)) if j != i else 1
@@ -62,3 +50,9 @@ class Variant:
     def get_relation(cls):
         a = Variant.relation_matrix
         return a
+
+    def print_tree(self, root, level=0, prefix="Root: "):
+        if root is not None:
+            print(" " * (level * 4) + prefix + str(root.name))
+            for child in root.children:
+                self.print_tree(child, level + 1, "Child: ")
