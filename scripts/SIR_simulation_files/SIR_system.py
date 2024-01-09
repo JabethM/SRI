@@ -3,12 +3,12 @@ import copy
 import numpy as np
 import random
 import networkx as nx
-from Variant import Variant
+from scripts.SIR_simulation_files.Variant import Variant
 from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.03
+    NEW_DISEASE_CHANCE = 0.08
 
     def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
                  epsilon=300):
@@ -141,7 +141,7 @@ class SIR:
                 shortened_gillespe = [np.sum(choice) for choice in gillespe_hold]
 
             shortened_gillespe = np.array(shortened_gillespe) / np.sum(shortened_gillespe)
-            chosen_option = np.random.choice(np.arange(np.shape(gillespe_hold)[0]), size=1, p=shortened_gillespe)[0]
+            chosen_option = np.random.choice(np.arange(len(gillespe_hold)), size=1, p=shortened_gillespe)[0]
             choices.append(chosen_option)
             gillespe_hold = gillespe_hold[chosen_option]
 
@@ -170,7 +170,8 @@ class SIR:
         gillespe_line = []
 
         for variant in range(self.variant_count):
-            inf_nbs_flat = list(np.array(nbs[variant]).flatten())
+            a = 2
+            inf_nbs_flat = list(chain(*nbs[variant]))
             inf_nbs_flat_test = [nb for inf_node in nbs[variant] for nb in inf_node]
 
             gillespe_line.append([list(np.full(len(inf_nbs_flat_test), initial_buffer * self.P[variant, 0])),
