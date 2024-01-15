@@ -102,7 +102,6 @@ class SIR:
         self.variants.append(disease)
         self.variant_count += 1
 
-
         return self.variant_count
 
     def set_initial_outbreak(self):
@@ -125,10 +124,13 @@ class SIR:
 
     def choose_outcome(self):
         temp_infected_set = copy.deepcopy(self.infected_set)[:self.variant_count]
+        tis_empty = all(not tis for tis in temp_infected_set)
 
         nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set)
 
-        if self.is_list_empty(gillespe_line):
+        # No more actions? end
+        numpy_gillespe = np.array(gillespe_line)
+        if np.all(numpy_gillespe[..., 0] == 0):
             self.end = True
             return None
 
@@ -136,9 +138,14 @@ class SIR:
         choices = []
         for i in range(3):
             if i == 0:
-                shortened_gillespe = [np.sum(list(chain(*variant))) for variant in gillespe_hold]
-            else:
-                shortened_gillespe = [np.sum(choice) for choice in gillespe_hold]
+                shortened_gillespe = np.prod(gillespe_hold, axis=-1).sum(axis=-1)
+
+            elif i == 1:
+                shortened_gillespe = np.prod(gillespe_hold, axis=-1)
+
+            elif i == 2:
+                shortened_gillespe = np.full(gillespe_hold[0], gillespe_hold[1])
+                gillespe_hold = shortened_gillespe
 
             shortened_gillespe = np.array(shortened_gillespe) / np.sum(shortened_gillespe)
             chosen_option = np.random.choice(np.arange(len(gillespe_hold)), size=1, p=shortened_gillespe)[0]
@@ -162,8 +169,8 @@ class SIR:
     def choice_probability_setup(self, temp_infected_set):
         initial_buffer = 10
 
-        nbs = [[list(np.setdiff1d(nbs, list(variant))) for nbs in self.node_neighbours(variant)]
-               for variant in temp_infected_set]
+        nbs = [[node for node in self.node_neighbours(variant)
+                if not np.any(node == list(variant))] for variant in temp_infected_set]
 
         # Randomly Choose one of 2 x N outcomes where N represents the different variants
         possible_outcomes = []
@@ -174,9 +181,8 @@ class SIR:
             inf_nbs_flat = list(chain(*nbs[variant]))
             inf_nbs_flat_test = [nb for inf_node in nbs[variant] for nb in inf_node]
 
-            gillespe_line.append([list(np.full(len(inf_nbs_flat_test), initial_buffer * self.P[variant, 0])),
-                                  list(np.full(len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]))])
-
+            gillespe_line.append([[len(inf_nbs_flat), initial_buffer * self.P[variant, 0]],
+                                  [len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]]])
             possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
         return nbs, gillespe_line, possible_outcomes
@@ -272,10 +278,10 @@ class SIR:
 
         return self.end
 
+
 def main():
     seed = 39
     np.random.seed(seed)
     probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
     execute = SIR(50, initialisation=(0, 0.1), variants=7, probabilities=probs, seed=seed)
     execute.run()
-

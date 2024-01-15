@@ -4,7 +4,7 @@ from scripts.SIR_simulation_files.SIR_system import SIR
 import numpy as np
 
 if __name__ == '__main__':
-    seed = 38204518
+    seed = 87548
     np.random.seed(seed)
     total_variants = 7
     probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     profiler.add_function(SIR.choose_outcome)
     profiler.add_function(SIR.choice_probability_setup)
-
+    profiler.add_function(SIR.node_neighbours)
     profiler.add_function(SIR.set_node_infected)
     profiler.add_function(SIR.set_node_recovery)
 

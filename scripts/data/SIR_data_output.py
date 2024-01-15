@@ -4,12 +4,13 @@ import matplotlib.pyplot as plt
 
 
 end = False
-seed = 875485
-num_of_variants = 16
+seed = 87548
+np.random.seed(seed)
+num_of_variants = 7
 np.random.seed(seed)
 probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
 
-execute = SIR(100, initialisation=(0, 0.1), variants=num_of_variants, probabilities=probs, seed=seed)
+execute = SIR(50, initialisation=(0, 0.1), variants=num_of_variants, probabilities=probs, seed=seed)
 
 num_of_infected = np.zeros((num_of_variants, 1))
 num_of_recovered = np.zeros((num_of_variants, 1))
