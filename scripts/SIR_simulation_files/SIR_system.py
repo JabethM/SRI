@@ -74,26 +74,34 @@ class SIR:
             self.variant_count += 1
             return self.variant_count
 
+        delta = 50
+        picking_set = delta * self.num_of_variants
+
         if self.variant_count == 0:
-            variant_data = random.randint(1, 1000)
+            variant_data = random.randint(1, picking_set)
             self.root = Variant(variant_data)
             Variant.current_data_set.append(variant_data)
+            if parent is None:
+                parent = self.root
 
         else:
+            if parent is None:
+                parent = self.root
+
             self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
                                              self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
-            large_picking_set = 30 * self.num_of_variants
+
 
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
             while repeated is True:
-                variant_data = random.randint(1, large_picking_set)
+                # Ensures disease is considered 'close' to its parent
+                variant_data = abs(parent.data + self.transform_to_epsilon_range(np.random.rand(), 2 * delta))
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
 
-        if parent is None:
-            parent = self.root
+
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))
@@ -123,10 +131,12 @@ class SIR:
         return True
 
     def choose_outcome(self):
-        temp_infected_set = copy.deepcopy(self.infected_set)[:self.variant_count]
+        temp_infected_set = self.infected_set[:self.variant_count]
+        temp_rec_set = self.recovered_set[:self.variant_count]
+
         tis_empty = all(not tis for tis in temp_infected_set)
 
-        nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set)
+        nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set, temp_rec_set)
 
         # No more actions? end
         numpy_gillespe = np.array(gillespe_line)
@@ -166,20 +176,20 @@ class SIR:
 
         return victim, choices[0], infect_others
 
-    def choice_probability_setup(self, temp_infected_set):
+    def choice_probability_setup(self, temp_infected_set, temp_rec_set):
         initial_buffer = 10
+        iterator = range(len(temp_rec_set))
 
-        nbs = [[node for node in self.node_neighbours(variant)
-                if not np.any(node == list(variant))] for variant in temp_infected_set]
+        nbs = [[node for node in
+                self.node_neighbours(temp_infected_set[variant], temp_rec_set[variant])]
+               for variant in iterator]
 
         # Randomly Choose one of 2 x N outcomes where N represents the different variants
         possible_outcomes = []
         gillespe_line = []
 
         for variant in range(self.variant_count):
-            a = 2
             inf_nbs_flat = list(chain(*nbs[variant]))
-            inf_nbs_flat_test = [nb for inf_node in nbs[variant] for nb in inf_node]
 
             gillespe_line.append([[len(inf_nbs_flat), initial_buffer * self.P[variant, 0]],
                                   [len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]]])
@@ -232,17 +242,19 @@ class SIR:
             return all(map(self.is_list_empty, in_list))
         return False
 
-    def node_neighbours(self, list_of_nodes):
-        nbs = [[n for n in self.G.neighbors(node)] for node in list_of_nodes]
+    def node_neighbours(self, set_of_nodes, removal_set):
+        removal_set = set_of_nodes & removal_set
+        nbs = [[n for n in self.G.neighbors(node) if n not in removal_set] for node in set_of_nodes]
         return nbs
 
     def transform_to_epsilon_range(self, x, epsilon):
+        # Takes a rational x and puts it in the range of +- epsilon
         return 2 * epsilon * x - epsilon
 
     # ###### END OF HELPERS ##### #
 
     def iterate(self):
-        G_copy = self.G.copy()
+        G_copy = self.G
         outcomes = self.choose_outcome()
         if outcomes is not None:
             node, disease, infection_status = outcomes

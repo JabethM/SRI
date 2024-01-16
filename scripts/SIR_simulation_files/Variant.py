@@ -16,11 +16,14 @@ class Variant:
 
     def insert(self, data, name=None):
         if data != self.data:
-            self.children.append(Variant(data, name))
+            child = Variant(data, name)
+            self.children.append(child)
+            return child
         else:
             self.data = data
             if name is not None:
                 self.name = name
+            return self
 
 
     @classmethod
@@ -35,10 +38,10 @@ class Variant:
             old_matrix = Variant.relation_matrix
             new_length = num_of_variants  # name change for clarity
 
-            # e^(-1 *(Delta(data2) / range(data2)) * (number of variants between))
+            # e^(-1 *(Delta(data2) / range(data2)))
             variant_relation = np.array([
-                [np.exp(-1 * (abs(Variant.current_data_set[j] - Variant.current_data_set[i]) / range_of_variant_data)
-                        * abs(j - i)) if j != i else 1
+                [np.exp(-1 * (abs(Variant.current_data_set[j] - Variant.current_data_set[i]) / range_of_variant_data))
+                 if j != i else 1
                  for j in range(new_length)]
                 for i in range(new_length)])
 

@@ -1,4 +1,5 @@
 from line_profiler import LineProfiler
+import datetime
 
 from scripts.SIR_simulation_files.SIR_system import SIR
 import numpy as np
@@ -22,4 +23,11 @@ if __name__ == '__main__':
     profiler.add_function(SIR.set_node_recovery)
 
     profiler.run("execute.run()")
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%m-%d_%H-%M-%S")
+    filename = f"ProfileData_{formatted_datetime}.lprof"
+    profiler.dump_stats(filename)
+
     profiler.print_stats()
+
+
