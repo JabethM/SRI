@@ -2,6 +2,8 @@ import numpy as np
 import random
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.cm as ptcm
+from colour_type import node_colour
 
 
 class SIRS():
@@ -11,7 +13,7 @@ class SIRS():
     to use (initialisation) and the probability of transition between states (p1, p2 and p3).
     """
 
-    def __init__(self, nodes, initialisation=(0, 0.1), p1=0.5, p2=0.1, p3=0.015):
+    def __init__(self, nodes, initialisation=(0, 0.1), variants=1, ps=None):
         """
 
         :param nodes: total number of nodes in our system :param initialisation: A tuple where the first parameter
@@ -41,13 +43,18 @@ class SIRS():
         :param p2: fixed probability that any given infected node recovers
         :param p3: fixed probability that any given recovered node becomes susceptible
         """
+        self.probabilities = [0.1, 0.3, 0.4]  # exists soley so that I remember to mutate for different models
+        if ps is None:
+            ps = np.random.rand(1, len(self.probabilities))
+        else:
+            assert (np.shape(ps)[0] == variants)
+        assert (np.shape(ps)[1] == len(self.probabilities))
+
         self.dt = 0.1
         self.time = 0
-        self.p1 = p1
-        self.p2 = p2
-        self.p3 = p3
-        self.P = [self.p1, self.p2, self.p3]
 
+        self.P = np.array(ps)
+        self.variants = variants
         self.num_nodes = nodes
         self.G = None
 
@@ -61,7 +68,7 @@ class SIRS():
         if init_tuple[0] == 0:
             self.G = nx.erdos_renyi_graph(self.num_nodes, init_tuple[1])
         elif init_tuple[0] == 1:
-            self.G = nx.watts_strogatz_graph(self. num_nodes, init_tuple[1], init_tuple[2])
+            self.G = nx.watts_strogatz_graph(self.num_nodes, init_tuple[1], init_tuple[2])
         # Scale Free
         elif init_tuple[0] == 2:
             self.G = nx.barabasi_albert_graph(self.num_nodes, init_tuple[1])
@@ -80,16 +87,20 @@ class SIRS():
 
         :return: the instance network self.G
         """
-        infected_node = random.randint(0, self.num_nodes - 1)
-        state_dict = {i: 0 for i in range(self.num_nodes)}
-        state_dict[infected_node] = 1
+
+        infected_nodes = np.random.randint(0, self.num_nodes - 1, self.variants)
+
+        state_dict = {i: np.zeros(self.variants) for i in range(self.num_nodes)}
+
+        for v in range(self.variants):
+            state_dict[infected_nodes[v]][v] = 1
 
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
 
     def iterate(self):
         H = self.G.copy()
-        probs = np.random.random(self.num_nodes)
+        probs = np.random.random((self.num_nodes, self.variants))
         states = np.array([attribute.get("state") for node, attribute in H.nodes(data=True)])
 
         for i in range(len(states)):
@@ -108,8 +119,29 @@ class SIRS():
                 self.G.nodes[i]["state"] = (states[i] + 1) % 3
 
     def colors(self):
-        colors = ['green', 'red', 'blue']
-        node_colors = [colors[data.get("state")] for node, data in self.G.nodes(data=True)]
+        if self.variants >= 1:
+            cm = ptcm.get_cmap('gist_rainbow')
+            num_colours = self.variants * len(self.probabilities)
+            colors = [cm(1. * i / num_colours) for i in range(num_colours)]
+            colors = [node_colour(i) for i in colors]
+        else:
+            colors = ['green', 'red', 'blue']
+
+        node_colors = []
+        for node, data in self.G.nodes(data=True):
+            assert (np.count_nonzero(data == 1) <= 1)
+            importance_of_state = [1, 2]
+            disease_variant = 0
+
+            for value in importance_of_state:
+                if value in data:
+                    disease_variant = np.where(data.get("state") == value)[0][-1]  # node marked by newest variant
+                    break
+
+            state = (self.variants * disease_variant) + int(data.get("state")[disease_variant])
+            node_colors.append(colors[state])
+
+        # node_colors = [colors[data.get("state")] for node, data in self.G.nodes(data=True)]
         return node_colors
 
     def low_dim_draw(self):

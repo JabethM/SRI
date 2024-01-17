@@ -6,7 +6,7 @@ matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from system_generator import SIRS
+from SIRS_single import SIRS
 import mpl_toolkits.mplot3d.art3d as art3d
 
 dt = None
@@ -57,7 +57,7 @@ def run(nodes, typ, p1, p2, p3):
     dt = 0.1
     tMax = 1000
 
-    sim = SIRS(nodes, typ, p1, p2, p3)
+    sim = SIRS(nodes, typ, variants=2, ps=[[p1, p2, p3], [0, 0, 0]])
 
     fig = plt.figure(figsize=(10, 6))
 
@@ -127,8 +127,21 @@ def v_set_ad(n, a):
 
 
 def triple_array(single):
-    repeat = np.repeat(single, 3)
-    tripled = repeat.reshape((np.shape(node_plt)))
+    triple = 3
+    z = np.shape(node_plt)
+
+    repeat = np.tile(single, (1, triple))
+
+    a = np.shape(single)
+    if len(a) > 1:
+        b = np.shape(single)[0] * 3
+        c = np.shape(single)[1]
+
+        repeat = np.reshape(repeat, (b, c))
+        tripled = list(map(tuple, repeat))
+    else:
+        repeat = np.repeat(single, triple)
+        tripled = repeat.reshape((np.shape(node_plt)))
     return tripled
 
 
@@ -183,7 +196,7 @@ if __name__ == '__main__':
 
     # configuration = {"nodes": 100, "init": (3, [20, 40, 27, 13], probs)}
     # print(probs)
-    # configuration = {"nodes": 100, "init": (2, 2)}
+    configuration = {"nodes": 100, "init": (2, 2)}
     # configuration = {"node": 50, "init": (1, 5, 0.1)}
-    configuration = {}
+    # configuration = {}
     run_configs(config=configuration)
