@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 end = False
 seed = 31324526
 np.random.seed(seed)
-num_of_variants = 7
+num_of_variants = 10
 np.random.seed(seed)
 probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
-
+probs = tuple([781, 718])
 execute = SIR(100, initialisation=(0, 0.1), variants=num_of_variants, probabilities=probs, seed=seed)
 
 num_of_infected = np.zeros((num_of_variants, 1))
@@ -30,7 +30,7 @@ while not end:
     num_of_infected = np.hstack((num_of_infected, infected_lengths.reshape(-1, 1)))
     num_of_recovered = np.hstack((num_of_recovered, recovered_lengths.reshape(-1, 1)))
 
-    if execute.time > 300:
+    if execute.time > 1000:
         end = True
 
 count = len(num_of_infected[0])

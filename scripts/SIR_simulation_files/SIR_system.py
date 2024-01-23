@@ -91,7 +91,6 @@ class SIR:
             self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
                                              self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
 
-
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
             while repeated is True:
@@ -100,8 +99,6 @@ class SIR:
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
-
-
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))

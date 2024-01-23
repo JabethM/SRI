@@ -6,11 +6,8 @@ matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-<<<<<<<< HEAD:scripts/SIRS_simulation_files/network_animation.py
-from SIRS_system import SIRS
-========
+from scripts.SIRS_simulation_files.SIRS_system import SIRS
 from SIRS_single import SIRS
->>>>>>>> main:code/network animation.py
 import mpl_toolkits.mplot3d.art3d as art3d
 
 dt = None

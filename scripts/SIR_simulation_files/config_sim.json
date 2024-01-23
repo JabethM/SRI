@@ -1,0 +1,25 @@
+{
+  "name": "sir_sim_config_",
+  "version": "1.0.0",
+
+  "internal_params": {
+    "new_disease_rate": 0.0025,
+    "new_infection_std_dev": 2,
+    "variant_info": {
+      "data_range": 1000,
+      "data_std_dev": 50
+    }
+
+  },
+  "input_params": {
+    "number_of_nodes": 150,
+    "infection_rate": 6,
+    "recovery_rate": 5,
+    "maximum_num_of_variants": 9,
+    "network_info": {
+      "type_of_network": 0,
+      "rate_of_connection": 0.1
+    }
+  }
+
+}
