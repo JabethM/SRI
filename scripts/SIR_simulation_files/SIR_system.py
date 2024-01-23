@@ -8,7 +8,7 @@ from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.08
+    NEW_DISEASE_CHANCE = 0.0025
 
     def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
                  epsilon=300):
@@ -91,7 +91,6 @@ class SIR:
             self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
                                              self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
 
-
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
             while repeated is True:
@@ -100,8 +99,6 @@ class SIR:
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
-
-
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))
@@ -136,14 +133,14 @@ class SIR:
 
         tis_empty = all(not tis for tis in temp_infected_set)
 
-        nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set, temp_rec_set)
+        nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set, temp_rec_set)
 
         # No more actions? end
         numpy_gillespe = np.array(gillespe_line)
         if np.all(numpy_gillespe[..., 0] == 0):
             self.end = True
             return None
-
+        self.dt = np.random.exponential(1/rate_total)
         gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
         choices = []
         for i in range(3):
@@ -177,7 +174,6 @@ class SIR:
         return victim, choices[0], infect_others
 
     def choice_probability_setup(self, temp_infected_set, temp_rec_set):
-        initial_buffer = 10
         iterator = range(len(temp_rec_set))
 
         nbs = [[node for node in
@@ -187,15 +183,18 @@ class SIR:
         # Randomly Choose one of 2 x N outcomes where N represents the different variants
         possible_outcomes = []
         gillespe_line = []
-
+        rate_total = 0
         for variant in range(self.variant_count):
             inf_nbs_flat = list(chain(*nbs[variant]))
 
-            gillespe_line.append([[len(inf_nbs_flat), initial_buffer * self.P[variant, 0]],
-                                  [len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]]])
+            rate_total += len(inf_nbs_flat) * self.P[variant, 0] + \
+                          len(temp_infected_set[variant]) + self.P[variant, 1]
+
+            gillespe_line.append([[len(inf_nbs_flat), self.P[variant, 0]],
+                                  [len(temp_infected_set[variant]), self.P[variant, 1]]])
             possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
-        return nbs, gillespe_line, possible_outcomes
+        return nbs, gillespe_line, possible_outcomes, rate_total
 
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
@@ -277,12 +276,12 @@ class SIR:
         print(self.P)
         print(self.variant_count)
 
-    def step_run(self, dt=0.1):
+    def step_run(self):
         print(self.variant_count)
 
         if not self.end:
             self.iterate()
-            self.time = round(self.time + dt, 2)
+            self.time = round(self.time + self.dt, 7)
             print(self.time)
 
             if self.time >= self.end_time:
