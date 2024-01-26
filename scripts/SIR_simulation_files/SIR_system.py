@@ -8,14 +8,13 @@ from itertools import chain
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.08
+    NEW_DISEASE_CHANCE = 0.0025
 
     def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
                  epsilon=300):
 
         if probabilities is None:
             probabilities = (0.5, 0.5)
-
         self.num_of_variants = variants
         # Increments everytime a new variant is added to the system
         self.variant_count = 0
@@ -31,9 +30,13 @@ class SIR:
         self.end_time = end_time
         np.random.seed(seed)
         self.epsilon = epsilon
+        self.steps = 0
 
-        self.P = np.zeros((variants, 2))
-        self.P[0] = np.asarray(probabilities)
+        self.trans_time = np.zeros((variants, 2))
+        self.trans_time[0] = np.asarray(probabilities)
+
+        self.rates = np.zeros((variants, 2))
+        self.rates[0] = 1 / self.trans_time[0]
 
         self.num_nodes = nodes
         self.G = None
@@ -88,8 +91,9 @@ class SIR:
             if parent is None:
                 parent = self.root
 
-            self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
-                                             self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
+            self.trans_time[self.variant_count] = abs(self.variant_count - 1 +
+                                                      self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
+            self.rates[self.variant_count] = 1 / self.trans_time[self.variant_count]
 
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
@@ -133,14 +137,14 @@ class SIR:
 
         tis_empty = all(not tis for tis in temp_infected_set)
 
-        nbs, gillespe_line, possible_outcomes = self.choice_probability_setup(temp_infected_set, temp_rec_set)
+        nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set, temp_rec_set)
 
         # No more actions? end
         numpy_gillespe = np.array(gillespe_line)
         if np.all(numpy_gillespe[..., 0] == 0):
             self.end = True
             return None
-
+        self.dt = (1/rate_total) * np.log(1/(np.random.rand()))
         gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
         choices = []
         for i in range(3):
@@ -174,7 +178,6 @@ class SIR:
         return victim, choices[0], infect_others
 
     def choice_probability_setup(self, temp_infected_set, temp_rec_set):
-        initial_buffer = 10
         iterator = range(len(temp_rec_set))
 
         nbs = [[node for node in
@@ -184,15 +187,18 @@ class SIR:
         # Randomly Choose one of 2 x N outcomes where N represents the different variants
         possible_outcomes = []
         gillespe_line = []
-
+        rate_total = 0
         for variant in range(self.variant_count):
             inf_nbs_flat = list(chain(*nbs[variant]))
 
-            gillespe_line.append([[len(inf_nbs_flat), initial_buffer * self.P[variant, 0]],
-                                  [len(temp_infected_set[variant]), initial_buffer * self.P[variant, 1]]])
+            rate_total += len(inf_nbs_flat) * self.rates[variant, 0] + \
+                          len(temp_infected_set[variant]) + self.rates[variant, 1]
+
+            gillespe_line.append([[len(inf_nbs_flat), self.rates[variant, 0]],
+                                  [len(temp_infected_set[variant]), self.rates[variant, 1]]])
             possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
-        return nbs, gillespe_line, possible_outcomes
+        return nbs, gillespe_line, possible_outcomes, rate_total
 
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
@@ -271,17 +277,18 @@ class SIR:
             print(self.time)
             if self.time >= self.end_time:
                 self.end = True
-        print(self.P)
+        print(self.rates)
         print(self.variant_count)
 
-    def step_run(self, dt=0.1):
+    def step_run(self):
         print(self.variant_count)
 
         if not self.end:
             self.iterate()
-            self.time = round(self.time + dt, 2)
-            print(self.time)
-
+            self.time = round(self.time + self.dt, 7)
+            print("time: " + str(self.time))
+            self.steps += 1
+            print("steps: " + str(self.steps))
             if self.time >= self.end_time:
                 self.end = True
 

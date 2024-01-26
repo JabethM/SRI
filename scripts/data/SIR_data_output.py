@@ -4,17 +4,16 @@ import matplotlib.pyplot as plt
 
 
 end = False
-seed = 31324526
+seed = None
 np.random.seed(seed)
 num_of_variants = 10
 np.random.seed(seed)
-probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
-probs = tuple([781, 718])
-execute = SIR(100, initialisation=(0, 0.1), variants=num_of_variants, probabilities=probs, seed=seed)
+probs = (7, 9)
+execute = SIR(1000, initialisation=(0, 0.01), variants=num_of_variants, probabilities=probs, seed=seed, epsilon=4)
 
 num_of_infected = np.zeros((num_of_variants, 1))
 num_of_recovered = np.zeros((num_of_variants, 1))
-
+time = np.array([0])
 while not end:
     end = execute.step_run()
     infected_sets = execute.infected_set
@@ -29,15 +28,15 @@ while not end:
 
     num_of_infected = np.hstack((num_of_infected, infected_lengths.reshape(-1, 1)))
     num_of_recovered = np.hstack((num_of_recovered, recovered_lengths.reshape(-1, 1)))
-
-    if execute.time > 1000:
+    time = np.append(time, execute.time)
+    if execute.time > 100:
         end = True
 
 count = len(num_of_infected[0])
 x = np.arange(count)
 
 for v in range(num_of_variants):
-    plt.plot(x, num_of_infected[v], label=(chr(ord('A') + v)))
+    plt.plot(time, num_of_infected[v], label=(chr(ord('A') + v)))
 
 execute.root.print_tree(execute.root)
 
