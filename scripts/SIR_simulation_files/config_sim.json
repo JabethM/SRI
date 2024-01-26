@@ -18,8 +18,10 @@
     "maximum_num_of_variants": 9,
     "network_info": {
       "type_of_network": 0,
-      "rate_of_connection": 0.1
-    }
+      "network_properties": [0.1]
+    },
+    "end_time" : 10,
+    "seed": null
   }
 
 }

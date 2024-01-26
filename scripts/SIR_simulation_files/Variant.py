@@ -7,11 +7,12 @@ class Variant:
     current_data_set = []
 
     def __init__(self, data, name=None):
+        self.name = name
+        self.data = data
+
         self.left = None
         self.right = None
         self.parent = None
-        self.data = data
-        self.name = name
         self.children = []
 
     def insert(self, data, name=None):

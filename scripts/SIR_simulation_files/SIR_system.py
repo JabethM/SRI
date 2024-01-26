@@ -5,17 +5,50 @@ import random
 import networkx as nx
 from scripts.SIR_simulation_files.Variant import Variant
 from itertools import chain
+import json
 
 
 class SIR:
-    NEW_DISEASE_CHANCE = 0.0025
 
-    def __init__(self, nodes, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
-                 epsilon=300):
+    def __init__(self, nodes=150, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
+                 epsilon=300, config_file=None, delta=50):
 
-        if probabilities is None:
-            probabilities = (0.5, 0.5)
-        self.num_of_variants = variants
+        if config_file is not None:
+            # Simulation Initialised with Configuration JSON File
+            with open(config_file, 'r') as file:
+                config_data = json.load(file)
+            # Internal Params
+            self.new_disease_chance = config_data["internal_params"]["new_disease_rate"]
+            self.epsilon = config_file["internal_params"]["new_infection_std_dev"]
+            self.delta = config_file["internal_params"]["variant_info"]["data_std_dev"]
+            self.picking_set = config_file["internal_params"]["variant_info"]["data_range"]
+            # Input Params
+            self.num_of_variants = config_file["input_params"]["maximum_num_of_variants"]
+            self.end_time = config_file["input_params"]["end_time"]
+
+            infection_rate = config_file["input_params"]["infection_rate"]
+            recovery_rate = config_file["input_params"]["recovery_rate"]
+            probabilities = (infection_rate, recovery_rate)
+
+            network_type = config_file["input_params"]["network_info"]["type_of_network"]
+            network_properties = config_file["input_params"]["network_info"]["network_properties"]
+            initialisation = tuple(network_properties.insert(0, network_type))
+            seed = config_file["input_params"]["seed"]
+        else:
+            # Simulation Initialised with Constructor arguments
+            if probabilities is None:
+                probabilities = (0.5, 0.5)
+            self.new_disease_chance = 0.0025
+            self.epsilon = epsilon
+            self.delta = delta
+            self.num_of_variants = variants
+            self.end_time = end_time
+
+        np.random.seed(seed)
+        self.dt = 0.1
+        self.time = 0
+        self.end = False
+
         # Increments everytime a new variant is added to the system
         self.variant_count = 0
         self.variants = []
@@ -77,8 +110,8 @@ class SIR:
             self.variant_count += 1
             return self.variant_count
 
-        delta = 50
-        picking_set = delta * self.num_of_variants
+        self.delta = 50
+        picking_set = self.delta * self.num_of_variants
 
         if self.variant_count == 0:
             variant_data = random.randint(1, picking_set)
@@ -99,7 +132,7 @@ class SIR:
             variant_data = 0
             while repeated is True:
                 # Ensures disease is considered 'close' to its parent
-                variant_data = abs(parent.data + self.transform_to_epsilon_range(np.random.rand(), 2 * delta))
+                variant_data = abs(parent.data + self.transform_to_epsilon_range(np.random.rand(), 2 * self.delta))
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
@@ -137,7 +170,8 @@ class SIR:
 
         tis_empty = all(not tis for tis in temp_infected_set)
 
-        nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set, temp_rec_set)
+        nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set,
+                                                                                          temp_rec_set)
 
         # No more actions? end
         numpy_gillespe = np.array(gillespe_line)
@@ -203,7 +237,7 @@ class SIR:
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
         new_disease = np.random.choice([True, False], size=1,
-                                       p=[self.NEW_DISEASE_CHANCE, 1 - self.NEW_DISEASE_CHANCE])
+                                       p=[self.new_disease_chance, 1 - self.new_disease_chance])
 
         if new_disease and self.variant_count < self.num_of_variants:
             variant = self.generate_new_disease(self.variants[variant]) - 1
@@ -292,7 +326,7 @@ class SIR:
             if self.time >= self.end_time:
                 self.end = True
 
-        return self.end
+        return self.time
 
 
 def main():
