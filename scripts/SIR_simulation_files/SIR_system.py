@@ -15,7 +15,6 @@ class SIR:
 
         if probabilities is None:
             probabilities = (0.5, 0.5)
-
         self.num_of_variants = variants
         # Increments everytime a new variant is added to the system
         self.variant_count = 0
@@ -31,9 +30,13 @@ class SIR:
         self.end_time = end_time
         np.random.seed(seed)
         self.epsilon = epsilon
+        self.steps = 0
 
-        self.P = np.zeros((variants, 2))
-        self.P[0] = np.asarray(probabilities)
+        self.trans_time = np.zeros((variants, 2))
+        self.trans_time[0] = np.asarray(probabilities)
+
+        self.rates = np.zeros((variants, 2))
+        self.rates[0] = 1 / self.trans_time[0]
 
         self.num_nodes = nodes
         self.G = None
@@ -88,8 +91,9 @@ class SIR:
             if parent is None:
                 parent = self.root
 
-            self.P[self.variant_count] = abs(self.P[self.variant_count - 1] +
-                                             self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
+            self.trans_time[self.variant_count] = abs(self.variant_count - 1 +
+                                                      self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
+            self.rates[self.variant_count] = 1 / self.trans_time[self.variant_count]
 
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
@@ -140,7 +144,7 @@ class SIR:
         if np.all(numpy_gillespe[..., 0] == 0):
             self.end = True
             return None
-        self.dt = np.random.exponential(1/rate_total)
+        self.dt = (1/rate_total) * np.log(1/(np.random.rand()))
         gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
         choices = []
         for i in range(3):
@@ -187,11 +191,11 @@ class SIR:
         for variant in range(self.variant_count):
             inf_nbs_flat = list(chain(*nbs[variant]))
 
-            rate_total += len(inf_nbs_flat) * self.P[variant, 0] + \
-                          len(temp_infected_set[variant]) + self.P[variant, 1]
+            rate_total += len(inf_nbs_flat) * self.rates[variant, 0] + \
+                          len(temp_infected_set[variant]) + self.rates[variant, 1]
 
-            gillespe_line.append([[len(inf_nbs_flat), self.P[variant, 0]],
-                                  [len(temp_infected_set[variant]), self.P[variant, 1]]])
+            gillespe_line.append([[len(inf_nbs_flat), self.rates[variant, 0]],
+                                  [len(temp_infected_set[variant]), self.rates[variant, 1]]])
             possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
         return nbs, gillespe_line, possible_outcomes, rate_total
@@ -273,7 +277,7 @@ class SIR:
             print(self.time)
             if self.time >= self.end_time:
                 self.end = True
-        print(self.P)
+        print(self.rates)
         print(self.variant_count)
 
     def step_run(self):
@@ -282,8 +286,9 @@ class SIR:
         if not self.end:
             self.iterate()
             self.time = round(self.time + self.dt, 7)
-            print(self.time)
-
+            print("time: " + str(self.time))
+            self.steps += 1
+            print("steps: " + str(self.steps))
             if self.time >= self.end_time:
                 self.end = True
 
