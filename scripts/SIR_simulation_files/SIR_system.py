@@ -19,21 +19,23 @@ class SIR:
                 config_data = json.load(file)
             # Internal Params
             self.new_disease_chance = config_data["internal_params"]["new_disease_rate"]
-            self.epsilon = config_file["internal_params"]["new_infection_std_dev"]
-            self.delta = config_file["internal_params"]["variant_info"]["data_std_dev"]
-            self.picking_set = config_file["internal_params"]["variant_info"]["data_range"]
+            self.epsilon = config_data["internal_params"]["new_infection_std_dev"]
+            self.delta = config_data["internal_params"]["variant_info"]["data_std_dev"]
+            self.picking_set = config_data["internal_params"]["variant_info"]["data_range"]
             # Input Params
-            self.num_of_variants = config_file["input_params"]["maximum_num_of_variants"]
-            self.end_time = config_file["input_params"]["end_time"]
+            self.num_of_variants = config_data["input_params"]["maximum_num_of_variants"]
+            self.end_time = config_data["input_params"]["end_time"]
 
-            infection_rate = config_file["input_params"]["infection_rate"]
-            recovery_rate = config_file["input_params"]["recovery_rate"]
+            self.num_nodes = config_data["input_params"]["number_of_nodes"]
+            infection_rate = config_data["input_params"]["transmission_time"]
+            recovery_rate = config_data["input_params"]["recovery_time"]
             probabilities = (infection_rate, recovery_rate)
 
-            network_type = config_file["input_params"]["network_info"]["type_of_network"]
-            network_properties = config_file["input_params"]["network_info"]["network_properties"]
-            initialisation = tuple(network_properties.insert(0, network_type))
-            seed = config_file["input_params"]["seed"]
+            network_type = config_data["input_params"]["network_info"]["type_of_network"]
+            network_properties = config_data["input_params"]["network_info"]["network_properties"]
+            network_properties.insert(0, network_type)
+            initialisation = tuple(network_properties)
+            seed = config_data["input_params"]["seed"]
         else:
             # Simulation Initialised with Constructor arguments
             if probabilities is None:
@@ -41,13 +43,17 @@ class SIR:
             self.new_disease_chance = 0.0025
             self.epsilon = epsilon
             self.delta = delta
+
+            self.num_nodes = nodes
             self.num_of_variants = variants
             self.end_time = end_time
 
         np.random.seed(seed)
         self.dt = 0.1
         self.time = 0
+        self.old_time = 0
         self.end = False
+        self.steps = 0
 
         # Increments everytime a new variant is added to the system
         self.variant_count = 0
@@ -55,23 +61,12 @@ class SIR:
         self.relation_matrix = None
         self.root = None
 
-        self.single_variant = True
-
-        self.dt = 0.1
-        self.time = 0
-        self.end = False
-        self.end_time = end_time
-        np.random.seed(seed)
-        self.epsilon = epsilon
-        self.steps = 0
-
-        self.trans_time = np.zeros((variants, 2))
+        self.trans_time = np.zeros((self.num_of_variants, 2))
         self.trans_time[0] = np.asarray(probabilities)
 
-        self.rates = np.zeros((variants, 2))
+        self.rates = np.zeros((self.num_of_variants, 2))
         self.rates[0] = 1 / self.trans_time[0]
 
-        self.num_nodes = nodes
         self.G = None
 
         """
@@ -136,6 +131,7 @@ class SIR:
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
+            # TODO: Grant existing survivors immunity to new disease at unique rate
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))
@@ -319,6 +315,7 @@ class SIR:
 
         if not self.end:
             self.iterate()
+            self.old_time = self.time
             self.time = round(self.time + self.dt, 7)
             print("time: " + str(self.time))
             self.steps += 1

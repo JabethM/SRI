@@ -12,13 +12,13 @@
 
   },
   "input_params": {
-    "number_of_nodes": 150,
-    "infection_rate": 6,
-    "recovery_rate": 5,
+    "number_of_nodes": 1000,
+    "transmission_time": 7,
+    "recovery_time": 9,
     "maximum_num_of_variants": 9,
     "network_info": {
       "type_of_network": 0,
-      "network_properties": [0.1]
+      "network_properties": [0.01]
     },
     "end_time" : 10,
     "seed": null
