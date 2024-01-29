@@ -14,10 +14,12 @@ relative_path = os.path.relpath(parent_folder, current_directory)
 file_path = os.path.join(relative_path, config_file)
 
 execute = SIR(config_file=file_path)
-
+num_of_nodes = execute.num_nodes
 number_of_variants = execute.num_of_variants
-end_time = execute.end_time
+end_steps = 25000
 
+# Set Up
+# ------------------------------------------------------------------------
 # Peak infected nodes; number and time
 peak_infection = np.zeros((number_of_variants, 2))
 
@@ -35,6 +37,7 @@ relationship_matrix = np.zeros((number_of_variants, number_of_variants))
 
 # Infected and Recovered populations at key points: Start of infection, Peak Infection
 data_sets = [[[], []] for _ in range(number_of_variants)]
+
 
 time = np.array([0])
 end = False
@@ -57,6 +60,7 @@ while not end:
     # Note Beginning and End of an Epidemic
     # ------------------------------------------------------------------------
     # > list of diseases that haven't "started" (AND) list of diseases who have infected more than 0 people
+
     infection_start_condition = (total_infection_time[:, -1] == 0) & (current_infection_num > 0)
 
     # > Note down the current time, mark disease as having started (aka 1)
@@ -84,10 +88,21 @@ while not end:
         rates_collected = True
 
         relationship_matrix = Variant.relation_matrix
-    # ------------------------------------------------------------------------
 
-    if current_time >= end_time:
-        end = True
+    # End conditions
+    # ------------------------------------------------------------------------
+    end = execute.end
+
+    check = 0
+    if rates_collected and (execute.steps >= end_steps):
+        is_undying = np.where(variant_rate_properties[:, 0] > 5 * variant_rate_properties[:, 1])
+        carrier_majority = current_infection_num > 0.9 * num_of_nodes
+        end = end or np.any(is_undying & carrier_majority)
+
+        check += 1
+        if check >= 100:
+            check = 0
+            end_steps += 1000
 
 # Any continuing disease will be marked as not having finished
 undying_infections_condition = (total_infection_time[:, -1] == 1) & (current_infection_num > 0)

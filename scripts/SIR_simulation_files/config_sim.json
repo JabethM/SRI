@@ -13,8 +13,8 @@
   },
   "input_params": {
     "number_of_nodes": 1000,
-    "transmission_time": 7,
-    "recovery_time": 9,
+    "transmission_time": 10.5,
+    "recovery_time": 14,
     "maximum_num_of_variants": 9,
     "network_info": {
       "type_of_network": 0,

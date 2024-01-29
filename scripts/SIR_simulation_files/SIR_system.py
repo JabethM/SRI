@@ -1,7 +1,6 @@
 import copy
 
 import numpy as np
-import random
 import networkx as nx
 from scripts.SIR_simulation_files.Variant import Variant
 from itertools import chain
@@ -100,7 +99,7 @@ class SIR:
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
 
-    def generate_new_disease(self, parent=None):
+    def generate_new_disease(self, parent=None, exception=None):
         if self.variant_count >= self.num_of_variants:
             self.variant_count += 1
             return self.variant_count
@@ -109,7 +108,7 @@ class SIR:
         picking_set = self.delta * self.num_of_variants
 
         if self.variant_count == 0:
-            variant_data = random.randint(1, picking_set)
+            variant_data = np.random.randint(1, picking_set)
             self.root = Variant(variant_data)
             Variant.current_data_set.append(variant_data)
             if parent is None:
@@ -119,19 +118,18 @@ class SIR:
             if parent is None:
                 parent = self.root
 
-            self.trans_time[self.variant_count] = abs(self.variant_count - 1 +
-                                                      self.transform_to_epsilon_range(np.random.rand(2), self.epsilon))
+            self.trans_time[self.variant_count] = abs(np.random.normal(self.trans_time[self.variant_count - 1],
+                                                                       scale=self.epsilon))
             self.rates[self.variant_count] = 1 / self.trans_time[self.variant_count]
 
             repeated = True  # Prevents the same number being chosen
             variant_data = 0
             while repeated is True:
                 # Ensures disease is considered 'close' to its parent
-                variant_data = abs(parent.data + self.transform_to_epsilon_range(np.random.rand(), 2 * self.delta))
+                variant_data = np.random.normal(parent.data, scale=self.delta)
                 if variant_data not in Variant.current_data_set:
                     Variant.current_data_set.append(variant_data)
                     repeated = False
-            # TODO: Grant existing survivors immunity to new disease at unique rate
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))
@@ -139,6 +137,11 @@ class SIR:
 
         self.variants.append(disease)
         self.variant_count += 1
+
+        if self.variant_count > 1:
+            if exception is None:
+                exception = False
+            self.backdate_immunity(exception)
 
         return self.variant_count
 
@@ -164,8 +167,6 @@ class SIR:
         temp_infected_set = self.infected_set[:self.variant_count]
         temp_rec_set = self.recovered_set[:self.variant_count]
 
-        tis_empty = all(not tis for tis in temp_infected_set)
-
         nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set,
                                                                                           temp_rec_set)
 
@@ -174,7 +175,7 @@ class SIR:
         if np.all(numpy_gillespe[..., 0] == 0):
             self.end = True
             return None
-        self.dt = (1/rate_total) * np.log(1/(np.random.rand()))
+        self.dt = (1 / rate_total) * np.log(1 / (np.random.rand()))
         gillespe_hold = gillespe_line  # temporary array which will be used to examine parts of the line
         choices = []
         for i in range(3):
@@ -236,7 +237,7 @@ class SIR:
                                        p=[self.new_disease_chance, 1 - self.new_disease_chance])
 
         if new_disease and self.variant_count < self.num_of_variants:
-            variant = self.generate_new_disease(self.variants[variant]) - 1
+            variant = self.generate_new_disease(self.variants[variant], exception=node) - 1
 
         if self.end or node in self.recovered_set[variant]:
             return graph
@@ -260,6 +261,22 @@ class SIR:
             graph.nodes(data=True)[node]["state"][i] = 2
         return graph
 
+    def backdate_immunity(self, exception):
+        relation_array = Variant.get_relation()[self.variant_count - 1]
+        for variant in range(self.variant_count - 1):
+            probability = [relation_array[variant], 1 - relation_array[variant]]
+            nodes = np.array(list(self.recovered_set[variant]))
+
+            immunity_developed = np.random.choice([True, False], size=len(nodes), p=probability)
+            immune_nodes = nodes[np.where(immunity_developed)[0]]
+            immune_nodes = immune_nodes[immune_nodes != exception]
+            for node in immune_nodes:
+                self.G.nodes(data=True)[node]["state"][self.variant_count - 1] = 2
+
+            self.recovered_set[self.variant_count - 1].update(set(immune_nodes))
+
+        return self.G
+
     # ###### START OF HELPERS ##### #
     def double_infection_check(self, graph, node):
         node_state = graph.nodes(data=True)[node]["state"]
@@ -279,10 +296,6 @@ class SIR:
         removal_set = set_of_nodes & removal_set
         nbs = [[n for n in self.G.neighbors(node) if n not in removal_set] for node in set_of_nodes]
         return nbs
-
-    def transform_to_epsilon_range(self, x, epsilon):
-        # Takes a rational x and puts it in the range of +- epsilon
-        return 2 * epsilon * x - epsilon
 
     # ###### END OF HELPERS ##### #
 
@@ -311,10 +324,9 @@ class SIR:
         print(self.variant_count)
 
     def step_run(self):
-        print(self.variant_count)
-
         if not self.end:
             self.iterate()
+
             self.old_time = self.time
             self.time = round(self.time + self.dt, 7)
             print("time: " + str(self.time))
@@ -322,7 +334,7 @@ class SIR:
             print("steps: " + str(self.steps))
             if self.time >= self.end_time:
                 self.end = True
-
+        print(self.variant_count)
         return self.time
 
 
