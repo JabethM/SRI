@@ -20,7 +20,7 @@
       "type_of_network": 0,
       "network_properties": [0.01]
     },
-    "end_time" : 10,
+    "end_time" : 100000,
     "seed": null
   }
 

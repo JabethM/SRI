@@ -1,6 +1,6 @@
 import numpy as np
 import random
-
+import json
 
 class Variant:
     relation_matrix = [[1]]
@@ -15,6 +15,9 @@ class Variant:
         self.parent = None
         self.children = []
 
+        self.infectious_rate = 10
+        self.recovery_rate = 10
+
     def insert(self, data, name=None):
         if data != self.data:
             child = Variant(data, name)
@@ -26,6 +29,23 @@ class Variant:
                 self.name = name
             return self
 
+    def serialize(self, node):
+        if node is None:
+            return None
+
+        serialized_node = {
+            'name': node.name,
+            'value': node.data,
+            'infectious_rate': node.infectious_rate,
+            'recovery_rate': node.recovery_rate,
+
+        }
+        for index, child in enumerate(node.children):
+            serialized_node["variant_" + child.name] = self.serialize(child)
+        return serialized_node
+
+    def to_json(self, root):
+        return self.serialize(root)
 
     @classmethod
     def add_to_relation_matrix(cls):

@@ -133,6 +133,8 @@ class SIR:
 
         name = ord('A') + self.variant_count
         disease = parent.insert(variant_data, name=chr(name))
+        disease.infectious_rate = self.rates[self.variant_count, 0]
+        disease.recovery_rate = self.rates[self.variant_count, 1]
         Variant.add_to_relation_matrix()
 
         self.variants.append(disease)
