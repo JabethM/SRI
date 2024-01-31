@@ -1,5 +1,6 @@
-from scripts.SIR_simulation_files.SIR_system import SIR
-from scripts.SIR_simulation_files.SIR_system import Variant
+
+from ..SIR_simulation_files.SIR_system import SIR
+from ..SIR_simulation_files.SIR_system import Variant
 import numpy as np
 import networkx as nx
 import os
@@ -12,7 +13,12 @@ import scipy.sparse as sp
 
 current_directory = os.getcwd()
 config_file = "config_sim.json"
-simulation_folder = os.path.join('..', 'SIR_simulation_files')
+simulation_folder = os.path.join('scripts', 'SIR_simulation_files')
+
+print(current_directory)
+print(config_file)
+print(simulation_folder)
+
 
 sim_relative_path = os.path.relpath(simulation_folder, current_directory)
 config_file_path = os.path.join(sim_relative_path, config_file)
