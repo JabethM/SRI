@@ -331,12 +331,16 @@ class SIR:
 
             self.old_time = self.time
             self.time = round(self.time + self.dt, 7)
-            print("time: " + str(self.time))
             self.steps += 1
-            print("steps: " + str(self.steps))
+
+            if (self.steps % 1000) == 0:
+                print(".", end='', flush=True)
+            if (self.steps % 10000) == 0:
+                print()
+
             if self.time >= self.end_time:
                 self.end = True
-        print(self.variant_count)
+        #print(self.variant_count)
         return self.time
 
 

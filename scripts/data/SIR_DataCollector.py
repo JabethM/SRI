@@ -1,6 +1,6 @@
-
 from ..SIR_simulation_files.SIR_system import SIR
 from ..SIR_simulation_files.SIR_system import Variant
+from argparse import ArgumentParser
 import numpy as np
 import networkx as nx
 import os
@@ -11,18 +11,20 @@ import csv
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
 
+par = ArgumentParser()
+
 current_directory = os.getcwd()
 config_file = "config_sim.json"
 simulation_folder = os.path.join('scripts', 'SIR_simulation_files')
-
-print(current_directory)
-print(config_file)
-print(simulation_folder)
-
-
 sim_relative_path = os.path.relpath(simulation_folder, current_directory)
-config_file_path = os.path.join(sim_relative_path, config_file)
+default_config_file_path = os.path.join(sim_relative_path, config_file)
 
+par.add_argument("-f", "--config-file", type=str, default=default_config_file_path, help="Path for JSON config file")
+args = par.parse_args()
+
+config_file_path = args.config_file
+
+print("Initalising...")
 execute = SIR(config_file=config_file_path)
 num_of_nodes = execute.num_nodes
 number_of_variants = execute.num_of_variants
@@ -53,6 +55,7 @@ plot_x = [0]
 time = np.array([0])
 end = False
 
+print("Running Sim...")
 while not end:
     current_time = execute.step_run()
     previous_time = execute.old_time
@@ -117,7 +120,8 @@ while not end:
         if check >= 100:
             check = 0
             end_steps += 1000
-
+print()
+print("Data Dump...")
 # Data Dump
 # ------------------------------------------------------------------------
 data_folder_name = str(uuid.uuid4())
@@ -160,7 +164,7 @@ for v in range(number_of_variants):
     plt.plot(plot_x, plot_y[v], label=(chr(ord('A') + v)))
 plt.xlabel('Time (days)')
 plt.ylabel('Number of Infected')
-
+plt.legend()
 plt.savefig(os.path.join(data_output_path, 'Infections_vs_Time_plot.png'))
 
 
