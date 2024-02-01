@@ -3,11 +3,11 @@
   "version": "1.0.0",
 
   "internal_params": {
-    "new_disease_rate": 0.0025,
+    "new_disease_rate": 0.0015,
     "new_infection_std_dev": 2,
     "variant_info": {
       "data_range": 1000,
-      "data_std_dev": 150,
+      "data_std_dev": 200,
       "relationship_dropoff_coefficient": 0.000160943791243
     }
 

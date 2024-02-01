@@ -7,8 +7,7 @@
     "new_infection_std_dev": 2,
     "variant_info": {
       "data_range": 1000,
-      "data_std_dev": 150,
-      "relationship_dropoff_coefficient": 0.000160943791243
+      "data_std_dev": 50
     }
 
   },

@@ -28,7 +28,7 @@ print("Initalising...")
 execute = SIR(config_file=config_file_path)
 num_of_nodes = execute.num_nodes
 number_of_variants = execute.num_of_variants
-end_steps = 25000
+end_steps = 50000
 
 # Set Up
 # ------------------------------------------------------------------------

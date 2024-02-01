@@ -7,19 +7,18 @@
     "new_infection_std_dev": 2,
     "variant_info": {
       "data_range": 1000,
-      "data_std_dev": 150,
-      "relationship_dropoff_coefficient": 0.000160943791243
+      "data_std_dev": 50
     }
 
   },
   "input_params": {
-    "number_of_nodes": 10000,
-    "transmission_time": 10.5,
+    "number_of_nodes": 1000,
+    "transmission_time": 12,
     "recovery_time": 14,
     "maximum_num_of_variants": 9,
     "network_info": {
       "type_of_network": 0,
-      "network_properties": [0.001]
+      "network_properties": [0.02]
     },
     "end_time" : 100000,
     "seed": null

@@ -5,6 +5,8 @@ import json
 class Variant:
     relation_matrix = [[1]]
     current_data_set = []
+    data_range = 10
+    rho = 1
 
     def __init__(self, data, name=None):
         self.name = name
@@ -59,10 +61,9 @@ class Variant:
             old_matrix = Variant.relation_matrix
             new_length = num_of_variants  # name change for clarity
 
-            # e^(-1 *(Delta(data2) / range(data2)))
+            # e^(-rho *(Delta(data-value_{i,j})^2))
             variant_relation = np.array([
-                [np.exp(-1 * (abs(Variant.current_data_set[j] - Variant.current_data_set[i]) / range_of_variant_data))
-                 if j != i else 1
+                [np.exp(-cls.rho * (Variant.current_data_set[j] - Variant.current_data_set[i])**2)
                  for j in range(new_length)]
                 for i in range(new_length)])
 

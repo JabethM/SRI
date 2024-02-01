@@ -10,7 +10,7 @@ import json
 class SIR:
 
     def __init__(self, nodes=150, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
-                 epsilon=300, config_file=None, delta=50):
+                 epsilon=300, config_file=None, delta=50, picking_set=500, rho=((-np.log(0.4)/(100^2)))) :
 
         if config_file is not None:
             # Simulation Initialised with Configuration JSON File
@@ -21,6 +21,7 @@ class SIR:
             self.epsilon = config_data["internal_params"]["new_infection_std_dev"]
             self.delta = config_data["internal_params"]["variant_info"]["data_std_dev"]
             self.picking_set = config_data["internal_params"]["variant_info"]["data_range"]
+            self.rho = config_data["internal_params"]["variant_info"]["relationship_dropoff_coefficient"]
             # Input Params
             self.num_of_variants = config_data["input_params"]["maximum_num_of_variants"]
             self.end_time = config_data["input_params"]["end_time"]
@@ -42,6 +43,8 @@ class SIR:
             self.new_disease_chance = 0.0025
             self.epsilon = epsilon
             self.delta = delta
+            self.picking_set = picking_set
+            self.rho = rho
 
             self.num_nodes = nodes
             self.num_of_variants = variants
@@ -67,12 +70,9 @@ class SIR:
         self.rates[0] = 1 / self.trans_time[0]
 
         self.G = None
-
-        """
-        There's two approaches I could take, one which iterates through the entire graph and computes the next state
-        based on neighbours but if the graph doesnt percolate and has large number of nodes, this could become wildly 
-        inefficient.
-        """
+        Variant.data_range = self.picking_set
+        Variant.rho = self.rho
+        
         self.infected_set = [set() for v in range(self.num_of_variants)]
         self.recovered_set = [set() for v in range(self.num_of_variants)]
         self.possible_outcomes = []
@@ -104,11 +104,10 @@ class SIR:
             self.variant_count += 1
             return self.variant_count
 
-        self.delta = 50
-        picking_set = self.delta * self.num_of_variants
+        
 
         if self.variant_count == 0:
-            variant_data = np.random.randint(1, picking_set)
+            variant_data = float(np.random.randint(1, self.picking_set))
             self.root = Variant(variant_data)
             Variant.current_data_set.append(variant_data)
             if parent is None:
