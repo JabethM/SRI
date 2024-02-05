@@ -1,0 +1,18 @@
+{
+    "name": "A",
+    "value": 540.0,
+    "infectious_rate": 0.09523809523809523,
+    "recovery_rate": 0.07142857142857142,
+    "variant_B": {
+        "name": "B",
+        "value": 573.4398132771489,
+        "infectious_rate": 0.08333333333333333,
+        "recovery_rate": 0.07142857142857142
+    },
+    "variant_C": {
+        "name": "C",
+        "value": 487.63252657791435,
+        "infectious_rate": 0.06666666666666667,
+        "recovery_rate": 0.05
+    }
+}

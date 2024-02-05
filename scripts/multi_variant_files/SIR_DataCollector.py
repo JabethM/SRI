@@ -1,5 +1,5 @@
-from ..SIR_simulation_files.SIR_system import SIR
-from ..SIR_simulation_files.SIR_system import Variant
+from scripts.SIR_simulation_files.SIR_system import SIR
+from scripts.SIR_simulation_files.SIR_system import Variant
 from argparse import ArgumentParser
 import numpy as np
 import networkx as nx
@@ -89,7 +89,7 @@ while not end:
     total_infection_time[infection_end_condition, 1] = current_time
     total_infection_time[infection_end_condition, -1] = 2
 
-    # Store infected and recovered population data
+    # Store infected and recovered population multi_variant_files
     # ------------------------------------------------------------------------
     for i in range(len(data_sets)):
         # > if a disease has just started, mark down the infected and recovered
@@ -112,9 +112,10 @@ while not end:
 
     check = 0
     if rates_collected and (execute.steps >= end_steps):
-        is_undying = np.where(variant_rate_properties[:, 0] > 5 * variant_rate_properties[:, 1])[0]
+        is_undying = np.where(variant_rate_properties[:, 0] > variant_rate_properties[:, 1])[0]
         carrier_majority = current_infection_num > 0.9 * (num_of_nodes - current_recovered_num)
-        end = end or np.any(carrier_majority[is_undying])
+        leader_of_the_pack = np.argmax(current_infection_num)
+        end = end or (carrier_majority[leader_of_the_pack] and is_undying[leader_of_the_pack])
 
         check += 1
         if check >= 100:
@@ -168,7 +169,7 @@ plt.legend()
 plt.savefig(os.path.join(data_output_path, 'Infections_vs_Time_plot.png'))
 
 
-# > recovered data at key points (for network reconstruction)
+# > recovered multi_variant_files at key points (for network reconstruction)
 with open(os.path.join(data_output_path, 'recovered_data.csv'), 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
 

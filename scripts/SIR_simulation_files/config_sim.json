@@ -9,17 +9,23 @@
       "data_range": 1000,
       "data_std_dev": 150,
       "relationship_dropoff_coefficient": 0.000160943791243
+    },
+    "deterministic_spawning":{
+      "deterministic_mode": true,
+      "time_separation": 5,
+      "child_transmission_T": [12],
+      "child_recovery_T":[15],
+      "relation_matrix": [[1,0.4], [0.4, 1]]
     }
-
   },
   "input_params": {
-    "number_of_nodes": 10000,
+    "number_of_nodes": 1000,
     "transmission_time": 10.5,
-    "recovery_time": 14,
-    "maximum_num_of_variants": 9,
+    "recovery_time": 15,
+    "maximum_num_of_variants": 2,
     "network_info": {
       "type_of_network": 0,
-      "network_properties": [0.001]
+      "network_properties": [0.01]
     },
     "end_time" : 100000,
     "seed": null

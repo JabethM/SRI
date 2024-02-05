@@ -1,0 +1,6 @@
+{
+    "name": "A",
+    "value": 8.0,
+    "infectious_rate": 0.09523809523809523,
+    "recovery_rate": 0.07142857142857142
+}
