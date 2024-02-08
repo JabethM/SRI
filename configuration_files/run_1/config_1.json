@@ -1,0 +1,27 @@
+{
+    "name": "sir_sim_config_",
+    "version": "1.0.0",
+    "internal_params": {
+        "new_disease_rate": 0.0015,
+        "new_infection_std_dev": 2,
+        "variant_info": {
+            "data_range": 1000,
+            "data_std_dev": 200,
+            "relationship_dropoff_coefficient": 0.000160943791243
+        }
+    },
+    "input_params": {
+        "number_of_nodes": 1000,
+        "transmission_time": 7,
+        "recovery_time": 14,
+        "maximum_num_of_variants": 9,
+        "network_info": {
+            "type_of_network": 0,
+            "network_properties": [
+                0.01
+            ]
+        },
+        "end_time": 100000,
+        "seed": null
+    }
+}

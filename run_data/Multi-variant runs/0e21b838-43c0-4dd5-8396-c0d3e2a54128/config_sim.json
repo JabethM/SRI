@@ -13,13 +13,13 @@
 
   },
   "input_params": {
-    "number_of_nodes": 10000,
-    "transmission_time": 11,
+    "number_of_nodes": 1000,
+    "transmission_time": 6,
     "recovery_time": 14,
-    "maximum_num_of_variants": 2,
+    "maximum_num_of_variants": 9,
     "network_info": {
       "type_of_network": 0,
-      "network_properties": [0.001]
+      "network_properties": [0.01]
     },
     "end_time" : 100000,
     "seed": null
