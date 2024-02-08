@@ -12,16 +12,16 @@
     },
     "deterministic_spawning":{
       "deterministic_mode": true,
-      "time_separation": 5,
-      "child_transmission_T": [12],
-      "child_recovery_T":[15],
+      "time_separation": 20,
+      "child_transmission_T": [15],
+      "child_recovery_T":[20],
       "relation_matrix": [[1,0.4], [0.4, 1]]
     }
   },
   "input_params": {
     "number_of_nodes": 1000,
     "transmission_time": 10.5,
-    "recovery_time": 15,
+    "recovery_time": 14,
     "maximum_num_of_variants": 2,
     "network_info": {
       "type_of_network": 0,

@@ -10,7 +10,7 @@ import json
 class SIR:
 
     def __init__(self, nodes=150, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
-                 epsilon=300, config_file=None, delta=50, picking_set=500, rho=((-np.log(0.4)/(100^2)))) :
+                 epsilon=300, config_file=None, delta=50, picking_set=500, rho=((-np.log(0.4)/(100^2)))):
 
         if config_file is not None:
             # Simulation Initialised with Configuration JSON File
@@ -18,6 +18,9 @@ class SIR:
                 config_data = json.load(file)
             # Internal Params
             self.new_disease_chance = config_data["internal_params"]["new_disease_rate"]
+            self.deterministic_spawning = \
+                config_data["internal_params"]["deterministic_spawning"]["deterministic_mode"]
+
             self.epsilon = config_data["internal_params"]["new_infection_std_dev"]
             self.delta = config_data["internal_params"]["variant_info"]["data_std_dev"]
             self.picking_set = config_data["internal_params"]["variant_info"]["data_range"]
@@ -41,6 +44,8 @@ class SIR:
             if probabilities is None:
                 probabilities = (0.5, 0.5)
             self.new_disease_chance = 0.0025
+            self.deterministic_spawning = False
+
             self.epsilon = epsilon
             self.delta = delta
             self.picking_set = picking_set
@@ -69,6 +74,21 @@ class SIR:
         self.rates = np.zeros((self.num_of_variants, 2))
         self.rates[0] = 1 / self.trans_time[0]
 
+        if self.deterministic_spawning:
+            self.deterministic_count = 0
+            self.new_disease_spawn_time = \
+                config_data["internal_params"]["deterministic_spawning"]["time_separation"]
+
+            self.descendant_transmissions = \
+                config_data["internal_params"]["deterministic_spawning"]["child_transmission_T"]
+
+            self.descendant_recovery = \
+                config_data["internal_params"]["deterministic_spawning"]["child_recovery_T"]
+
+            self.determined_relationship_matrix = \
+                np.array(config_data["internal_params"]["deterministic_spawning"]["relation_matrix"])
+
+            assert (len(self.determined_relationship_matrix) == self.num_of_variants)
         self.G = None
         Variant.data_range = self.picking_set
         Variant.rho = self.rho
@@ -104,8 +124,6 @@ class SIR:
             self.variant_count += 1
             return self.variant_count
 
-        
-
         if self.variant_count == 0:
             variant_data = float(np.random.randint(1, self.picking_set))
             self.root = Variant(variant_data)
@@ -117,12 +135,17 @@ class SIR:
             if parent is None:
                 parent = self.root
 
-            self.trans_time[self.variant_count] = abs(np.random.normal(self.trans_time[self.variant_count - 1],
+            if not self.deterministic_spawning:
+                self.trans_time[self.variant_count] = abs(np.random.normal(self.trans_time[self.variant_count - 1],
                                                                        scale=self.epsilon))
+            else:
+                self.trans_time[self.variant_count] = [self.descendant_transmissions[self.variant_count - 1],
+                                                       self.descendant_recovery[self.variant_count - 1]]
+
+            variant_data = 0
             self.rates[self.variant_count] = 1 / self.trans_time[self.variant_count]
 
             repeated = True  # Prevents the same number being chosen
-            variant_data = 0
             while repeated is True:
                 # Ensures disease is considered 'close' to its parent
                 variant_data = np.random.normal(parent.data, scale=self.delta)
@@ -134,7 +157,11 @@ class SIR:
         disease = parent.insert(variant_data, name=chr(name))
         disease.infectious_rate = self.rates[self.variant_count, 0]
         disease.recovery_rate = self.rates[self.variant_count, 1]
-        Variant.add_to_relation_matrix()
+
+        if self.deterministic_spawning:
+            Variant.relation_matrix = self.determined_relationship_matrix[:self.variant_count+1, :self.variant_count+1]
+        else:
+            Variant.add_to_relation_matrix()
 
         self.variants.append(disease)
         self.variant_count += 1
@@ -234,8 +261,12 @@ class SIR:
 
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
-        new_disease = np.random.choice([True, False], size=1,
-                                       p=[self.new_disease_chance, 1 - self.new_disease_chance])
+        if not self.deterministic_spawning:
+            new_disease = np.random.choice([True, False], size=1,
+                                           p=[self.new_disease_chance, 1 - self.new_disease_chance])
+        else:
+            new_disease = not((self.time + self.dt - self.deterministic_count) < self.new_disease_spawn_time)
+            self.deterministic_count += int(new_disease) * self.new_disease_spawn_time
 
         if new_disease and self.variant_count < self.num_of_variants:
             variant = self.generate_new_disease(self.variants[variant], exception=node) - 1
