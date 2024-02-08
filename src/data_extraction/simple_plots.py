@@ -1,5 +1,5 @@
 import numpy as np
-from scripts.SIR_simulation_files.SIR_system import SIR
+from ..simulation.SIR_system import SIR
 import matplotlib.pyplot as plt
 
 

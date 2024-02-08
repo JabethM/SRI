@@ -1,4 +1,4 @@
-from scripts.SIR_simulation_files.SIR_system import SIR
+from ..simulation.SIR_system import SIR
 from argparse import ArgumentParser
 import numpy as np
 import os

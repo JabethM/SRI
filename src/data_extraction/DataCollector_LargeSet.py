@@ -1,5 +1,5 @@
-from scripts.SIR_simulation_files.SIR_system import SIR
-from scripts.SIR_simulation_files.SIR_system import Variant
+from ..simulation.SIR_system import SIR
+from ..simulation.SIR_system import Variant
 from argparse import ArgumentParser
 import numpy as np
 import networkx as nx

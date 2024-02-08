@@ -1,8 +1,7 @@
 import copy
-
 import numpy as np
 import networkx as nx
-from scripts.SIR_simulation_files.Variant import Variant
+from .Variant import Variant
 from itertools import chain
 import json
 
