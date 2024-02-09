@@ -1,13 +1,18 @@
 import json
 import os
 import sys
+import uuid
+
 
 if len(sys.argv) != 3:
-    print("Usage: python script.py <source_file> <destination_folder>")
+    print("Usage: python ConfigGenerator_Random.py <source_file> <destination_folder>")
     sys.exit(1)
 
 source_file = sys.argv[1]
 destination_folder = sys.argv[2]
+
+run_id = str(uuid.uuid4())
+destination_folder = os.path.join(destination_folder, run_id)
 
 if not os.path.exists(destination_folder):
     os.makedirs(destination_folder)

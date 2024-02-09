@@ -14,6 +14,7 @@ if len(sys.argv) != 3:
 
 source_file = sys.argv[1]
 destination_folder = sys.argv[2]
+
 run_id = str(uuid.uuid4())
 destination_folder = os.path.join(destination_folder, run_id)
 

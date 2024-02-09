@@ -1,6 +1,6 @@
 from ..simulation.SIR_system import SIR
 from ..simulation.SIR_system import Variant
-from argparse import ArgumentParser
+import sys
 import numpy as np
 import networkx as nx
 import os
@@ -11,18 +11,12 @@ import csv
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
 
-par = ArgumentParser()
+if len(sys.argv) != 3:
+    print("Usage: DataCollector_LargeSet.py <configuration_file> <output_folder>")
+    sys.exit(1)
 
-current_directory = os.getcwd()
-config_file = "config_sim.json"
-simulation_folder = os.path.join('scripts', 'SIR_simulation_files')
-sim_relative_path = os.path.relpath(simulation_folder, current_directory)
-default_config_file_path = os.path.join(sim_relative_path, config_file)
-
-par.add_argument("-f", "--config-file", type=str, default=default_config_file_path, help="Path for JSON config file")
-args = par.parse_args()
-
-config_file_path = args.config_file
+config_file_path = sys.argv[1]
+destination_folder = sys.argv[2]
 
 print("Initalising...")
 execute = SIR(config_file=config_file_path)
@@ -126,10 +120,9 @@ print("Data Dump...")
 # Data Dump
 # ------------------------------------------------------------------------
 data_folder_name = str(uuid.uuid4())
-data_output_path = os.path.join("run_data", data_folder_name)
+data_output_path = os.path.join(destination_folder, data_folder_name)
 
-if not os.path.exists(data_output_path):
-    os.makedirs(data_output_path)
+os.makedirs(data_output_path, exist_ok=True)
 
 # > family tree dump (+ rates)
 family_tree = execute.variants[0].to_json(execute.variants[0])
