@@ -1,18 +1,18 @@
 from ..simulation.SIR_system import SIR
-from argparse import ArgumentParser
 import numpy as np
 import os
 import csv
 import matplotlib.pyplot as plt
+import sys
+import uuid
 
-par = ArgumentParser()
+if len(sys.argv) != 3:
+    print("Usage: DataCollector_LargeSet.py <configuration_file> <output_folder>")
+    sys.exit(1)
 
-par.add_argument("-f", "--config-file", type=str, help="Path for JSON config file", required=True)
-args = par.parse_args()
-config_file_path = args.config_file
+config_file_path = sys.argv[1]
+destination_folder = sys.argv[2]
 
-data_output_folder = os.path.join(os.path.dirname(config_file_path), f"output_files")
-os.makedirs(data_output_folder, exist_ok=True)
 
 print("Initalising...")
 execute = SIR(config_file=config_file_path)
@@ -55,10 +55,14 @@ while not end:
         leader_of_the_pack = np.argmax(current_infection_num)
         end = end or (carrier_majority[leader_of_the_pack] and is_undying[leader_of_the_pack])
 
+data_folder_name = str(uuid.uuid4())
+data_output_path = os.path.join(destination_folder, data_folder_name)
+os.makedirs(data_output_path, exist_ok=True)
+
 total_unique_infections += current_recovered_num
 point_number = config_file_path.split("_")[-1]
 output_filename = f'datafile_{point_number}.csv'
-with open(os.path.join(data_output_folder, output_filename), mode='w', newline='') as file:
+with open(os.path.join(data_output_path, output_filename), mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Title', 'Values'])
     writer.writerow(['Peak_Times', ', '.join(map(str, peak_infection[:, 0]))])
@@ -71,4 +75,4 @@ for v in range(execute.num_of_variants):
 plt.xlabel('Time (days)')
 plt.ylabel('Number of Infected')
 plt.legend()
-plt.savefig(os.path.join(data_output_folder, 'Infections_vs_Time_plot.png'))
+plt.savefig(os.path.join(data_output_path, 'Infections_vs_Time_plot.png'))
