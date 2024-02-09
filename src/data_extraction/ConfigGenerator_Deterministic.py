@@ -46,4 +46,5 @@ for rel_idx, rel in enumerate(relationship_range):
 
             with open(new_file_name, 'w') as new_file:
                 json.dump(new_data, new_file, indent=4)
+print()
 print(destination_folder)
