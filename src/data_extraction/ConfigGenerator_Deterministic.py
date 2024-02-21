@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import uuid
 
-infective_range = np.linspace(5, 25, 20)
+infective_range = np.linspace(5, 15, 20)
 time_delay_range = np.linspace(0, 15, 20)
 relationship_range = np.linspace(0, 1, 20)
 
