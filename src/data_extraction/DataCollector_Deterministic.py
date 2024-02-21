@@ -37,7 +37,8 @@ adj_matrix_sparse = nx.adjacency_matrix(execute.G)
 data_sets = [[] for _ in range(number_of_variants)]
 
 
-plot_y = np.zeros((number_of_variants, 1))
+plot_y = np.zeros((2 * number_of_variants, 1))
+plot_y[2:, 0] = num_of_nodes
 plot_x = [0]
 time = np.array([0])
 end = False
@@ -50,8 +51,10 @@ while not end:
     recovered_sets = execute.recovered_set
     current_infection_num = np.array(list(map(len, infected_sets)))
     current_recovered_num = np.array(list(map(len, recovered_sets)))
+    current_susceptible_num = num_of_nodes - (current_infection_num + current_recovered_num)
 
-    plot_y = np.hstack((plot_y, current_infection_num.reshape(-1, 1)))
+    current_y_plots = np.vstack((current_infection_num.reshape(-1, 1), current_susceptible_num.reshape(-1, 1)))
+    plot_y = np.hstack((plot_y, current_y_plots))
     plot_x.append(current_time)
 
     peak_inf_mask = current_infection_num > peak_infection[:, 1]
@@ -66,14 +69,14 @@ while not end:
         # > if a disease has just started, mark down the infected and recovered
         data_sets[i] = list(recovered_sets[i]) if infection_start_condition[i] \
             else data_sets[i]
-
+    if (execute.steps % 10000) == 0:
+        print(current_susceptible_num)
     end = execute.end
     if (execute.variant_count >= 2) and (execute.steps >= end_steps):
         sim_rates = execute.rates
-        is_undying = np.where(sim_rates[:, 0] > sim_rates[:, 1])[0]
-        carrier_majority = current_infection_num > 0.9 * (num_of_nodes - current_recovered_num)
+        carrier_majority = current_infection_num < 0.01 * num_of_nodes
         leader_of_the_pack = np.argmax(current_infection_num)
-        end = end or (carrier_majority[leader_of_the_pack] and is_undying[leader_of_the_pack])
+        end = end or (carrier_majority[leader_of_the_pack])
 
 print()
 print("Data Dump...")
@@ -95,8 +98,13 @@ with open(os.path.join(data_output_path, output_filename), mode='w', newline='')
     writer.writerow(['Total Infections', ', '.join(map(str, total_infections))])
     writer.writerow(['Total_Unique_Infections', ', '.join(map(str, total_unique_infections))])
 
-for v in range(execute.num_of_variants):
-    plt.plot(plot_x, plot_y[v], label=(chr(ord('A') + v)))
+for v in range(2 * number_of_variants):
+    if v < execute.num_of_variants:
+        label = "Infected by " + (chr(ord('A') + v))
+    else:
+        label = "Susceptible to " + (chr(ord('A') + v - number_of_variants))
+    plt.plot(plot_x, plot_y[v], label= label)
+
 
 with open(os.path.join(data_output_path, f'recoveredData_{point_number}.csv'), 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
@@ -106,6 +114,6 @@ with open(os.path.join(data_output_path, f'recoveredData_{point_number}.csv'), '
             
 
 plt.xlabel('Time (days)')
-plt.ylabel('Number of Infected')
+plt.ylabel('Number of nodes')
 plt.legend()
 plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{point_number}.png'))
