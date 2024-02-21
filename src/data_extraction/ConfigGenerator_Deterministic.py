@@ -32,7 +32,9 @@ for rel_idx, rel in enumerate(relationship_range):
     for time_idx, time in enumerate(time_delay_range):
         time_directory = f'Time_delay_{time_idx}'
         time_directory = os.path.join(rel_directory, time_directory)
-        os.makedirs(time_directory, exist_ok=True)
+
+        data_directory = os.path.join(time_directory, "data")
+        os.makedirs(data_directory, exist_ok=True)
         for inf_idx, inf in enumerate(infective_range):
             new_file_name = f'transmission_rate_{inf_idx}.json'
             new_file_name = os.path.join(time_directory, new_file_name)
@@ -47,5 +49,4 @@ for rel_idx, rel in enumerate(relationship_range):
 
             with open(new_file_name, 'w') as new_file:
                 json.dump(new_data, new_file, indent=4)
-print()
 print(destination_folder)

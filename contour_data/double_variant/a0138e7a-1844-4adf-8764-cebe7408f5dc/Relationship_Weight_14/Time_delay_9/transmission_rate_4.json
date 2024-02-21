@@ -1,0 +1,47 @@
+{
+    "name": "sir_sim_config_",
+    "version": "1.0.0",
+    "internal_params": {
+        "new_disease_rate": 0.0025,
+        "new_infection_std_dev": 2,
+        "variant_info": {
+            "data_range": 1000,
+            "data_std_dev": 150,
+            "relationship_dropoff_coefficient": 0.000160943791243
+        },
+        "deterministic_spawning": {
+            "deterministic_mode": true,
+            "time_separation": 7.105263157894737,
+            "child_transmission_T": [
+                9.210526315789473
+            ],
+            "child_recovery_T": [
+                9
+            ],
+            "relation_matrix": [
+                [
+                    1,
+                    0.7368421052631579
+                ],
+                [
+                    0.7368421052631579,
+                    1
+                ]
+            ]
+        }
+    },
+    "input_params": {
+        "number_of_nodes": 1000,
+        "transmission_time": 10.5,
+        "recovery_time": 14,
+        "maximum_num_of_variants": 2,
+        "network_info": {
+            "type_of_network": 0,
+            "network_properties": [
+                0.01
+            ]
+        },
+        "end_time": 100000,
+        "seed": null
+    }
+}
