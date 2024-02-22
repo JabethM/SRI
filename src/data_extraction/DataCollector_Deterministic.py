@@ -1,4 +1,5 @@
-from ..simulation.SIR_system import SIR
+from src.simulation.SIR_system import SIR
+#from ..simulation.SIR_system import SIR
 import numpy as np
 import networkx as nx
 import scipy.sparse as sp
@@ -7,12 +8,13 @@ import csv
 import matplotlib.pyplot as plt
 import sys
 
-if len(sys.argv) != 3:
-    print("Usage: DataCollector_LargeSet.py <configuration_file> <output_folder>")
+if len(sys.argv) != 4:
+    print("Usage: DataCollector_LargeSet.py <configuration_file> <output_folder> <name_suffix>")
     sys.exit(1)
 
 config_file_path = sys.argv[1]
 destination_folder = sys.argv[2]
+name_suffix = sys.argv[3]
 
 if not os.path.exists(destination_folder):
     os.makedirs(destination_folder)
@@ -38,7 +40,7 @@ data_sets = [[] for _ in range(number_of_variants)]
 
 
 plot_y = np.zeros((2 * number_of_variants, 1))
-plot_y[2:, 0] = num_of_nodes
+plot_y[number_of_variants:, 0] = num_of_nodes
 plot_x = [0]
 time = np.array([0])
 end = False
@@ -85,11 +87,10 @@ total_unique_infections += current_recovered_num
 
 data_output_path = destination_folder
 os.makedirs(data_output_path, exist_ok=True)
-point_number = config_file_path.split("_")[-1]
 
-sp.save_npz(os.path.join(data_output_path, f'networkAdjacencySparse_{point_number}.npz'), adj_matrix_sparse)
+sp.save_npz(os.path.join(data_output_path, f'networkAdjacencySparse_{name_suffix}.npz'), adj_matrix_sparse)
 
-output_filename = f'datafile_{point_number}.csv'
+output_filename = f'datafile_{name_suffix}.csv'
 with open(os.path.join(data_output_path, output_filename), mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Title', 'Values'])
@@ -106,7 +107,7 @@ for v in range(2 * number_of_variants):
     plt.plot(plot_x, plot_y[v], label= label)
 
 
-with open(os.path.join(data_output_path, f'recoveredData_{point_number}.csv'), 'w', newline='') as csvfile:
+with open(os.path.join(data_output_path, f'recoveredData_{name_suffix}.csv'), 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     for header, recovery_data in enumerate(data_sets):
         writer.writerow([f"-{chr(ord('A') + header)}"])
@@ -116,4 +117,4 @@ with open(os.path.join(data_output_path, f'recoveredData_{point_number}.csv'), '
 plt.xlabel('Time (days)')
 plt.ylabel('Number of nodes')
 plt.legend()
-plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{point_number}.png'))
+plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))

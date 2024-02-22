@@ -165,7 +165,7 @@ class SIR:
         self.variants.append(disease)
         self.variant_count += 1
 
-        if self.variant_count > 1:
+        if self.variant_count > 1 and not self.deterministic_spawning:
             if exception is None:
                 exception = False
             self.backdate_immunity(exception)
@@ -278,8 +278,11 @@ class SIR:
         return graph
 
     def set_node_recovery(self, node, variant, graph):
+        if self.deterministic_spawning:
+            relation_array = self.determined_relationship_matrix[variant]
+        else:
+            relation_array = Variant.get_relation()[variant]
 
-        relation_array = Variant.get_relation()[variant]
         assert relation_array[variant] == 1
         probabilities = np.column_stack((relation_array, 1 - relation_array))
         immunity_choices = np.array([np.random.choice([True, False], size=1, p=probs)[0]
