@@ -9,7 +9,7 @@ integer_value=$((second_section))
 
 directory=$(<./screen_loaders/screenrunner.$integer_value.txt)
 
-PYTHON_SCRIPT="parallel.py"
+PYTHON_SCRIPT="src/parallel.py"
 for ((i=0; i<20; i++)); do
     echo "script $i:"
     time_delay_path="$directory/Time_delay_$i"
