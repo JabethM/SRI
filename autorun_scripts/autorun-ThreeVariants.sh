@@ -1,6 +1,6 @@
 #!/bin/bash
-
-folder="../data/data-TripleVariants"
+# First argument should be the folder that holds the triple types i.e, ../data/data-TripleVariants
+folder=$1
 PYTHON_SCRIPT="../src/parallel-ThreeDelays.py"
 
 count=0
