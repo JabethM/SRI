@@ -2,6 +2,6 @@
 *.xml
 *.xml
 *.iml
-run_data/*
+old_data/*
 contour_data/*
 SingleRun_data/*

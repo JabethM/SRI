@@ -24,8 +24,8 @@
     "recovery_time": 15,
     "maximum_num_of_variants": 3,
     "network_info": {
-      "type_of_network": 0,
-      "network_properties": [0.001]
+      "type_of_network": 1,
+      "network_properties": [10, 0.5]
     },
     "end_time" : 100000,
     "seed": null

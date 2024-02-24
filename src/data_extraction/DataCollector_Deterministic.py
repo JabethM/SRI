@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 
 if len(sys.argv) != 4:
-    print("Usage: DataCollector_LargeSet.py <configuration_file> <output_folder> <name_suffix>")
+    print(f"Usage: {sys.argv[0]} <configuration_file> <output_folder> <name_suffix>")
     sys.exit(1)
 
 config_file_path = sys.argv[1]
