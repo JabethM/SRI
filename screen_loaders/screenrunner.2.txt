@@ -1,1 +1,1 @@
-parallel-ThreeDelays.py data/data-TripleVariants/(AB)(BC)/
+src/parallel-ThreeDelays.py data/data-TripleVariants-WS//(AB)(BC)/
