@@ -1,0 +1,359 @@
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367434): Gdk-CRITICAL **: 09:29:43.171: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367437): Gdk-CRITICAL **: 09:29:43.195: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367456): Gdk-CRITICAL **: 09:29:43.246: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367476): Gdk-CRITICAL **: 09:29:43.266: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367498): Gdk-CRITICAL **: 09:29:43.326: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367515): Gdk-CRITICAL **: 09:29:43.358: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367532): Gdk-CRITICAL **: 09:29:43.381: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367552): Gdk-CRITICAL **: 09:29:43.419: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367570): Gdk-CRITICAL **: 09:29:43.432: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3367583): Gdk-CRITICAL **: 09:29:43.560: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+.Initalising...
+Running Sim...
+...........................................................................................
+[4716 9372]
+.
+[4703 9397]
+.
+[4693 9343]
+.
+[4743 9376]
+.
+[4689 9350]
+.
+[4731 9331]
+.
+[4746 9382]
+.
+[4706 9315]
+.
+[4730 9411]
+.
+[4622 9411]
+...........................................................................................
+[2286 8698]
+.
+[2267 8724]
+.
+[2305 8671]
+.
+[2286 8740]
+.
+[2260 8681]
+.
+[2273 8650]
+.
+[2235 8666]
+.
+[2251 8758]
+.
+[2239 8761]
+.
+[2241 8788]
+...........................................................................................
+[1172 7981]
+.
+[1171 8093]
+.
+[1167 7941]
+.
+[1134 8065]
+.
+[1124 8079]
+.
+[1130 8040]
+.
+[1127 8006]
+.
+[1118 8110]
+.
+[1134 8119]
+.
+[1128 8109]
+...........................................................................................
+[ 630 7310]
+.
+[ 618 7264]
+.
+[ 627 7415]
+.
+[ 613 7417]
+.
+[ 599 7377]
+.
+[ 622 7388]
+.
+[ 602 7293]
+.
+[ 597 7409]
+.
+[ 609 7503]
+.
+[ 601 7481]
+........................................................................................
+[ 347 6631]
+..
+[ 360 6645]
+.
+[ 349 6620]
+.
+[ 344 6769]
+.
+[ 338 6739]
+..
+[ 329 6702]
+.
+[ 341 6749]
+...
+[ 343 6738]
+.....
+[ 332 6818]
+...
+[ 349 6838]
+................................................................................
+[ 210 5954]
+.
+[ 231 6024]
+.
+[ 217 5964]
+..
+[ 204 6034]
+..
+[ 204 6100]
+.
+[ 208 6041]
+.
+[ 205 6094]
+.....
+[ 194 6086]
+......
+[ 209 6160]
+......
+[ 213 6161]
+.......................................................................
+[ 134 5275]
+.
+[ 154 5273]
+...
+[ 129 5343]
+.
+[ 135 5358]
+....
+[ 115 5392]
+...
+[ 154 5383]
+..
+[ 127 5430]
+...
+[ 120 5391]
+.........
+[ 144 5513]
+................
+[ 141 5529]
+...................................................
+[ 102 4610]
+........
+[  96 4580]
+.
+[  86 4644]
+....
+[  94 4664]
+...
+[  76 4735]
+.
+[ 110 4542]
+.....
+[  82 4688]
+....
+[  95 4767]
+.....
+[ 114 4795]
+..........................
+[  91 4815]
+....................................
+[  71 3974]
+...........
+[  78 3827]
+..
+[  61 3926]
+....
+[  69 4011]
+..
+[  50 4020]
+.............
+[  78 4098]
+.
+[  60 3978]
+..
+[  70 4059]
+..
+[  77 3575]
+............................................
+[  64 4167]
+...........
+[  62 3291]
+..........
+[  60 3128]
+.
+[  49 3277]
+............
+[  59 3300]
+..
+[  34 3309]
+......
+[  64 3421]
+.............
+[  54 3394]
+......
+[  51 3144]
+....................................
+[  51 2614]
+......
+[  65 2512]
+........
+[  41 2590]
+.
+[  55 2395]
+......
+[  48 3492]
+......
+[  53 2761]
+..
+[  55 2576]
+.......
+[  31 2615]
+..........................
+[  49 2687]
+.................
+[  50 1936]
+................
+[  37 1919]
+..
+[  44 2306]
+.
+[  53 1708]
+....
+[  49 2112]
+................
+[  50 1872]
+.....................
+[  28 1907]
+............../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+
+[  44 1459]
+./home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+..../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+......
+[  34 2807]
+.
+[  45 1972]
+.../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+............../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+[  28 1196]
+
+Data Dump...
+........../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+[  42 1255]
+
+Data Dump...
+.
+[  58 1651]
+...
+[  42 1573]
+.......
+[  28 2102]
+...................
+[  27 1421]
+...../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+
+[  41 1071]
+..............
+[ 35 727]
+.
+[  47 1104]
+........../home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+........
+[ 42 738]
+..........
+[ 38 528]
+..........
+[ 35 410]
+..........
+[ 31 302]
+........./home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py:120: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig(os.path.join(data_output_path, f'InfectionsVsTimePlot_{name_suffix}.png'))
+
+Data Dump...
+High 1 8
+Done
+slurmstepd-phcompute025: error: Detected 1 oom-kill event(s) in StepId=810872.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
