@@ -7,6 +7,7 @@ import os
 import csv
 import matplotlib.pyplot as plt
 import sys
+import pickle
 
 if len(sys.argv) != 4:
     print(f"Usage: {sys.argv[0]} <configuration_file> <output_folder> <name_suffix>")
@@ -19,12 +20,13 @@ name_suffix = sys.argv[3]
 if not os.path.exists(destination_folder):
     os.makedirs(destination_folder)
 
-
 print("Initalising...")
 execute = SIR(config_file=config_file_path)
 
 if not execute.deterministic_spawning:
-    print("Configuration file not in deterministic regime. Set [deterministic_spawning: true] or use DataCollector_Random.py")
+    print(
+        "Configuration file not in deterministic regime. Set [deterministic_spawning: true] or use "
+        "DataCollector_Random.py")
     sys.exit(1)
 
 num_of_nodes = execute.num_nodes
@@ -36,8 +38,15 @@ total_infections = np.zeros(number_of_variants)
 total_unique_infections = np.zeros(number_of_variants)
 
 adj_matrix_sparse = nx.adjacency_matrix(execute.G)
-data_sets = [[] for _ in range(number_of_variants)]
+recovered_data = []
+rec_data_time = []
 
+upper_Qs = []
+lower_Qs = []
+most_connections_list = []
+least_connections_list = []
+mean_connections_list = []
+connection_time = []
 
 plot_y = np.zeros((2 * number_of_variants, 1))
 plot_y[number_of_variants:, 0] = num_of_nodes
@@ -67,10 +76,22 @@ while not end:
 
     infection_start_condition = total_infections > 0
 
-    for i in range(len(data_sets)):
-        # > if a disease has just started, mark down the infected and recovered
-        data_sets[i] = list(recovered_sets[i]) if infection_start_condition[i] \
-            else data_sets[i]
+    if (execute.steps % 1000) == 0:
+        non_negative_counts = np.sum(execute.all_current_nbs >= 0, axis=2)
+        upper_quartile, lower_quartile, most_connections, least_connections = np.percentile(non_negative_counts,
+                                                                                            [75, 25, 100, 0], axis=1)
+        average_connections = np.mean(non_negative_counts, axis=1)
+
+        upper_Qs.append(upper_quartile)
+        lower_Qs.append(lower_quartile)
+        most_connections_list.append(most_connections)
+        least_connections_list.append(least_connections)
+        mean_connections_list.append(average_connections)
+        connection_time.append(current_time)
+
+    if (execute.steps % 5000) == 0:
+        recovered_data.append(list(map(list, recovered_sets)))
+        rec_data_time.append(current_time)
     if (execute.steps % 10000) == 0:
         print(current_susceptible_num)
     end = execute.end
@@ -89,6 +110,7 @@ data_output_path = destination_folder
 os.makedirs(data_output_path, exist_ok=True)
 
 sp.save_npz(os.path.join(data_output_path, f'networkAdjacencySparse_{name_suffix}.npz'), adj_matrix_sparse)
+connection_statistics = [most_connections_list, upper_Qs, mean_connections_list, lower_Qs, least_connections_list]
 
 output_filename = f'datafile_{name_suffix}.csv'
 with open(os.path.join(data_output_path, output_filename), mode='w', newline='') as file:
@@ -104,15 +126,19 @@ for v in range(2 * number_of_variants):
         label = "Infected by " + (chr(ord('A') + v))
     else:
         label = "Susceptible to " + (chr(ord('A') + v - number_of_variants))
-    plt.plot(plot_x, plot_y[v], label= label)
+    plt.plot(plot_x, plot_y[v], label=label)
 
+with open(os.path.join(data_output_path, f'recoveredDataNodes_{name_suffix}.pickle'), 'wb') as f:
+    pickle.dump(recovered_data, f)
 
-with open(os.path.join(data_output_path, f'recoveredData_{name_suffix}.csv'), 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    for header, recovery_data in enumerate(data_sets):
-        writer.writerow([f"-{chr(ord('A') + header)}"])
-        writer.writerow(recovery_data)
-            
+with open(os.path.join(data_output_path, f'recoveredDataTime_{name_suffix}.pickle'), 'wb') as f:
+    pickle.dump(rec_data_time, f)
+
+with open(os.path.join(data_output_path, f'connectionStatsData_{name_suffix}.pickle'), 'wb') as f:
+    pickle.dump(connection_statistics, f)
+
+with open(os.path.join(data_output_path, f'connectionStatsTime_{name_suffix}.pickle'), 'wb') as f:
+    pickle.dump(connection_time, f)
 
 plt.xlabel('Time (days)')
 plt.ylabel('Number of nodes')
