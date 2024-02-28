@@ -9,7 +9,7 @@ import json
 class SIR:
 
     def __init__(self, nodes=150, initialisation=(0, 0.1), variants=2, probabilities=None, end_time=np.inf, seed=None,
-                 epsilon=300, config_file=None, delta=50, picking_set=500, rho=((-np.log(0.4)/(100^2)))):
+                 epsilon=300, config_file=None, delta=50, picking_set=500, rho=((-np.log(0.4) / (100 ^ 2)))):
 
         if config_file is not None:
             # Simulation Initialised with Configuration JSON File
@@ -91,13 +91,15 @@ class SIR:
         self.G = None
         Variant.data_range = self.picking_set
         Variant.rho = self.rho
-        
+
         self.infected_set = [set() for v in range(self.num_of_variants)]
         self.recovered_set = [set() for v in range(self.num_of_variants)]
-        self.possible_outcomes = []
 
         self.initialise_graph(initialisation)
         self.set_initial_outbreak()
+        self.all_neighbours = {node: set(self.G.neighbors(node)) for node in self.G.nodes}
+        self.all_current_nbs = self.network_matrix()
+        self.all_current_nbs = np.array([np.copy(self.all_current_nbs) for _ in range(self.num_of_variants)])
 
     def initialise_graph(self, init_tuple):
         # Random
@@ -118,6 +120,20 @@ class SIR:
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
 
+    def network_matrix(self):
+        sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+        indices = sparse.indices
+        ptr = sparse.indptr
+        differences = np.diff(ptr)
+        size = np.max(differences)
+        matrix = -np.ones((self.num_nodes, size), dtype=int)
+        test = -np.ones((self.num_nodes, size), dtype=int)
+        for pointer in range(self.num_nodes):
+            start, stop = ptr[pointer], ptr[pointer + 1]
+            matrix[pointer, :stop - start] = indices[start:stop]
+
+        return matrix
+
     def generate_new_disease(self, parent=None, exception=None):
         if self.variant_count >= self.num_of_variants:
             self.variant_count += 1
@@ -136,7 +152,7 @@ class SIR:
 
             if not self.deterministic_spawning:
                 self.trans_time[self.variant_count] = abs(np.random.normal(self.trans_time[self.variant_count - 1],
-                                                                       scale=self.epsilon))
+                                                                           scale=self.epsilon))
             else:
                 self.trans_time[self.variant_count] = [self.descendant_transmissions[self.variant_count - 1],
                                                        self.descendant_recovery[self.variant_count - 1]]
@@ -158,7 +174,8 @@ class SIR:
         disease.recovery_rate = self.rates[self.variant_count, 1]
 
         if self.deterministic_spawning:
-            Variant.relation_matrix = self.determined_relationship_matrix[:self.variant_count+1, :self.variant_count+1]
+            Variant.relation_matrix = self.determined_relationship_matrix[:self.variant_count + 1,
+                                      :self.variant_count + 1]
         else:
             Variant.add_to_relation_matrix()
 
@@ -192,10 +209,8 @@ class SIR:
 
     def choose_outcome(self):
         temp_infected_set = self.infected_set[:self.variant_count]
-        temp_rec_set = self.recovered_set[:self.variant_count]
 
-        nbs, gillespe_line, possible_outcomes, rate_total = self.choice_probability_setup(temp_infected_set,
-                                                                                          temp_rec_set)
+        gillespe_line, rate_total = self.choice_probability_setup(temp_infected_set)
 
         # No more actions? end
         numpy_gillespe = np.array(gillespe_line)
@@ -222,10 +237,10 @@ class SIR:
             gillespe_hold = gillespe_hold[chosen_option]
 
         if choices[1] == 0:
-            cumulative_lengths = np.cumsum(list(map(len, nbs[choices[0]])))
-            infector_idx = np.searchsorted(cumulative_lengths, choices[2], side='right')
-            victim_idx = choices[2] - (cumulative_lengths[infector_idx - 1] if infector_idx > 0 else 0)
-            victim = nbs[choices[0]][infector_idx][victim_idx]
+            nbs_reduced_by_disease = self.all_current_nbs[choices[0]]
+            nbs_reduced_by_actionables = nbs_reduced_by_disease[list(map(list, temp_infected_set))[choices[0]]]
+            mask = nbs_reduced_by_actionables != -1
+            victim = nbs_reduced_by_actionables[mask][choices[2]]
 
         else:
             victim = list(temp_infected_set[choices[0]])[choices[2]]
@@ -235,28 +250,23 @@ class SIR:
 
         return victim, choices[0], infect_others
 
-    def choice_probability_setup(self, temp_infected_set, temp_rec_set):
-        iterator = range(len(temp_rec_set))
+    def choice_probability_setup(self, temp_infected_set):
+        self.node_neighbours()
 
-        nbs = [[node for node in
-                self.node_neighbours(temp_infected_set[variant], temp_rec_set[variant])]
-               for variant in iterator]
-
-        # Randomly Choose one of 2 x N outcomes where N represents the different variants
-        possible_outcomes = []
         gillespe_line = []
         rate_total = 0
         for variant in range(self.variant_count):
-            inf_nbs_flat = list(chain(*nbs[variant]))
+            nbs = self.all_current_nbs[variant][list(temp_infected_set[variant])]
+            mask = nbs != -1
+            inf_nbs_flat = nbs[mask]
 
-            rate_total += len(inf_nbs_flat) * self.rates[variant, 0] + \
+            rate_total += inf_nbs_flat.size * self.rates[variant, 0] + \
                           len(temp_infected_set[variant]) + self.rates[variant, 1]
 
-            gillespe_line.append([[len(inf_nbs_flat), self.rates[variant, 0]],
+            gillespe_line.append([[inf_nbs_flat.size, self.rates[variant, 0]],
                                   [len(temp_infected_set[variant]), self.rates[variant, 1]]])
-            possible_outcomes.append([inf_nbs_flat, list(temp_infected_set[variant])])
 
-        return nbs, gillespe_line, possible_outcomes, rate_total
+        return gillespe_line, rate_total
 
     def set_node_infected(self, node, variant, graph):
         # CHANCE OF NEW INFECTION
@@ -264,7 +274,7 @@ class SIR:
             new_disease = np.random.choice([True, False], size=1,
                                            p=[self.new_disease_chance, 1 - self.new_disease_chance])
         else:
-            new_disease = not((self.time + self.dt - self.deterministic_count) < self.new_disease_spawn_time)
+            new_disease = not ((self.time + self.dt - self.deterministic_count) < self.new_disease_spawn_time)
             self.deterministic_count += int(new_disease) * self.new_disease_spawn_time
 
         if new_disease and self.variant_count < self.num_of_variants:
@@ -326,16 +336,31 @@ class SIR:
             return all(map(self.is_list_empty, in_list))
         return False
 
-    def node_neighbours(self, set_of_nodes, removal_set):
-        removal_set = set_of_nodes & removal_set
-        nbs = [[n for n in self.G.neighbors(node) if n not in removal_set] for node in set_of_nodes]
-        return nbs
+    def node_neighbours(self):
+
+        for i in range(self.variant_count):
+            inf_set = self.infected_set[i]
+            if len(inf_set) == 0:
+                continue
+            inf_set = np.array(list(inf_set))
+
+            rec_set = self.recovered_set[i]
+            removal_set = (list(rec_set.union(inf_set)))
+
+            nbs = self.all_current_nbs[i][inf_set]
+            mask = np.isin(nbs, removal_set)
+            nbs[mask] = -1
+
+            self.all_current_nbs[i][inf_set] = nbs
+        return
+
 
     # ###### END OF HELPERS ##### #
 
     def iterate(self):
         G_copy = self.G
         outcomes = self.choose_outcome()
+
         if outcomes is not None:
             node, disease, infection_status = outcomes
             if infection_status:
@@ -372,7 +397,7 @@ class SIR:
 
             if self.time >= self.end_time:
                 self.end = True
-        #print(self.variant_count)
+        # print(self.variant_count)
         return self.time
 
 

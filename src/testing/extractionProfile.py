@@ -1,29 +1,28 @@
 from line_profiler import LineProfiler
 import datetime
 
-from src.simulation.SIR_system import  SIR
-from src.data_extraction.DataCollector_Deterministic import main as DCMain
-import numpy as np
+from src.simulation.SIR_system import SIR
+from src.data_extraction.DataCollector_Deterministic import DCmain
+
+import os
 
 if __name__ == '__main__':
-    seed = 87548
-    np.random.seed(seed)
-    total_variants = 7
-    probs = tuple([(np.random.randint(0, 1000), np.random.randint(0, 1000)) for _ in range(1)])
-    execute = SIR(50, initialisation=(0, 0.1), variants=total_variants, probabilities=probs, seed=seed)
-
+    print("hello")
+    input_folder = "default_configuration_test.json"
+    output_folder = os.path.join("src", "testing", "output_folder")
+    suffix = "tester"
     print("time")
     profiler = LineProfiler()
     profiler.add_function(SIR.iterate)
-    profiler.add_function(SIR.run)
+    profiler.add_function(SIR.step_run)
 
     profiler.add_function(SIR.choose_outcome)
     profiler.add_function(SIR.choice_probability_setup)
     profiler.add_function(SIR.node_neighbours)
     profiler.add_function(SIR.set_node_infected)
     profiler.add_function(SIR.set_node_recovery)
-
-    profiler.run("execute.run()")
+    profiler.add_function(DCmain)
+    profiler.run("DCmain(input_folder, output_folder, suffix)")
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%m-%d_%H-%M-%S")
     filename = f"ProfileData_{formatted_datetime}.lprof"

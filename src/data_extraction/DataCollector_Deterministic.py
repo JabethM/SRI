@@ -1,5 +1,5 @@
 from src.simulation.SIR_system import SIR
-#from ..simulation.SIR_system import SIR
+# from ..simulation.SIR_system import SIR
 import numpy as np
 import networkx as nx
 import scipy.sparse as sp
