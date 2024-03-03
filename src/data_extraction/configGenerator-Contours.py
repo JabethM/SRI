@@ -32,7 +32,7 @@ with open(source_file, 'r') as file:
 
 for var1_idx, var1 in enumerate(independent_variables[mode % 3]):
     for var2_idx, var2 in enumerate(independent_variables[(mode + 1) % 3]):
-            new_file_name = f'{variable_names[mode % 3]}_{variable_names[(mode+1) % 3]}.{var1_idx}_{var2_idx}.json'
+            new_file_name = f'{variable_names[mode % 3]}_{variable_names[(mode+1) % 3]}-{var1_idx}{var2_idx}.json'
             new_file_name = os.path.join(destination_folder, new_file_name)
 
             new_data = data.copy()
