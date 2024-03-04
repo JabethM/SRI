@@ -1,0 +1,230 @@
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540387): Gdk-CRITICAL **: 08:14:19.170: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540432): Gdk-CRITICAL **: 08:14:19.172: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540415): Gdk-CRITICAL **: 08:14:19.173: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540601): Gdk-CRITICAL **: 08:14:19.181: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540598): Gdk-CRITICAL **: 08:14:19.183: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540269): Gdk-CRITICAL **: 08:14:19.192: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540345): Gdk-CRITICAL **: 08:14:19.192: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540565): Gdk-CRITICAL **: 08:14:19.193: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540610): Gdk-CRITICAL **: 08:14:19.201: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540393): Gdk-CRITICAL **: 08:14:19.208: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540449): Gdk-CRITICAL **: 08:14:19.921: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540593): Gdk-CRITICAL **: 08:14:19.925: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540579): Gdk-CRITICAL **: 08:14:19.926: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540355): Gdk-CRITICAL **: 08:14:19.928: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540551): Gdk-CRITICAL **: 08:14:21.228: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540567): Gdk-CRITICAL **: 08:14:21.229: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3540272): Gdk-CRITICAL **: 08:14:21.230: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540549): Gdk-CRITICAL **: 08:14:21.241: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3540529): Gdk-CRITICAL **: 08:14:22.088: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Low 1 8
+Done
+slurmstepd-phcompute008: error: Detected 91 oom-kill event(s) in StepId=824513.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

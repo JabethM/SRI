@@ -1,0 +1,602 @@
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815722): Gdk-CRITICAL **: 08:13:23.905: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815718): Gdk-CRITICAL **: 08:13:23.958: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815664): Gdk-CRITICAL **: 08:13:27.066: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815808): Gdk-CRITICAL **: 08:13:27.379: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815681): Gdk-CRITICAL **: 08:13:28.761: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815757): Gdk-CRITICAL **: 08:13:30.012: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815694): Gdk-CRITICAL **: 08:13:31.560: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815703): Gdk-CRITICAL **: 08:13:31.572: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815792): Gdk-CRITICAL **: 08:13:34.305: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815842): Gdk-CRITICAL **: 08:13:34.304: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815875): Gdk-CRITICAL **: 08:13:34.564: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815739): Gdk-CRITICAL **: 08:13:35.451: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815754): Gdk-CRITICAL **: 08:13:35.466: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815839): Gdk-CRITICAL **: 08:13:36.997: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815735): Gdk-CRITICAL **: 08:13:37.930: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815824): Gdk-CRITICAL **: 08:13:42.839: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815885): Gdk-CRITICAL **: 08:13:44.081: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815859): Gdk-CRITICAL **: 08:13:44.355: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815818): Gdk-CRITICAL **: 08:13:44.356: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815769): Gdk-CRITICAL **: 08:13:44.359: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815879): Gdk-CRITICAL **: 08:13:44.363: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815871): Gdk-CRITICAL **: 08:13:44.392: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815851): Gdk-CRITICAL **: 08:13:44.452: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815803): Gdk-CRITICAL **: 08:13:45.167: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815856): Gdk-CRITICAL **: 08:13:45.432: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815881): Gdk-CRITICAL **: 08:13:45.623: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815847): Gdk-CRITICAL **: 08:13:45.694: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815833): Gdk-CRITICAL **: 08:13:45.713: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815636): Gdk-CRITICAL **: 08:13:45.736: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815653): Gdk-CRITICAL **: 08:13:45.745: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815785): Gdk-CRITICAL **: 08:13:45.756: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815862): Gdk-CRITICAL **: 08:13:45.796: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815867): Gdk-CRITICAL **: 08:13:47.493: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Low 1 1
+Done
+slurmstepd-phcompute025: error: Detected 23 oom-kill event(s) in StepId=824506.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

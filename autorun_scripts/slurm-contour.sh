@@ -1,10 +1,11 @@
 #!/bin/bash
 #
 #
-#SBATCH --job-name=No_1
+#SBATCH --job-name=High_1
 #SBATCH --partition=long
 #SBATCH --time=2-00:00:00
 #SBATCH --array=0-9
+#SBATCH --mem=8G
 #
 ########################################################################
  

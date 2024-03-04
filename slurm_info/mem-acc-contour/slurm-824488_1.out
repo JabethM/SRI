@@ -1,0 +1,2 @@
+slurmstepd-phcompute025: error: *** JOB 824488 ON phcompute025 CANCELLED AT 2024-03-03T08:11:59 ***
+slurmstepd-phcompute025: error: Detected 67 oom-kill event(s) in StepId=824488.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

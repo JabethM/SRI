@@ -1,0 +1,560 @@
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+/usr/bin/python: Error while finding module specification for 'src.data_extraction.DataCollector_Deterministic' (ModuleNotFoundError: No module named 'src')
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+    import apt_pkg
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+
+Original exception was:
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1346, in _path_importer_cache
+KeyError: 'src'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/parallel-Contours-Batch.py", line 1, in <module>
+    import subprocess
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1376, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1348, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1324, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1594, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1470, in __init__
+FileNotFoundError: [Errno 2] No such file or directory
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815770): Gdk-CRITICAL **: 08:13:24.420: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815772): Gdk-CRITICAL **: 08:13:24.424: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815786): Gdk-CRITICAL **: 08:13:24.434: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815766): Gdk-CRITICAL **: 08:13:24.437: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+
+(DataCollector_Deterministic.py:3815781): Gdk-CRITICAL **: 08:13:24.470: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+
+(DataCollector_Deterministic.py:3815797): Gdk-CRITICAL **: 08:13:24.446: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/data_extraction/DataCollector_Deterministic.py", line 24, in <module>
+    execute = SIR(config_file=config_file_path)
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 101, in __init__
+    self.all_current_nbs = self.network_matrix()
+  File "/home/s1932078/Documents/MPhys_Project/SRI/src/simulation/SIR_system.py", line 124, in network_matrix
+    sparse = nx.to_scipy_sparse_array(self.G, format='csr')
+  File "/home/s1932078/.local/lib/python3.8/site-packages/networkx/convert_matrix.py", line 593, in to_scipy_sparse_array
+    A = sp.sparse.coo_array((d, (r, c)), shape=(nlen, nlen), dtype=dtype)
+AttributeError: module 'scipy.sparse' has no attribute 'coo_array'
+Initalising...
+Low 1 0
+Done
