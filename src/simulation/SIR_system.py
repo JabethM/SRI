@@ -261,7 +261,7 @@ class SIR:
             inf_nbs_flat = nbs[mask]
 
             rate_total += inf_nbs_flat.size * self.rates[variant, 0] + \
-                          len(temp_infected_set[variant]) + self.rates[variant, 1]
+                          len(temp_infected_set[variant]) * self.rates[variant, 1]
 
             gillespe_line.append([[inf_nbs_flat.size, self.rates[variant, 0]],
                                   [len(temp_infected_set[variant]), self.rates[variant, 1]]])

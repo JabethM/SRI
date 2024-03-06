@@ -1,0 +1,54 @@
+{
+    "name": "A",
+    "value": 630.0,
+    "infectious_rate": 0.09090909090909091,
+    "recovery_rate": 0.07142857142857142,
+    "variant_B": {
+        "name": "B",
+        "value": 1047.4644553693659,
+        "infectious_rate": 0.08209703816912037,
+        "recovery_rate": 0.06907706712235373,
+        "variant_I": {
+            "name": "I",
+            "value": 1346.8122280597222,
+            "infectious_rate": 0.05246733227874088,
+            "recovery_rate": 0.07535437526637379
+        }
+    },
+    "variant_C": {
+        "name": "C",
+        "value": 829.8762402049174,
+        "infectious_rate": 0.08700846387074614,
+        "recovery_rate": 0.07724560879515609
+    },
+    "variant_D": {
+        "name": "D",
+        "value": 565.6079271242077,
+        "infectious_rate": 0.08232164160050273,
+        "recovery_rate": 0.09219065425735684
+    },
+    "variant_E": {
+        "name": "E",
+        "value": 804.257264699412,
+        "infectious_rate": 0.07432521160143449,
+        "recovery_rate": 0.05957712979188005
+    },
+    "variant_F": {
+        "name": "F",
+        "value": 701.6109561852714,
+        "infectious_rate": 0.06583962767254224,
+        "recovery_rate": 0.05542077564147495
+    },
+    "variant_G": {
+        "name": "G",
+        "value": 392.29988882872397,
+        "infectious_rate": 0.06420859311583196,
+        "recovery_rate": 0.07128439303964713
+    },
+    "variant_H": {
+        "name": "H",
+        "value": 446.83142025046675,
+        "infectious_rate": 0.058560754986295024,
+        "recovery_rate": 0.07537148926220275
+    }
+}
