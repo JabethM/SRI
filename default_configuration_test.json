@@ -11,9 +11,9 @@
         },
         "deterministic_spawning": {
             "deterministic_mode": true,
-            "time_separation": 5,
+            "time_separation": 10,
             "child_transmission_T": [
-                9.444444444444445
+                7.222222222222222
             ],
             "child_recovery_T": [
                 15
@@ -21,10 +21,10 @@
             "relation_matrix": [
                 [
                     1,
-                    0.1111111111111111
+                    0.3333333333333333
                 ],
                 [
-                    0.1111111111111111,
+                    0.3333333333333333,
                     1
                 ]
             ]
