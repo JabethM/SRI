@@ -5,7 +5,7 @@ import os
 
 
 def run_script(args):
-    os.system(f"python -m src.Contours-Batch"
+    os.system(f"python -m src.parallel.Contours-Batch"
               f" {str(args[0])} {str(args[1])} {str(args[2])} {str(args[3])}")
 
 
