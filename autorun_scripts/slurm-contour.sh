@@ -16,7 +16,7 @@ directories=("data/data-ContourMaps/RelationStrength.vs.TimeDelay" "data/data-Co
 delay=$1
 mode=$2
 # Now do our "processing" on the input file
-python3 -m src/parallel/Contours-repeats "${directories[$(( mode % 3 ))]}/${delay}Delay/" $mode ${SLURM_ARRAY_TASK_ID} "10"
+python3 -m src.parallel.Contours-repeats "${directories[$(( mode % 3 ))]}/${delay}Delay/" $mode ${SLURM_ARRAY_TASK_ID} "10"
  
 # Finally let's sleep for 60 seconds so that we can watch the tasks
 # get processed for the purposes of this tutorial.
