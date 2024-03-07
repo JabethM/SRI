@@ -13,7 +13,7 @@
             "deterministic_mode": true,
             "time_separation": 10,
             "child_transmission_T": [
-                7.222222222222222
+                8.333333333333334
             ],
             "child_recovery_T": [
                 15
@@ -21,10 +21,10 @@
             "relation_matrix": [
                 [
                     1,
-                    0.3333333333333333
+                    0.1111111111111111
                 ],
                 [
-                    0.3333333333333333,
+                    0.1111111111111111,
                     1
                 ]
             ]
