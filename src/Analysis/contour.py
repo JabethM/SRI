@@ -4,17 +4,24 @@ import matplotlib.pyplot as plt
 import os
 from argparse import ArgumentParser
 import sys
-import csv
+from call_plot_loader import filter_numbers
 
 
 def extract_data_from_csv(csv_file):
     with open(csv_file, 'r') as f:
         lines = f.readlines()
-        peak_times = (lines[1].strip().split(',')[1:])
-        peak_infections = lines[2].strip().split(',')[1:]
-        cumulative_infections = lines[3].strip().split(',')[1:]
-        total_unique_infections = lines[4].strip().split(',')[1:]
-        strlist_to_float = lambda a ,d: [float(a.replace('"','')), float(d.replace('"',''))]
+        start_time = (lines[1].strip().split(',')[1:])
+        lowerQ_infection_time = (lines[2].strip().split(',')[1:])
+        median_infection_time = (lines[3].strip().split(',')[1:])
+
+
+        peak_times = (lines[4].strip().split(',')[1:])
+        peak_infections = lines[5].strip().split(',')[1:]
+        cumulative_infections = lines[6].strip().split(',')[1:]
+        total_unique_infections = lines[7].strip().split(',')[1:]
+        total_unique_recoveries = (lines[8].strip().split(',')[1:])
+
+        strlist_to_float = lambda a, d: [float(a.replace('"', '')), float(d.replace('"', ''))]
 
         pt = strlist_to_float(*peak_times)
         pi = strlist_to_float(*peak_infections)
