@@ -3,6 +3,7 @@
 *.xml
 *.iml
 old_data/*
+data/old_data/*
 contour_data/*
 SingleRun_data/*
 testData/*
