@@ -1,18 +1,18 @@
 #!/bin/bash
 #
 #
-#SBATCH --job-name=High_1
+#SBATCH --job-name=Low_1
 #SBATCH --partition=long
-#SBATCH --time=2-00:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --array=0-9
-#SBATCH --mem=8G
+#SBATCH --mem=16G
 #
 ########################################################################
  
 # Decide which input file this Slurm task will process.
 # We use the special $SLURM_ARRAY_TASK_ID variable, which tells the
 # task which one it is among the whole job array.
-directories=("data/data-ContourMaps/RelationStrength.vs.TimeDelay" "data/data-ContourMaps/R0.vs.RelationStrength" "data/data-ContourMaps/R0.vs.TimeDelay")
+directories=("data/data-ContourMaps/RelationStrength.vs.TimeDelay" "data/data-ContourMaps/RelationStrength.vs.R0" "data/data-ContourMaps/R0.vs.TimeDelay")
 delay=$1
 mode=$2
 # Now do our "processing" on the input file
