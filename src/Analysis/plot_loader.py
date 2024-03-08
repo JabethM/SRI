@@ -44,7 +44,7 @@ def plot_pickle_files(file_paths):
             chosen_colour = base_colors[v]
             plt.plot(plot_x, plot_y[v], color=adjust_lightness(chosen_colour, 1.7))
     number_of_variants = mean_y.shape[0] // 2
-    mean_y = mean_y / number_of_variants
+    mean_y = mean_y / (f + 1)
     for v in range(number_of_variants):
         letter = (chr(ord('A') + v))
         plt.plot(mean_x, mean_y[v], color=adjust_lightness(base_colors[v], 0.8),
