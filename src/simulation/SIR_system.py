@@ -77,7 +77,8 @@ class SIR:
             self.deterministic_count = 0
             self.new_disease_spawn_time = \
                 config_data["internal_params"]["deterministic_spawning"]["time_separation"]
-
+            if isinstance(self.new_disease_spawn_time, list):
+                self.new_disease_spawn_time = self.new_disease_spawn_time[0]
             self.descendant_transmissions = \
                 config_data["internal_params"]["deterministic_spawning"]["child_transmission_T"]
 
