@@ -32,11 +32,11 @@ def is_matching_file(filepath):
     return False
 
 
-directory = "data/data-ContourMaps/RelationStrength.vs.R0/HighDelay"
+directory = "data/old_data/08-03_Rel.vs.R0/LowDelay"
 a, s = find_matching_files(directory)
-print("Single Files: ")
+print("- Single Files: ")
 for file in s:
     print(file)
-print("Anomalous files:")
+print("- Anomalous files:")
 for file in a:
     print(file)

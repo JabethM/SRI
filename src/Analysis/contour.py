@@ -29,9 +29,11 @@ def extract_data_from_csv(csv_file, z_axis):
         elif z_axis < 4:
             key_stat = np.array(strlist_to_float(*peak_infections))
         elif z_axis < 6:
-            key_stat = np.array(strlist_to_float(*lowerQ_infection_time))
+            st = np.array(strlist_to_float(*start_time))
+            key_stat = np.array(strlist_to_float(*lowerQ_infection_time)) - st
         elif z_axis < 8:
-            key_stat = np.array(strlist_to_float(*median_infection_time))
+            st = np.array(strlist_to_float(*start_time))
+            key_stat = np.array(strlist_to_float(*median_infection_time)) - st
         elif z_axis < 10:
             key_stat = np.array(strlist_to_float(*total_unique_infections))
         elif z_axis < 12:
@@ -76,7 +78,7 @@ resolution = 10
 # Cumulative Infections of A [12]
 # Cumulative Infections of B [13]
 
-z_axis_value = 5
+z_axis_value = 3
 
 
 infective_range = np.linspace(5, 15, resolution)
@@ -87,20 +89,20 @@ names = ("Time Delay", "Relationship Coefficient", "R0 Value")
 titles = ("Contour Plot of Time Delay vs Relationship Coefficient",
           "Contour Plot of Relationship Coefficient vs R0 Value",
           "Contour Plot of R0 Value vs Time Delay")
-z_axis_names = ("Peak time - Start time for A",
-                "Peak time - Start time for B",
+z_axis_names = ("Peak time (since start of infection) for A",
+                "Peak time (since start of infection) for B",
                 "Disease A peak infection number",
                 "Disease B peak infection number",
-                "Disease A hit 25%",
-                "Disease B hit 25%",
-                "Disease A hit  50%",
-                "Disease B hit  50%",
-                "Unique Infections of A",
-                "Unique Infections of B",
-                "Unique Recoveries of A",
-                "Unique Recoveries of B",
-                "Cumulative Infections of A",
-                "Cumulative Infections of B")
+                "Time (since start of infection) when A hit 25% of population",
+                "Time (since start of infection) when B hit 25% of population",
+                "Time (since start of infection) when A hit 50% of population",
+                "Time (since start of infection) when B hit 50% of population",
+                "Number of nodes only infected by A",
+                "Number of nodes only infected by B",
+                "Number of nodes recovered from A",
+                "Number of nodes recovered from B",
+                "Total cumulative infections of A",
+                "Total cumulative infections of B")
 x_axis = axes[mode % 3]
 y_axis = axes[(mode + 1) % 3]
 

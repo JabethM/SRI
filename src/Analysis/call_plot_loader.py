@@ -1,6 +1,6 @@
 import os
 import sys
-
+import plot_loader
 
 def parse_filename(filename):
     """Parse numbers from filename."""
@@ -15,6 +15,7 @@ def get_anomalies(b, c, filename):
     with open(filename, 'r') as file:
         for line in file:
             if line.strip() == '- Single Files:':
+                start_reading = True
                 continue
             if line.strip() == '- Anomalous files:':
                 start_reading = True # Set False to include Anomalous files
@@ -57,10 +58,9 @@ def main():
     anom_file = sys.argv[2]
 
     file_paths = generate_file_paths(input_file, anom_file)
+    plot_loader.plot_pickle_files(file_paths)
 
-    # Assuming script.py is the name of the script you want to call
-    command = ["python3", "-m", "src.Analysis.plot_loader"] + file_paths
-    os.system(" ".join(command))
+
 
 
 if __name__ == "__main__":
