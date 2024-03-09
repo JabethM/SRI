@@ -30,13 +30,14 @@ def extract_data_from_csv(csv_file):
 
         return pt, pi, ci, tui
 
-if len(sys.argv) != 3:
-    print(f"Usage: {sys.argv[0]} <directory of data> <mode>")
-    sys.exit(1)
 
+if len(sys.argv) != 4:
+    print(f"Usage: {sys.argv[0]} <directory_of_data> <mode> <anomalies_file>")
+    sys.exit(1)
 
 directory = sys.argv[1]
 mode = int(sys.argv[2])
+anomalies = sys.argv[3]
 
 infective_range = np.linspace(5, 15, 10)
 time_delay_range = np.linspace(0, 15, 10)
