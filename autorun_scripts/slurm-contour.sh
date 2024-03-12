@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #
-#SBATCH --job-name=Low_1
+#SBATCH --job-name=Low_2
 #SBATCH --partition=long
 #SBATCH --time=3-00:00:00
 #SBATCH --array=0-9
