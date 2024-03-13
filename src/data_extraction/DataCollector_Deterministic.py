@@ -74,7 +74,6 @@ while not end:
 
     infected_sets = execute.infected_set
     recovered_sets = execute.recovered_set
-    immune_sets = [inf.union(rec) for inf, rec in zip(infected_sets, recovered_sets)]
     current_infection_num = np.array(list(map(len, infected_sets)))
     current_recovered_num = np.array(list(map(len, recovered_sets)))
     current_susceptible_num = num_of_nodes - (current_infection_num + current_recovered_num)
@@ -103,7 +102,7 @@ while not end:
     total_infections += current_infection_num
     unique_infections = [set1.union(set2) for set1, set2 in zip(unique_infections, infected_sets)]
 
-    if (execute.steps % 1000) == 0:
+    if (execute.steps % 500) == 0:
         non_negative_counts = np.sum(execute.all_current_nbs >= 0, axis=2)
         upper_quartile, lower_quartile, most_connections, least_connections = np.percentile(non_negative_counts,
                                                                                             [75, 25, 100, 0], axis=1)
@@ -116,8 +115,8 @@ while not end:
         mean_connections_list.append(average_connections)
         connection_time.append(current_time)
 
-    if (execute.steps % 5000) == 0:
-        immune_data.append(list(map(list, immune_sets)))
+    if (execute.steps % 1000) == 0:
+        immune_data.append(list(map(list, recovered_sets)))
         rec_data_time.append(current_time)
     if (execute.steps % 10000) == 0:
         print(current_susceptible_num)

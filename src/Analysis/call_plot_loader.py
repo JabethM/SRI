@@ -2,6 +2,7 @@ import os
 import sys
 import plot_loader
 
+
 def parse_filename(filename):
     """Parse numbers from filename."""
     parts = filename.split('_')[-1].split('.')[:3]
@@ -11,14 +12,14 @@ def parse_filename(filename):
 def get_anomalies(b, c, filename):
     """Extract existing numbers from the file after '- Anomalous files:'."""
     existing_numbers = []
-    start_reading = False # Set True to exclude single files
+    start_reading = False  # Set True to exclude single files
     with open(filename, 'r') as file:
         for line in file:
             if line.strip() == '- Single Files:':
                 start_reading = True
                 continue
             if line.strip() == '- Anomalous files:':
-                start_reading = True # Set False to include Anomalous files
+                start_reading = True  # Set False to include Anomalous files
                 continue
             if start_reading and line.strip():
                 number = parse_filename(line.strip())
@@ -40,7 +41,6 @@ def generate_file_paths(input_file, anom_file):
     base_name, extension = os.path.splitext(filename)
     version_parts = base_name.split('_')[1].split('.')
     repeats = filter_numbers(version_parts[1], version_parts[2], anom_file)
-    #repeats = range(10)
     for i in repeats:
         version_parts[0] = str(i)
         new_filename = base_name.split('_')[0] + '_' + '.'.join(version_parts) + extension
@@ -50,17 +50,23 @@ def generate_file_paths(input_file, anom_file):
 
 
 def main():
-    if len(sys.argv) != 3:
-        print(f"Usage: python {sys.argv[0]} <input_file> <anomalies_file>")
+    if len(sys.argv) != 4:
+        print(f"Usage: python {sys.argv[0]} <input_file> <anomalies_file> <regime>")
         sys.exit(1)
 
     input_file = sys.argv[1]
     anom_file = sys.argv[2]
+    regime = int(sys.argv[3])
 
-    file_paths = generate_file_paths(input_file, anom_file)
-    plot_loader.plot_pickle_files(file_paths)
-
-
+    plot_paths = generate_file_paths(input_file, anom_file)
+    if regime == 0:
+        plot_loader.plot_PlotPickle_files(plot_paths)
+    elif regime == 1:
+        connection_paths = [p.split('plotData')[0] + 'connectionStatsData' + p.split('plotData')[1] for p in plot_paths]
+        plot_loader.plot_ConnectionPickle_files(connection_paths)
+    else:
+        print("Regime OutOfBounds")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

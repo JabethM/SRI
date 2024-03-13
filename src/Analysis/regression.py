@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 from call_plot_loader import filter_numbers
-from contour import extract_data_from_csv
+from axes_contour import extract_data_from_csv
 
 
 def parse_arguments():
@@ -46,7 +46,7 @@ if not os.path.exists(args.directory):
 
 # Cumulative Infections of A [12]
 # Cumulative Infections of B [13]
-z_axis_value = 7
+z_axis_value = 9
 resolution = 10
 
 
@@ -108,7 +108,7 @@ for x, y_values in zip(x_axis, y_axis):
     y_mean = sum(y_values) / len(y_values)
     y_plus = max(y_values) - y_mean
     y_minus = y_mean - min(y_values)
-    asymmetric_error = np.array([[y_plus], [y_minus]])
+    asymmetric_error = np.array([[y_minus], [y_plus]])
     if first:
         plt.errorbar(x, y_mean, yerr=asymmetric_error, fmt='o', capsize=5, mfc='red', ecolor='black', mec='red',
                      label=f'Averaged y-value over {repeats_lower_bound} repeats')

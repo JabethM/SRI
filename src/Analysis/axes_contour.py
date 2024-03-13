@@ -76,12 +76,16 @@ def extract_data_from_csv(csv_file, z_axis):
 if __name__ == '__main__':
 
     if len(sys.argv) != 4:
-        print(f"Usage: {sys.argv[0]} <directory_of_data> <mode> <anomalies_file>")
+        print(f"Usage: {sys.argv[0]} <directory_of_data> <data_mode> <anomalies_file>")
         sys.exit(1)
 
     directory = sys.argv[1]
-    mode = int(sys.argv[2])
+    data_mode = int(sys.argv[2])
     anomalies = sys.argv[3]
+
+    if data_mode > 3 or data_mode < 1:
+        raise ValueError
+
 
     resolution = 10
 
@@ -132,8 +136,8 @@ if __name__ == '__main__':
                     "Number of nodes recovered from B",
                     "Total cumulative infections of A",
                     "Total cumulative infections of B")
-    x_axis = axes[mode % 3]
-    y_axis = axes[(mode + 1) % 3]
+    x_axis = axes[data_mode % 3]
+    y_axis = axes[(data_mode + 1) % 3]
 
     if not os.path.exists(directory):
         print(f"{directory} does not exist")
@@ -157,6 +161,7 @@ if __name__ == '__main__':
 
         for r, repeats in enumerate(file_sets):
             filename = f'dataFile_{repeats}.{j}.{k}.csv'
+
             filepath = os.path.join(directory, filename)
 
             z_val += extract_data_from_csv(filepath, z_axis_value)
@@ -173,15 +178,15 @@ if __name__ == '__main__':
 
 
     # Changing transmission time to R0
-    if mode % 3 == 2:
+    if data_mode % 3 == 2:
         x = 15 / x
-    elif (mode + 1) % 3 == 2:
+    elif (data_mode + 1) % 3 == 2:
         y = 15 / y
 
     plt.tricontourf(x, y, z, levels=20, cmap='viridis')
     plt.colorbar(label=z_axis_names[z_axis_value])
-    plt.xlabel(names[mode % 3])
-    plt.ylabel(names[(mode + 1) % 3])
-    plt.title(titles[mode % 3])
+    plt.xlabel(names[data_mode % 3])
+    plt.ylabel(names[(data_mode + 1) % 3])
+    plt.title(titles[data_mode % 3])
     plt.grid()
     plt.show()
