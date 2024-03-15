@@ -32,6 +32,7 @@ def read_pickle_file(file_path, regime):
         return data['time'], data['stats']
 
 
+
 def plot_PlotPickle_files(file_paths):
     plt.figure(figsize=(8, 6))
     mean_x = np.array([])
@@ -224,9 +225,6 @@ def plot_CombinedPickle_files(plot_paths, connection_paths):
     plt.show()
 
     return
-
-
-
 
 
 

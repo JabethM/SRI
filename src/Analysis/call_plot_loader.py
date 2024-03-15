@@ -51,7 +51,7 @@ def generate_file_paths(input_file, anom_file):
 
 def main():
     if len(sys.argv) != 4:
-        print(f"Usage: python {sys.argv[0]} <input_file> <anomalies_file> <regime>")
+        print(f"Usage: python {sys.argv[0]} <plotData_file> <anomalies_file> <regime>")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -60,8 +60,10 @@ def main():
 
     plot_paths = generate_file_paths(input_file, anom_file)
     if regime == 0:
+        # Plot infectious curve.vs.time
         plot_loader.plot_PlotPickle_files(plot_paths)
     elif regime == 1:
+        # Plot Connections.vs.time
         connection_paths = [p.split('plotData')[0] + 'connectionStatsData' + p.split('plotData')[1] for p in plot_paths]
         plot_loader.plot_ConnectionPickle_files(connection_paths)
     else:
