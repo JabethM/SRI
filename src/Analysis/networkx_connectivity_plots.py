@@ -193,8 +193,10 @@ def lcc(imm_files, adj_files, t0, t1, var):
     avg_density_before_B = np.array([])
     avg_density_after_B = np.array([])
     average_list = [[avg_density_before_A, avg_density_after_A], [avg_density_before_B, avg_density_after_B]]
-
-    for imm, adj in zip(imm_files, adj_files):
+    count = 0
+    for imm, adj in zip(imm_files[:3], adj_files[:3]):
+        #if count == 1:
+        #    break
         time_arr, nodes = read_file(imm, 0)
 
         before_idx = find_closest_index(time_arr, t0)
@@ -231,12 +233,13 @@ def lcc(imm_files, adj_files, t0, t1, var):
                 averages[i] = padded_array1 + padded_array2
             average_list[variant][0] = averages[0]
             average_list[variant][1] = averages[1]
+        count += 1
 
     num_of_files = len(imm_files)
     normalise = lambda avg: avg / num_of_files
 
     average_list[0] = list(map(normalise, list(map(np.array, average_list[0]))))
-    average_list[1] = list(map(normalise, list(map(np.array, average_list[0]))))
+    average_list[1] = list(map(normalise, list(map(np.array, average_list[1]))))
 
     max_length = max(len(array) for sublist in average_list for array in sublist)
     average_list = [[np.pad(array, (0, max_length - len(array)), 'constant') for array in sublist]
@@ -248,17 +251,13 @@ def lcc(imm_files, adj_files, t0, t1, var):
     styles = ['-.', '-']
 
     for i in range(2):  # range(len(average_list)):
-        # ax1.plot(np.arange(len(average_list[i][0])), average_list[i][0], color=base_colours[i], ls=styles[0])
-        # ax1.plot(np.arange(len(average_list[i][1])), average_list[i][1], color=base_colours[i], ls=styles[1])
-        ranges = np.where(average_list[i][0] != 0)[0]
-        bins = add_consecutive_numbers(ranges)
-        ax[i].hist(ranges, bins=ranges, weights=average_list[i][0][average_list[i][0] != 0], color=base_colours[0],
-                   histtype='barstacked', rwidth=0.8)
 
-        ranges = np.where(average_list[i][1] != 0)[0]
-        bins = add_consecutive_numbers(ranges)
-        ax[i].hist(ranges, bins=bins, weights=average_list[i][1][average_list[i][1] != 0], color=base_colours[1],
-                   histtype='barstacked', rwidth=0.4)
+        bins = range(len(average_list[i][0]) + 1)
+        ax[i].stairs(average_list[i][0], bins, linewidth=5)
+
+        bins = range(len(average_list[i][1]) + 1)
+        ax[i].stairs(average_list[i][1], bins, linewidth=3)
+
 
     color_names = [f't={t0}', f't={t1}']
 
@@ -271,10 +270,10 @@ def lcc(imm_files, adj_files, t0, t1, var):
         ax[i].set_ylabel('Number of components (Averaged over multiple trials)')
         ax[i].legend(loc=1)
         ax[i].set_yscale('log')
-        ax[i].set_xscale('log')
+        #ax[i].set_xscale('log')
         ax[i].grid(True)
         ax[i].set_title(f'Variant {chr(ord("A") + i)}')
-    fig.suptitle("Degree Distribution of nodes at two key times")
+    fig.suptitle("Averaged size distribution of Network Components at key times")
     plt.show()
     return
 
@@ -344,14 +343,14 @@ def degree_assortativity(imm_files, adj_files):
             asymmetric_error = np.array([[a_minus], [a_plus]])
 
             plt.errorbar(avg_time[i], a_mean, yerr=asymmetric_error, fmt='o', capsize=5,
-                         mfc=base_colours[var], ecolor='black', mec=base_colours[var])
+                         mfc=base_colours[var], ecolor=base_colours[var], mec=base_colours[var])
 
     for cc, col in enumerate(base_colours):
         plt.plot(np.NaN, np.NaN, c=base_colours[cc], label=color_names[cc])
 
     plt.xlabel('Time')
     plt.ylabel('Degree Assortativity of the network (as computed by nx)')
-    plt.legend(loc=1)
+    plt.legend(loc=2)
     plt.grid(True)
     plt.title("Network Assortativity.vs.Time")
 
@@ -367,7 +366,7 @@ if __name__ == '__main__':
     anom_file = sys.argv[2]
     regime = int(sys.argv[3])
 
-    immune_files = call_plot_loader.generate_file_paths(input_file, anom_file)
+    immune_files = call_plot_loader.generate_file_paths(input_file, anom_file, resolution=25)
     adjacency_files = [i.split('immuneData')[0] + 'networkAdjacencySparse' +
                        i.split('immuneData')[1].split('pickle')[0] + 'npz'
                        for i in immune_files]

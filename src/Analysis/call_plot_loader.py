@@ -28,19 +28,19 @@ def get_anomalies(b, c, filename):
     return existing_numbers
 
 
-def filter_numbers(b, c, filename):
+def filter_numbers(b, c, filename, resolution=10):
     """Filter out numbers based on file content."""
     existing_numbers = get_anomalies(int(b), int(c), filename)
-    filtered_numbers = [num for num in range(10) if num not in existing_numbers]
+    filtered_numbers = [num for num in range(resolution) if num not in existing_numbers]
     return filtered_numbers
 
 
-def generate_file_paths(input_file, anom_file):
+def generate_file_paths(input_file, anom_file, resolution=10):
     file_paths = []
     directory, filename = os.path.split(input_file)
     base_name, extension = os.path.splitext(filename)
     version_parts = base_name.split('_')[1].split('.')
-    repeats = filter_numbers(version_parts[1], version_parts[2], anom_file)
+    repeats = filter_numbers(version_parts[1], version_parts[2], anom_file, resolution)
     for i in repeats:
         version_parts[0] = str(i)
         new_filename = base_name.split('_')[0] + '_' + '.'.join(version_parts) + extension
@@ -58,7 +58,7 @@ def main():
     anom_file = sys.argv[2]
     regime = int(sys.argv[3])
 
-    plot_paths = generate_file_paths(input_file, anom_file)
+    plot_paths = generate_file_paths(input_file, anom_file, resolution=25)
     if regime == 0:
         # Plot infectious curve.vs.time
         plot_loader.plot_PlotPickle_files(plot_paths)

@@ -32,7 +32,7 @@ def is_matching_file(filepath):
     return False
 
 
-directory = "data/old_data/08-03_Rel.vs.R0/LowDelay"
+directory = r"D:\MPhys\Github\First-Take\SRI-data\Watts\Rel.vs.R0\LowDelay"
 a, s = find_matching_files(directory)
 print("- Single Files: ")
 for file in s:

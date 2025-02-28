@@ -73,19 +73,79 @@ def extract_data_from_csv(csv_file, z_axis):
         return key_stat[z_axis]
 
 
+def format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, doubles=False, directory_addition=None, anomalies_addition=None):
+
+    x = []
+    y = []
+    z = []
+    data_files = [file for file in os.listdir(directory) if file.startswith("dataFile") and file.endswith(".csv")]
+    safe_files = [filter_numbers(j, k, anomalies) for j in range(resolution) for k in range(resolution)]
+    if doubles:
+        df_2 = [file for file in os.listdir(directory_addition) if file.startswith("dataFile")
+                and file.endswith(".csv")]
+        sf_2 = [[-repeat - 1 for repeat in filter_numbers(j, k, anomalies_addition)] for j in range(resolution) for k in
+                range(resolution)]
+        safe_files = [a + b for a, b in zip(safe_files, sf_2)]
+    for f, file_sets in enumerate(safe_files):
+        j = f // resolution
+        k = f % resolution
+
+        x_val, y_val = j, k
+        x_val = x_axis[x_val]
+        y_val = y_axis[y_val]
+
+        sample_size = len(file_sets)
+        z_val = 0
+
+        for r, repeats in enumerate(file_sets):
+            if repeats < 0:
+                repeats = abs(repeats + 1)
+                loop_dir = directory_addition
+            else:
+                loop_dir = directory
+
+            filename = f'dataFile_{repeats}.{j}.{k}.csv'
+
+            filepath = os.path.join(loop_dir, filename)
+            temp_z = extract_data_from_csv(filepath, z_axis_value)
+
+            if ((4 <= z_axis_value <= 7) or (1 <= z_axis_value <= 2)) and temp_z < 0:
+                temp_z = 100
+            z_val += temp_z
+
+        z_val = z_val / sample_size
+        x.append(x_val)
+        y.append(y_val)
+        z.append(z_val)
+    return np.array(x), np.array(y), np.array(z)
+
+
 if __name__ == '__main__':
 
-    if len(sys.argv) != 4:
+    doubles = False
+    directory_addition = None
+    anomalies_addition = None
+    if len(sys.argv) == 4:
+        directory = sys.argv[1]
+        data_mode = int(sys.argv[2])
+        anomalies = sys.argv[3]
+
+    elif len(sys.argv) == 6:
+        doubles = True
+        directory = sys.argv[1]
+        directory_addition = sys.argv[2]
+
+        data_mode = int(sys.argv[3])
+
+        anomalies = sys.argv[4]
+        anomalies_addition = sys.argv[5]
+
+    else:
         print(f"Usage: {sys.argv[0]} <directory_of_data> <data_mode> <anomalies_file>")
         sys.exit(1)
 
-    directory = sys.argv[1]
-    data_mode = int(sys.argv[2])
-    anomalies = sys.argv[3]
-
     if data_mode > 3 or data_mode < 1:
         raise ValueError
-
 
     resolution = 10
 
@@ -111,8 +171,7 @@ if __name__ == '__main__':
     # Cumulative Infections of A [12]
     # Cumulative Infections of B [13]
 
-    z_axis_value = 3
-
+    z_axis_value = 1
 
     infective_range = np.linspace(5, 15, resolution)
     time_delay_range = np.linspace(0, 15, resolution)
@@ -142,40 +201,8 @@ if __name__ == '__main__':
     if not os.path.exists(directory):
         print(f"{directory} does not exist")
 
-    x = []
-    y = []
-    z = []
-    data_files = [file for file in os.listdir(directory) if file.startswith("dataFile") and file.endswith(".csv")]
-    safe_files = [filter_numbers(j, k, anomalies) for j in range(resolution) for k in range(resolution)]
-
-    for f, file_sets in enumerate(safe_files):
-        j = f // resolution
-        k = f % resolution
-
-        x_val, y_val = j, k
-        x_val = x_axis[x_val]
-        y_val = y_axis[y_val]
-
-        sample_size = len(file_sets)
-        z_val = 0
-
-        for r, repeats in enumerate(file_sets):
-            filename = f'dataFile_{repeats}.{j}.{k}.csv'
-
-            filepath = os.path.join(directory, filename)
-
-            z_val += extract_data_from_csv(filepath, z_axis_value)
-
-        z_val = z_val / sample_size
-        x.append(x_val)
-        y.append(y_val)
-        z.append(z_val)
-
-
-    x = np.array(x)
-    y = np.array(y)
-    z = np.array(z)
-
+    x, y, z = format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, doubles=doubles,
+                          directory_addition=directory_addition, anomalies_addition=anomalies_addition)
 
     # Changing transmission time to R0
     if data_mode % 3 == 2:
