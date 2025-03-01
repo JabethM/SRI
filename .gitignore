@@ -5,3 +5,7 @@
 contour_data/*
 SingleRun_data/*
 testData/*
+data/*
+screen_loaders/*
+slurm_info/*
+autorun_scripts/*
