@@ -73,18 +73,21 @@ def extract_data_from_csv(csv_file, z_axis):
         return key_stat[z_axis]
 
 
-def format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, doubles=False, directory_addition=None, anomalies_addition=None):
+def format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, number_of_repeats=10, doubles=False,
+                directory_addition=None, anomalies_addition=None):
 
     x = []
     y = []
     z = []
     data_files = [file for file in os.listdir(directory) if file.startswith("dataFile") and file.endswith(".csv")]
-    safe_files = [filter_numbers(j, k, anomalies) for j in range(resolution) for k in range(resolution)]
+    safe_files = [filter_numbers(j, k, anomalies, resolution=number_of_repeats) for j in range(resolution)
+                  for k in range(resolution)]
     if doubles:
         df_2 = [file for file in os.listdir(directory_addition) if file.startswith("dataFile")
                 and file.endswith(".csv")]
-        sf_2 = [[-repeat - 1 for repeat in filter_numbers(j, k, anomalies_addition)] for j in range(resolution) for k in
-                range(resolution)]
+        sf_2 = [[-repeat - 1 for repeat in filter_numbers(j, k, anomalies_addition, resolution=number_of_repeats)]
+                for j in range(resolution) for k in range(resolution)]
+
         safe_files = [a + b for a, b in zip(safe_files, sf_2)]
     for f, file_sets in enumerate(safe_files):
         j = f // resolution
@@ -106,11 +109,14 @@ def format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, 
 
             filename = f'dataFile_{repeats}.{j}.{k}.csv'
 
+            if filename not in data_files:
+                continue
+
             filepath = os.path.join(loop_dir, filename)
             temp_z = extract_data_from_csv(filepath, z_axis_value)
 
             if ((4 <= z_axis_value <= 7) or (1 <= z_axis_value <= 2)) and temp_z < 0:
-                temp_z = 100
+                temp_z = 500
             z_val += temp_z
 
         z_val = z_val / sample_size
@@ -147,7 +153,8 @@ if __name__ == '__main__':
     if data_mode > 3 or data_mode < 1:
         raise ValueError
 
-    resolution = 10
+    axis_resolution = 10
+    file_repeats = 25
 
     # z axis can be several things:
     # Peak time - Start time for A[0]
@@ -171,11 +178,11 @@ if __name__ == '__main__':
     # Cumulative Infections of A [12]
     # Cumulative Infections of B [13]
 
-    z_axis_value = 1
+    z_axis_value = 7
 
-    infective_range = np.linspace(5, 15, resolution)
-    time_delay_range = np.linspace(0, 15, resolution)
-    relationship_range = np.linspace(0, 1, resolution)
+    infective_range = np.linspace(5, 15, axis_resolution)
+    time_delay_range = np.linspace(0, 15, axis_resolution)
+    relationship_range = np.linspace(0, 1, axis_resolution)
     axes = (time_delay_range, relationship_range, infective_range)
     names = ("Time Delay", "Relationship Coefficient", "R0 Value")
     titles = ("Contour Plot of Time Delay vs Relationship Coefficient",
@@ -201,8 +208,8 @@ if __name__ == '__main__':
     if not os.path.exists(directory):
         print(f"{directory} does not exist")
 
-    x, y, z = format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, doubles=doubles,
-                          directory_addition=directory_addition, anomalies_addition=anomalies_addition)
+    x, y, z = format_data(directory, anomalies, axis_resolution, x_axis, y_axis, z_axis_value, number_of_repeats=file_repeats,
+                          doubles=doubles, directory_addition=directory_addition, anomalies_addition=anomalies_addition)
 
     # Changing transmission time to R0
     if data_mode % 3 == 2:
@@ -210,7 +217,8 @@ if __name__ == '__main__':
     elif (data_mode + 1) % 3 == 2:
         y = 15 / y
 
-    plt.tricontourf(x, y, z, levels=20, cmap='viridis')
+    #M2 = [  -2.25736785,   30.28240281, -113.8008649,   179.09496867,  -94.4154052 ]
+    plt.tricontourf(x, y, z, levels=20, cmap='viridis', extend='both')
     plt.colorbar(label=z_axis_names[z_axis_value])
     plt.xlabel(names[data_mode % 3])
     plt.ylabel(names[(data_mode + 1) % 3])

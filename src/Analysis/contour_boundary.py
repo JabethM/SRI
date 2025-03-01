@@ -1,10 +1,12 @@
 import os
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
 import numpy as np
 from axes_contour import format_data
 import sys
-from scipy.interpolate import griddata, interp1d
+from scipy.interpolate import RegularGridInterpolator
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from regression import normalise
 
 if __name__ == '__main__':
 
@@ -56,8 +58,9 @@ if __name__ == '__main__':
 
     # Cumulative Infections of A [12]
     # Cumulative Infections of B [13]
-
-    z_axis_value = 5
+    inversion = False
+    z_axis_value = 7
+    level = 5000
 
     infective_range = np.linspace(5, 15, resolution)
     time_delay_range = np.linspace(0, 15, resolution)
@@ -87,32 +90,105 @@ if __name__ == '__main__':
     if not os.path.exists(directory):
         print(f"{directory} does not exist")
 
-    x, y, z = format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, doubles=doubles,
-                          directory_addition=directory_addition, anomalies_addition=anomalies_addition)
+    xs, ys, zs = format_data(directory, anomalies, resolution, x_axis, y_axis, z_axis_value, number_of_repeats=25, doubles=doubles,
+                             directory_addition=directory_addition, anomalies_addition=anomalies_addition)
 
+    x_interp_axis = x_axis
+    y_interp_axis = y_axis
     if data_mode % 3 == 2:
-        x = 15 / x
+        xs = 15 / xs
+        x_interp_axis = 15 / x_axis
     elif (data_mode + 1) % 3 == 2:
-        y = 15 / y
+        ys = 15 / ys
+        y_interp_axis = 15 / y_axis
 
-    plt.tricontourf(x, y, z, levels=20, cmap='viridis')
+    if inversion:
+        plt.tricontourf(ys, xs, zs, levels=20, cmap='viridis')
+    else:
+        plt.tricontourf(xs, ys, zs, levels=20, cmap='viridis', extend='both')
+
     plt.colorbar(label=z_axis_names[z_axis_value])
+    z_grid = zs.reshape(10, 10)
+    # Interpolate the function z=f(x, y)
+
+    interp_func = RegularGridInterpolator((x_interp_axis, y_interp_axis), z_grid, method="cubic")
+
+    # Define a function to find x given y for z=50
+    def find_x_for_z_50(y):
+        # Use scipy's optimize to find the x value where z is closest to 50 for a given y
+        from scipy.optimize import root_scalar, minimize_scalar
+        objective = lambda x: interp_func([[x, y]])[0] - level
+        try:
+            root = root_scalar(objective, bracket=[min(x_interp_axis), max(x_interp_axis)])
+        except ValueError:
+            return np.nan
+
+        # res = minimize_scalar(objective, method='bounded',
+        #                      bounds=(0.5, 1))  # Adjust bounds as per your x range
+
+        if root.converged:
+            return root.root
+        else:
+            return np.nan
 
 
-    z_midpoint = np.max(z) / 2
-
-    X = x.reshape(10, 10)
-    Y = x.reshape(10, 10)
-
-    interp_y = griddata((x, z), y, (z_midpoint, z_midpoint), method='linear')
-    interp_x = griddata((y, z), x, (interp_y, z_midpoint), method='linear')
+    def chebyshev_nodes(a, b, n):
+        k = np.arange(1, n + 1)
+        x = np.cos((2 * k - 1) * np.pi / (2 * n))
+        return 0.5 * (a + b) + 0.5 * (b - a) * x
 
 
+    y_range = chebyshev_nodes(min(ys), max(ys), len(ys))
+    # Find x values corresponding to z=50 for a range of y values
+    #y_range = np.linspace(ys.min(), ys.max(), 100)
+    removals = []
+    x_range = []
+    for idx, y in enumerate(y_range):
+        a = find_x_for_z_50(y)
+        if not np.isnan(a):
+            x_range.append(find_x_for_z_50(y))
+        else:
+            removals.append(idx)
+
+    x_range = np.array(x_range)
+
+    # Polynomial regression
+    #degree = 4  # Degree of the polynomial
+    #y_range = np.delete(y_range, removals)
+    #coefficients = np.polyfit(x_range, y_range, degree)
+    #print(coefficients)
+    # Create the polynomial function
+    #polynomial = np.poly1d(coefficients)
+
+    # Generate x values for plotting the curve
+    x_values = np.linspace(min(xs), max(xs), 100)
+
+    # Calculate corresponding y values using the polynomial function
+    #y_values = polynomial(x_values)
+
+    #idys = np.where(((min(ys) < y_values) & (y_values < max(ys))))
+    #x_out = x_values[idys]
+    #y_out = y_values[idys]
+
+    M2Coeff = [-2.25736785,   30.28240281, -113.8008649,   179.09496867,  -94.4154052 ]
+    #M3Coeff = [3.82221478e-05, -1.49879364e-03, 2.34403774e-02, -1.90909918e-01, 9.90811191e-01]
+    M2_xs, M2_ys, f2 = normalise(x_values, ys, M2Coeff)
+    #M3_xs, M3_ys, f3 = normalise(x_values, ys, M3Coeff)
+
+    plt.plot(M2_xs, M2_ys, color='red', linestyle='--', label='Peak-Infection Generated Curve')
+    #plt.plot(M3_xs, M3_ys, color='red', linestyle='--', label='Peak-Infection Generated Curve')
     plt.xlabel(names[data_mode % 3])
     plt.ylabel(names[(data_mode + 1) % 3])
+    """if inversion:
+        plt.plot(y_out, x_out, color='red', linestyle='--', label=str(polynomial).replace('x','y'))
+        plt.ylabel(names[data_mode % 3])
+        plt.xlabel(names[(data_mode + 1) % 3])
+    else:
+        plt.plot(x_out, y_out, color='red', linestyle='--', label=str(polynomial))
+        plt.xlabel(names[data_mode % 3])
+        plt.ylabel(names[(data_mode + 1) % 3])"""
+    #print(polynomial)
     plt.title(titles[data_mode % 3])
-
-    plt.plot(interp_x, interp_y, color='red', linestyle='--', label='Fitted Line')
+    plt.legend()
     plt.grid()
     plt.show()
-
