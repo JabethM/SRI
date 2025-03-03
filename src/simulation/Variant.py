@@ -51,7 +51,11 @@ class Variant:
 
     @classmethod
     def add_to_relation_matrix(cls):
-
+        """
+        Given the unique data values each variant possesses, the relationship coefficient between diseases is partially
+        defined based on the distance between their data values.
+        :return: relationship matrix
+        """
         range_of_variant_data = max(Variant.current_data_set) - min(Variant.current_data_set)
         num_of_variants = len(Variant.current_data_set)
 

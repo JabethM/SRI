@@ -67,9 +67,11 @@ class SIR:
         self.relation_matrix = None
         self.root = None
 
+        # Average time till node transition for each disease
         self.trans_time = np.zeros((self.num_of_variants, 2))
         self.trans_time[0] = np.asarray(probabilities)
 
+        # Rate of node transitions per unit time
         self.rates = np.zeros((self.num_of_variants, 2))
         self.rates[0] = 1 / self.trans_time[0]
 
@@ -101,7 +103,32 @@ class SIR:
         self.all_current_nbs = self.network_matrix()
         self.all_current_nbs = np.array([np.copy(self.all_current_nbs) for _ in range(self.num_of_variants)])
 
+
+
     def initialise_graph(self, init_tuple):
+        """
+        Creates the intial network graph in one of three regimes.
+        0) Random Erdos-Reyni graph
+        p = fixed probability of edge creation
+        :param init_tuple: (0, p)
+
+        1) Small world Watts Strogatz graph
+        k = number of neighbours to connect to
+        p = fixed probability of rewiring connection to a random node
+        :param init_tuple: (1, k, p)
+
+        2) Scale free Barabasi Albert graph
+        m = Number of edges to connect new nodes to old ones
+        :param init_tuple: (2, m)
+
+
+        3) Highly Modular Stochastic Block Model graph
+        s = list of cluster sizes
+        p = list of list of density of edges. p[i, j] = density of edges from group of size s[i] to group of size s[j]
+        :param init_tuple: (3, s, p)
+
+        :return: nx.graph() The created graph with the number of nodes specified in the constructor
+        """
         # Random
         if init_tuple[0] == 0:
             self.G = nx.erdos_renyi_graph(self.num_nodes, init_tuple[1])
@@ -120,7 +147,13 @@ class SIR:
         nx.set_node_attributes(self.G, state_dict, name="state")
         return self.G
 
+
+
     def network_matrix(self):
+        """
+        Creates a network adjacency matrix for the graph self.G
+        :return: np.array()
+        """
         sparse = nx.to_scipy_sparse_array(self.G, format='csr')
         indices = sparse.indices
         ptr = sparse.indptr
@@ -131,10 +164,27 @@ class SIR:
         for pointer in range(self.num_nodes):
             start, stop = ptr[pointer], ptr[pointer + 1]
             matrix[pointer, :stop - start] = indices[start:stop]
-
         return matrix
 
-    def generate_new_disease(self, parent=None, exception=None):
+
+
+    def generate_new_disease(self, parent=None, incident=None):
+        """
+        Called to introduce a new disease variant on the network.
+        Create new rates of infections and recovery for disease (either randomly or based on preset config file)
+
+        Acting on the Variant class, the relationship between the new disease and the other instances in the class
+        is randomly chosen based on the comparitive variant.data integer which is randomly chosen from a normal
+        distribution N(parent.data, self.delta). If parent is none, variant.data randomly chosen from N(1, p=500) unless
+        p is specified otherwise. For more information look at Variant.add_to_relation_matrix()
+
+        Unless specified by a config file, the infection and recovery rates of a new disease are randomly chosen from a
+        normal distribution N(previous disease value, self.epsilon). Working with the assumption that newer diseases will
+        transmit likewise.
+        :param parent: Variant to create an offspring of
+        :param incident: node which will be patient zero for new disease
+        :return: Integer number of diseases on the network
+        """
         if self.variant_count >= self.num_of_variants:
             self.variant_count += 1
             return self.variant_count
@@ -183,13 +233,19 @@ class SIR:
         self.variant_count += 1
 
         if self.variant_count > 1 and not self.deterministic_spawning:
-            if exception is None:
+            if incident is None:
                 exception = False
-            self.backdate_immunity(exception)
+            self.backdate_immunity(incident)
 
         return self.variant_count
 
+
+
     def set_initial_outbreak(self):
+        """
+        Once the network has been constructed this method can be called to initiate a disease on the graph.
+        :return: Boolean indicating a successful initial outbreak
+        """
         number_of_initial_outbreaks = 1
         if self.variant_count >= self.num_of_variants:
             return False
@@ -207,7 +263,21 @@ class SIR:
 
         return True
 
+
+
     def choose_outcome(self):
+        """
+        For the next timestep of the simulation, this method decides whether a node will be infected or whether a node
+        will recover based on the gillespie algorithm and specifically the gillespie line. For more information check
+        out README.md
+
+        potential outcomes;
+        (a node is infected with some disease x)
+        or
+        (a node recovers from some disease z)
+
+        :return: (int 'node of interest', int 'disease of interest', bool 'is outcome to infect')
+        """
         temp_infected_set = self.infected_set[:self.variant_count]
 
         gillespe_line, rate_total = self.choice_probability_setup(temp_infected_set)
@@ -250,7 +320,16 @@ class SIR:
 
         return victim, choices[0], infect_others
 
+
+
     def choice_probability_setup(self, temp_infected_set):
+        """
+        helper function for the choose_outcome() method which sets up the ratios for the gillespie line to be chosen
+        from
+
+        :param temp_infected_set: a copy of the array of infected nodes defined by self.infected_set
+        :return: array of integers, integer
+        """
         self.node_neighbours()
 
         gillespe_line = []
@@ -268,7 +347,19 @@ class SIR:
 
         return gillespe_line, rate_total
 
+
+
     def set_node_infected(self, node, variant, graph):
+        """
+        Update graph and self.infected_set to change node from susceptible to infected for the given variant.
+
+        With small probability this infection could instead be a new disease instead of the one defined in the parameter
+        variant.
+        :param node: to be infected
+        :param variant: node is infected with
+        :param graph: to change on account of node being infected
+        :return: graph
+        """
         # CHANCE OF NEW INFECTION
         if not self.deterministic_spawning:
             new_disease = np.random.choice([True, False], size=1,
@@ -278,7 +369,7 @@ class SIR:
             self.deterministic_count += int(new_disease) * self.new_disease_spawn_time
 
         if new_disease and self.variant_count < self.num_of_variants:
-            variant = self.generate_new_disease(self.variants[variant], exception=node) - 1
+            variant = self.generate_new_disease(self.variants[variant], incident=node) - 1
 
         if self.end or node in self.recovered_set[variant]:
             return graph
@@ -287,7 +378,19 @@ class SIR:
         graph.nodes(data=True)[node]["state"][variant] = 1
         return graph
 
+
+
     def set_node_recovery(self, node, variant, graph):
+        """
+        Update graph and self.infected_set to change node to recovered for the given variant.
+
+        With a probability as dictated by the relationship coefficients variant shares with the other instances of Variant()
+        the node could also immediately jump to recovered for those other variants as well.
+        :param node: which recovers
+        :param variant: from which node recovers from
+        :param graph: to change on account of node recovering
+        :return: graph
+        """
         if self.deterministic_spawning:
             relation_array = self.determined_relationship_matrix[variant]
         else:
@@ -305,7 +408,15 @@ class SIR:
             graph.nodes(data=True)[node]["state"][i] = 2
         return graph
 
+
+
     def backdate_immunity(self, exception):
+        """
+        When a new disease is introduced, some nodes which have already recovered from a parent (or ancestor) may already
+        have immunity, this method introduces this idea by backdating immunity when a new disease is created.
+        :param exception: patient zero for the new disease
+        :return: the network
+        """
         relation_array = Variant.get_relation()[self.variant_count - 1]
         for variant in range(self.variant_count - 1):
             probability = [relation_array[variant], 1 - relation_array[variant]]
@@ -358,6 +469,10 @@ class SIR:
     # ###### END OF HELPERS ##### #
 
     def iterate(self):
+        """
+        Calls the next iteration of the simulation
+        :return:
+        """
         G_copy = self.G
         outcomes = self.choose_outcome()
 
